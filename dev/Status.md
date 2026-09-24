@@ -4,9 +4,9 @@
 **Current milestone:** P6 (Linux/HPC) in progress since 23 September 2026:
 Linux worker locks, GPU engines for MinerU, serving workers, first A40 runs;
 P1 qualification and the first-slice review continue.\
-**Next action:** John decides where and how to publish the repository
-(fresh history or not); optional: review the 17 papers without described
-figures and the 34 unverified identities in the materials library.\
+**Next action:** optional review of the 17 materials papers without
+described figures and the 34 unverified identities; watch the CI runner
+move to Ubuntu 26 (from 19 October 2026).\
 **Application state:** preservation, inspection, fingerprints, intake planning with
 identical-byte, identical-text and supplement pairing, worker protocol and MinerU
 adapter, canonical schema 0.2, normalization with document-level corrections,
@@ -191,6 +191,14 @@ and qualified feature.
   page is indistinguishable from a blank page at this boundary; model file hashes
   are not re-verified per run (names and sizes are recorded, pins live in
   `workers/models.json`).
+
+## Current checkpoint: public repository (24 September 2026)
+
+- Published at https://github.com/jtravs/paperextract with a fresh history
+  (John's choice): one initial commit holding the current tree, so older
+  commits with site details stay private. The first GitHub CI run passed on
+  all four cells (Linux and macOS, Python 3.12 and 3.14), including the
+  wheel check outside the checkout.
 
 ## Current checkpoint: full materials run (24 September 2026, complete)
 
