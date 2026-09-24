@@ -1,0 +1,352 @@
+{
+  "bibliographic_status": "VALIDATED",
+  "checks": [
+    {
+      "detail": "Every requested page returned content",
+      "name": "page_coverage",
+      "outcome": "pass"
+    },
+    {
+      "detail": "1 figure group(s) without an anchoring caption",
+      "name": "figure_captions",
+      "outcome": "review"
+    },
+    {
+      "detail": "No findings",
+      "name": "table_grids",
+      "outcome": "pass"
+    },
+    {
+      "detail": "No findings",
+      "name": "equation_balance",
+      "outcome": "pass"
+    },
+    {
+      "detail": "No findings",
+      "name": "assets_present",
+      "outcome": "pass"
+    },
+    {
+      "detail": "registry record agrees with the article's title and authors",
+      "name": "bibliographic_identity",
+      "outcome": "pass"
+    },
+    {
+      "detail": "Single source supplied",
+      "name": "cross_source_comparison",
+      "outcome": "not_checked"
+    }
+  ],
+  "counts": {
+    "asides": 0,
+    "equations": 28,
+    "figures": 8,
+    "footnotes": 0,
+    "headings": 20,
+    "lists": 0,
+    "page_furniture_omitted": 35,
+    "panels": 20,
+    "paragraphs": 130,
+    "references": 50,
+    "tables": 4,
+    "tables_with_grid": 4,
+    "unclassified": 0
+  },
+  "findings": [
+    {
+      "block_ids": [
+        "fig_e3ce42709fa2"
+      ],
+      "code": "FIGURE_GROUPING_HEURISTIC",
+      "message": "2 consecutive visual blocks were grouped up to the caption of figure '2'; review the panel set.",
+      "page": 6,
+      "severity": "info"
+    },
+    {
+      "block_ids": [
+        "fig_4bd0d0458211"
+      ],
+      "code": "FIGURE_GROUPING_HEURISTIC",
+      "message": "8 consecutive visual blocks were grouped up to the caption of figure '3'; review the panel set.",
+      "page": 7,
+      "severity": "info"
+    },
+    {
+      "block_ids": [
+        "fig_ce18d63e3c5c"
+      ],
+      "code": "CAPTION_UNMATCHED",
+      "message": "2 visual block(s) have no figure caption; grouping is unresolved.",
+      "page": 8,
+      "severity": "warning"
+    },
+    {
+      "block_ids": [
+        "fig_d404947e87ae"
+      ],
+      "code": "FIGURE_GROUPING_HEURISTIC",
+      "message": "3 consecutive visual blocks were grouped up to the caption of figure '6'; review the panel set.",
+      "page": 8,
+      "severity": "info"
+    },
+    {
+      "block_ids": [
+        "fig_cf329187355c"
+      ],
+      "code": "FIGURE_GROUPING_HEURISTIC",
+      "message": "2 consecutive visual blocks were grouped up to the caption of figure '8'; review the panel set.",
+      "page": 9,
+      "severity": "info"
+    },
+    {
+      "block_ids": [
+        "hd_40aecea44828"
+      ],
+      "code": "FURNITURE_RECLASSIFIED",
+      "message": "'Research Article' repeats the page header of 10 other pages at the same position and is omitted from the text.",
+      "page": 11,
+      "severity": "info"
+    },
+    {
+      "block_ids": [
+        "tbl_b093eada9fc8"
+      ],
+      "code": "UNMAPPED_GLYPHS",
+      "message": "18 characters came from font glyphs without a Unicode mapping, typically math brackets or accents; the text is incomplete, so compare it with the page image.",
+      "page": 2,
+      "severity": "warning"
+    },
+    {
+      "block_ids": [
+        "tbl_1a66f53e4b87"
+      ],
+      "code": "UNMAPPED_GLYPHS",
+      "message": "19 characters came from font glyphs without a Unicode mapping, typically math brackets or accents; the text is incomplete, so compare it with the page image.",
+      "page": 3,
+      "severity": "warning"
+    },
+    {
+      "block_ids": [
+        "par_d4663cf13e22"
+      ],
+      "code": "UNMAPPED_GLYPHS",
+      "message": "2 characters came from font glyphs without a Unicode mapping, typically math brackets or accents; the text is incomplete, so compare it with the page image.",
+      "page": 3,
+      "severity": "warning"
+    },
+    {
+      "block_ids": [
+        "par_83f87d8b278c"
+      ],
+      "code": "UNMAPPED_GLYPHS",
+      "message": "1 characters came from font glyphs without a Unicode mapping, typically math brackets or accents; the text is incomplete, so compare it with the page image.",
+      "page": 5,
+      "severity": "warning"
+    },
+    {
+      "block_ids": [
+        "par_283e9e9e1702"
+      ],
+      "code": "UNMAPPED_GLYPHS",
+      "message": "1 characters came from font glyphs without a Unicode mapping, typically math brackets or accents; the text is incomplete, so compare it with the page image.",
+      "page": 5,
+      "severity": "warning"
+    },
+    {
+      "block_ids": [
+        "par_49e2ac6e7ecc"
+      ],
+      "code": "UNMAPPED_GLYPHS",
+      "message": "2 characters came from font glyphs without a Unicode mapping, typically math brackets or accents; the text is incomplete, so compare it with the page image.",
+      "page": 5,
+      "severity": "warning"
+    },
+    {
+      "block_ids": [
+        "par_05441f100ae2"
+      ],
+      "code": "UNMAPPED_GLYPHS",
+      "message": "2 characters came from font glyphs without a Unicode mapping, typically math brackets or accents; the text is incomplete, so compare it with the page image.",
+      "page": 5,
+      "severity": "warning"
+    },
+    {
+      "block_ids": [
+        "par_656be53dc94c"
+      ],
+      "code": "UNMAPPED_GLYPHS",
+      "message": "1 characters came from font glyphs without a Unicode mapping, typically math brackets or accents; the text is incomplete, so compare it with the page image.",
+      "page": 8,
+      "severity": "warning"
+    },
+    {
+      "block_ids": [
+        "tbl_a2db8bf1d8c8"
+      ],
+      "code": "UNMAPPED_GLYPHS",
+      "message": "1 characters came from font glyphs without a Unicode mapping, typically math brackets or accents; the text is incomplete, so compare it with the page image.",
+      "page": 8,
+      "severity": "warning"
+    },
+    {
+      "block_ids": [
+        "fig_d404947e87ae"
+      ],
+      "code": "UNMAPPED_GLYPHS",
+      "message": "1 characters came from font glyphs without a Unicode mapping, typically math brackets or accents; the text is incomplete, so compare it with the page image.",
+      "page": 8,
+      "severity": "warning"
+    },
+    {
+      "block_ids": [
+        "tbl_b093eada9fc8"
+      ],
+      "code": "TABLE_OCR_SELECTED",
+      "message": "The body comes from an OCR re-extraction because the text layer lost glyphs; all 7 numbers agree with the text layer. Grid 5x2 became 4x2; the text-layer body is kept as an alternative.",
+      "page": 2,
+      "severity": "info"
+    },
+    {
+      "block_ids": [
+        "tbl_1a66f53e4b87"
+      ],
+      "code": "TABLE_OCR_SELECTED",
+      "message": "The body comes from an OCR re-extraction because the text layer lost glyphs; all 5 numbers agree with the text layer. Grid 5x3 became 4x3; the text-layer body is kept as an alternative.",
+      "page": 3,
+      "severity": "info"
+    },
+    {
+      "block_ids": [
+        "tbl_aa1c3d81e438"
+      ],
+      "code": "TABLE_OCR_SELECTED",
+      "message": "The body comes from an OCR re-extraction because the text layer lost glyphs; all 3 numbers agree with the text layer. Grid 2x4 became 2x4; the text-layer body is kept as an alternative.",
+      "page": 3,
+      "severity": "info"
+    }
+  ],
+  "pages": {
+    "empty": [],
+    "missing": [],
+    "processed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "requested": 11
+  },
+  "processing_status": "COMPLETE",
+  "relations": {
+    "findings": [],
+    "related": []
+  },
+  "schema": "paperextract.validation",
+  "schema_version": 3,
+  "severity_counts": {
+    "error": 0,
+    "info": 8,
+    "warning": 11
+  },
+  "supplement_references": {
+    "resolved": 0,
+    "unresolved": [
+      {
+        "block_id": "par_c70655349427",
+        "text": "Supplement 1"
+      },
+      {
+        "block_id": "tbl_b093eada9fc8",
+        "text": "Supplement 1"
+      },
+      {
+        "block_id": "tbl_1a66f53e4b87",
+        "text": "Supplement 1"
+      },
+      {
+        "block_id": "par_ab3bdd9c35a9",
+        "text": "Supplement 1"
+      },
+      {
+        "block_id": "par_ab3bdd9c35a9",
+        "text": "Section S2"
+      },
+      {
+        "block_id": "par_be3c53026aac",
+        "text": "Supplement 1"
+      },
+      {
+        "block_id": "par_be3c53026aac",
+        "text": "Section S3"
+      },
+      {
+        "block_id": "par_e6f87ef6ced4",
+        "text": "Supplement 1"
+      },
+      {
+        "block_id": "par_e6f87ef6ced4",
+        "text": "Section S6"
+      },
+      {
+        "block_id": "par_a6f12c4ef012",
+        "text": "Supplement 1"
+      },
+      {
+        "block_id": "par_a6f12c4ef012",
+        "text": "Section S4"
+      },
+      {
+        "block_id": "par_b14f0c7ec944",
+        "text": "Supplement 1"
+      },
+      {
+        "block_id": "par_b14f0c7ec944",
+        "text": "Section S8"
+      },
+      {
+        "block_id": "par_19d8c7be5f80",
+        "text": "Supplement 1"
+      },
+      {
+        "block_id": "par_19d8c7be5f80",
+        "text": "Section S4"
+      },
+      {
+        "block_id": "par_1f185f2e966e",
+        "text": "Supplement 1"
+      },
+      {
+        "block_id": "par_1f185f2e966e",
+        "text": "Section S6"
+      },
+      {
+        "block_id": "par_447c1edb69a4",
+        "text": "Supplement 1"
+      },
+      {
+        "block_id": "par_447c1edb69a4",
+        "text": "Section S4"
+      },
+      {
+        "block_id": "par_fcc4de130c8c",
+        "text": "Supplement 1"
+      },
+      {
+        "block_id": "par_fcc4de130c8c",
+        "text": "Section S7"
+      },
+      {
+        "block_id": "par_8f5dc387903f",
+        "text": "Supplement 1"
+      }
+    ]
+  },
+  "supplements": []
+}

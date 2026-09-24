@@ -4,7 +4,7 @@ These are the backend environments, separate from the lightweight package.
 They pin the investigated backend releases and every resolved dependency in their
 own `uv.lock`. The locks resolve for **macOS arm64 and Linux x86_64 with Python
 3.12**; the Mac pins did not change when Linux was added. Linux runs were
-qualified on A40 nodes of a Slurm cluster (see `dev/Status.md`); they are not
+qualified on NVIDIA A40 nodes of a Slurm cluster; they are not
 distributable runtime bundles.
 
 From the repository root, create one environment at a time:
@@ -52,14 +52,13 @@ models status --verify` checks what is present. The sets are `mineru`
 (with the server binary) and `describe`. Extraction never downloads.
 
 Current pins: Docling 2.129.0, Marker 2.0.0 and MinerU 4.0.5. All three resolved
-and installed on the M5 Mac on 22 September 2026. Consult `dev/Status.md` for
-actual execution state and private evidence paths. MinerU is selected as the first adapter to implement, with the recorded scientific
+and installed on an Apple silicon Mac on 22 September 2026. MinerU is selected as the first adapter to implement, with the recorded scientific
 limitations; this is not a general quality/default certification. Model snapshots
 and file hashes are recorded in `workers/models.json`.
 
 Docling code is MIT; Marker code is Apache-2.0 with separately restricted model
 weights; MinerU has its own Apache-based license with extra conditions. See
-Plan §2 for the primary-source license review. Installing these separate workers
+[model licences](../docs/models.md) for the review of the model terms. Installing these separate workers
 does not change this project's license or permit redistributing their weights.
 
 Run backends sequentially for measurements. Current Mac trials are affected by

@@ -6,3 +6,8 @@ See LICENSE for the full license text.
 
 Third-party software, model weights, and supplied papers retain their own
 licenses. They are not relicensed by this project's Apache-2.0 license.
+
+The example paper and its extracted output under examples/geib-2019-copra/
+are © 2019 Optical Society of America, published under the OSA Open Access
+Publishing Agreement (non-commercial reuse with attribution); see
+examples/README.md.

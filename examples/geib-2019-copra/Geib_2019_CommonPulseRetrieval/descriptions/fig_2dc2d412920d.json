@@ -1,0 +1,167 @@
+{
+  "descriptions": [
+    {
+      "claims": {
+        "figure_type": "schematic diagram",
+        "panels": [
+          {
+            "approximate_readings": [],
+            "features": [
+              "A green rounded box labeled 'S_δm[·](t_k)' receives an input arrow from 'non-collinear'.",
+              "A blue rounded box contains a vertical sequence of operations: '× H̃(δ_m, ω_n)' leading to 'C̃_mn', which leads to 'N[FT⁻¹_n→k[·]]'.",
+              "Inputs 'Ẽ_n' and 'ω_n' point into the blue box.",
+              "An arrow connects the green box to the blue box.",
+              "The output of the blue box is labeled 'PNPS signal S_mk'.",
+              "A vertical flow continues from 'S_mk' through 'FT_n→k[·]' to 'S̃_mn', then through '|·|²' to 'PNPS trace T̃_mn'.",
+              "Two small grid plots are shown: one labeled 'δ_m' vs 't_k' and another labeled 'δ_m' vs 'ω_n'."
+            ],
+            "kind": "flowchart",
+            "label": "a",
+            "legend": [],
+            "printed_numbers": [
+              "0",
+              "1"
+            ],
+            "printed_text": [
+              "non-collinear",
+              "collinear",
+              "PNPS signal S_mk",
+              "PNPS trace T̃_mn",
+              "S_δm[·](t_k)",
+              "× H̃(δ_m, ω_n)",
+              "C̃_mn",
+              "N[FT⁻¹_n→k[·]]",
+              "FT_n→k[·]",
+              "S̃_mn",
+              "|·|²",
+              "m = 0, ..., M - 1",
+              "n = 0, ..., N - 1"
+            ],
+            "trends": [],
+            "uncertain": [],
+            "x_axis": null,
+            "y_axis": null
+          },
+          {
+            "approximate_readings": [],
+            "features": [
+              "A loop structure starts with 'current guess' pointing to 'Ẽ_n'.",
+              "A red arrow labeled 'current m' points to a grid plot labeled 'T̃_mn^meas' with axes 'δ_m' and 'ω_n'.",
+              "A horizontal arrow labeled 'project on √T̃_mn^meas' connects 'S_mk' to 'S'_mk'.",
+              "A vertical flow from 'Ẽ_n' leads to 'S_mk' (with axes 'δ_m' and 't_k').",
+              "The flow continues to 'Z_m = Σ_k |S'_mk - S_mk|²'.",
+              "An arrow labeled 'calculate ∇_n Z_m' points to the update equation 'Ẽ'_n = Ẽ_n - γ_m ∇_n Z_m'.",
+              "The loop closes with 'next m until all δ_m are processed' and 'next iteration'."
+            ],
+            "kind": "flowchart",
+            "label": "b",
+            "legend": [],
+            "printed_numbers": [],
+            "printed_text": [
+              "current guess",
+              "current m",
+              "project on √T̃_mn^meas",
+              "calculate ∇_n Z_m",
+              "next m until all δ_m are processed",
+              "next iteration",
+              "Ẽ_n",
+              "ω_n",
+              "S_mk",
+              "δ_m",
+              "t_k",
+              "S'_mk",
+              "Z_m = Σ_k |S'_mk - S_mk|²",
+              "Ẽ'_n = Ẽ_n - γ_m ∇_n Z_m",
+              "T̃_mn^meas"
+            ],
+            "trends": [],
+            "uncertain": [],
+            "x_axis": null,
+            "y_axis": null
+          },
+          {
+            "approximate_readings": [],
+            "features": [
+              "A vertical flow starts with 'current guess' pointing to 'Ẽ_n'.",
+              "A horizontal branch from 'Ẽ_n' goes to 'S_mk' then 'T̃_mn'.",
+              "A red arrow connects a grid plot 'T̃_mn^meas' (axes 'δ_m', 'ω_n') to the calculation of 'r'.",
+              "The variable 'r' is defined by the equation 'r = Σ_mn (T̃_mn^meas - μT̃_mn)²'.",
+              "The flow proceeds to 'calculate ∇_mk r' and then to the update 'S'_mk = S_mk - η_r ∇_mk r'.",
+              "The main vertical flow continues to 'Z = Σ_mk |S'_mk - S_mk|²'.",
+              "An arrow labeled 'calculate ∇_n Z = Σ_m ∇_n Z_m' points to the final update 'Ẽ'_n = Ẽ_n - η_Z ∇_n Z'.",
+              "The diagram ends with 'next iteration'."
+            ],
+            "kind": "flowchart",
+            "label": "c",
+            "legend": [],
+            "printed_numbers": [],
+            "printed_text": [
+              "current guess",
+              "calculate ∇_mk r",
+              "calculate ∇_n Z = Σ_m ∇_n Z_m",
+              "next iteration",
+              "Ẽ_n",
+              "S_mk",
+              "T̃_mn",
+              "r = Σ_mn (T̃_mn^meas - μT̃_mn)²",
+              "S'_mk = S_mk - η_r ∇_mk r",
+              "Z = Σ_mk |S'_mk - S_mk|²",
+              "Ẽ'_n = Ẽ_n - η_Z ∇_n Z",
+              "T̃_mn^meas"
+            ],
+            "trends": [],
+            "uncertain": [],
+            "x_axis": null,
+            "y_axis": null
+          }
+        ],
+        "relationships": [
+          "Panel (a) defines the signal generation process that produces the inputs (S_mk, T̃_mn) used in the optimization loops of panels (b) and (c).",
+          "Panels (b) and (c) share a similar iterative structure, both starting with a 'current guess' of Ẽ_n and ending with an update to Ẽ'_n.",
+          "Panel (b) focuses on a local update involving a specific 'current m' and a projection step, while panel (c) shows a global update involving a sum over all m and n."
+        ],
+        "summary": "The figure presents a three-part schematic illustrating the discrete PNPS formalism and the two stages of the COPRA algorithm. Panel (a) details the signal processing flow from non-collinear and collinear inputs to the PNPS trace. Panels (b) and (c) depict the iterative loops for local and global optimization, respectively, showing the flow of variables and the calculation of error metrics.",
+        "uncertain": []
+      },
+      "created_utc": "2026-09-24T11:47:07+00:00",
+      "figure_id": "fig_2dc2d412920d",
+      "finish_reason": "stop",
+      "generation_tokens": 1674,
+      "image_sha256": "818b72b179ccad991b127e09d111269365fee12d351e2a178f857940285b68c5",
+      "machine_generated": true,
+      "model": {
+        "label": "Qwen3.8-27B",
+        "repository": "Qwen/Qwen3.8-27B",
+        "revision": "1d4bf0f2ff60",
+        "runtime": "mlx-vlm"
+      },
+      "notice": "Machine-generated visual description, not part of the published paper. Readings, labels and trends may be wrong or invented; check them against the figure before relying on them.",
+      "parse_error": null,
+      "printed_check": {
+        "applicable": false,
+        "claimed": 42,
+        "confirmed": 0,
+        "informative_claimed": 0,
+        "informative_confirmed": 0,
+        "unconfirmed": []
+      },
+      "prompt_sha256": "46bd2828bade5458ce99d51cd6536b6f0c0da61d7a0119a2473831458927a42e",
+      "prompt_tokens": 1659,
+      "prompt_version": "figure-claims-v2",
+      "raw_text": "```json\n{\n  \"figure_type\": \"schematic diagram\",\n  \"summary\": \"The figure presents a three-part schematic illustrating the discrete PNPS formalism and the two stages of the COPRA algorithm. Panel (a) details the signal processing flow from non-collinear and collinear inputs to the PNPS trace. Panels (b) and (c) depict the iterative loops for local and global optimization, respectively, showing the flow of variables and the calculation of error metrics.\",\n  \"panels\": [\n    {\n      \"label\": \"a\",\n      \"kind\": \"flowchart\",\n      \"x_axis\": null,\n      \"y_axis\": null,\n      \"legend\": [],\n      \"printed_text\": [\n        \"non-collinear\",\n        \"collinear\",\n        \"PNPS signal S_mk\",\n        \"PNPS trace T̃_mn\",\n        \"S_δm[·](t_k)\",\n        \"× H̃(δ_m, ω_n)\",\n        \"C̃_mn\",\n        \"N[FT⁻¹_n→k[·]]\",\n        \"FT_n→k[·]\",\n        \"S̃_mn\",\n        \"|·|²\",\n        \"m = 0, ..., M - 1\",\n        \"n = 0, ..., N - 1\"\n      ],\n      \"printed_numbers\": [\n        \"0\",\n        \"1\"\n      ],\n      \"features\": [\n        \"A green rounded box labeled 'S_δm[·](t_k)' receives an input arrow from 'non-collinear'.\",\n        \"A blue rounded box contains a vertical sequence of operations: '× H̃(δ_m, ω_n)' leading to 'C̃_mn', which leads to 'N[FT⁻¹_n→k[·]]'.\",\n        \"Inputs 'Ẽ_n' and 'ω_n' point into the blue box.\",\n        \"An arrow connects the green box to the blue box.\",\n        \"The output of the blue box is labeled 'PNPS signal S_mk'.\",\n        \"A vertical flow continues from 'S_mk' through 'FT_n→k[·]' to 'S̃_mn', then through '|·|²' to 'PNPS trace T̃_mn'.\",\n        \"Two small grid plots are shown: one labeled 'δ_m' vs 't_k' and another labeled 'δ_m' vs 'ω_n'.\"\n      ],\n      \"trends\": [],\n      \"approximate_readings\": [],\n      \"uncertain\": []\n    },\n    {\n      \"label\": \"b\",\n      \"kind\": \"flowchart\",\n      \"x_axis\": null,\n      \"y_axis\": null,\n      \"legend\": [],\n      \"printed_text\": [\n        \"current guess\",\n        \"current m\",\n        \"project on √T̃_mn^meas\",\n        \"calculate ∇_n Z_m\",\n        \"next m until all δ_m are processed\",\n        \"next iteration\",\n        \"Ẽ_n\",\n        \"ω_n\",\n        \"S_mk\",\n        \"δ_m\",\n        \"t_k\",\n        \"S'_mk\",\n        \"Z_m = Σ_k |S'_mk - S_mk|²\",\n        \"Ẽ'_n = Ẽ_n - γ_m ∇_n Z_m\",\n        \"T̃_mn^meas\"\n      ],\n      \"printed_numbers\": [],\n      \"features\": [\n        \"A loop structure starts with 'current guess' pointing to 'Ẽ_n'.\",\n        \"A red arrow labeled 'current m' points to a grid plot labeled 'T̃_mn^meas' with axes 'δ_m' and 'ω_n'.\",\n        \"A horizontal arrow labeled 'project on √T̃_mn^meas' connects 'S_mk' to 'S'_mk'.\",\n        \"A vertical flow from 'Ẽ_n' leads to 'S_mk' (with axes 'δ_m' and 't_k').\",\n        \"The flow continues to 'Z_m = Σ_k |S'_mk - S_mk|²'.\",\n        \"An arrow labeled 'calculate ∇_n Z_m' points to the update equation 'Ẽ'_n = Ẽ_n - γ_m ∇_n Z_m'.\",\n        \"The loop closes with 'next m until all δ_m are processed' and 'next iteration'.\"\n      ],\n      \"trends\": [],\n      \"approximate_readings\": [],\n      \"uncertain\": []\n    },\n    {\n      \"label\": \"c\",\n      \"kind\": \"flowchart\",\n      \"x_axis\": null,\n      \"y_axis\": null,\n      \"legend\": [],\n      \"printed_text\": [\n        \"current guess\",\n        \"calculate ∇_mk r\",\n        \"calculate ∇_n Z = Σ_m ∇_n Z_m\",\n        \"next iteration\",\n        \"Ẽ_n\",\n        \"S_mk\",\n        \"T̃_mn\",\n        \"r = Σ_mn (T̃_mn^meas - μT̃_mn)²\",\n        \"S'_mk = S_mk - η_r ∇_mk r\",\n        \"Z = Σ_mk |S'_mk - S_mk|²\",\n        \"Ẽ'_n = Ẽ_n - η_Z ∇_n Z\",\n        \"T̃_mn^meas\"\n      ],\n      \"printed_numbers\": [],\n      \"features\": [\n        \"A vertical flow starts with 'current guess' pointing to 'Ẽ_n'.\",\n        \"A horizontal branch from 'Ẽ_n' goes to 'S_mk' then 'T̃_mn'.\",\n        \"A red arrow connects a grid plot 'T̃_mn^meas' (axes 'δ_m', 'ω_n') to the calculation of 'r'.\",\n        \"The variable 'r' is defined by the equation 'r = Σ_mn (T̃_mn^meas - μT̃_mn)²'.\",\n        \"The flow proceeds to 'calculate ∇_mk r' and then to the update 'S'_mk = S_mk - η_r ∇_mk r'.\",\n        \"The main vertical flow continues to 'Z = Σ_mk |S'_mk - S_mk|²'.\",\n        \"An arrow labeled 'calculate ∇_n Z = Σ_m ∇_n Z_m' points to the final update 'Ẽ'_n = Ẽ_n - η_Z ∇_n Z'.\",\n        \"The diagram ends with 'next iteration'.\"\n      ],\n      \"trends\": [],\n      \"approximate_readings\": [],\n      \"uncertain\": []\n    }\n  ],\n  \"relationships\": [\n    \"Panel (a) defines the signal generation process that produces the inputs (S_mk, T̃_mn) used in the optimization loops of panels (b) and (c).\",\n    \"Panels (b) and (c) share a similar iterative structure, both starting with a 'current guess' of Ẽ_n and ending with an update to Ẽ'_n.\",\n    \"Panel (b) focuses on a local update involving a specific 'current m' and a projection step, while panel (c) shows a global update involving a sum over all m and n.\"\n  ],\n  \"uncertain\": []\n}\n```",
+      "sampling": {
+        "enable_thinking": false,
+        "max_tokens": 8192,
+        "seed": 0,
+        "temperature": 0.0
+      },
+      "schema": "paperextract.figure-description",
+      "schema_version": 1,
+      "seconds": 202.15,
+      "usd": null
+    }
+  ],
+  "figure_id": "fig_2dc2d412920d",
+  "schema": "paperextract.figure-descriptions",
+  "schema_version": 1
+}

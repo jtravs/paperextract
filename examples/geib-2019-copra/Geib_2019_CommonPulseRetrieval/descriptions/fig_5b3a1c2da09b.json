@@ -1,0 +1,351 @@
+{
+  "descriptions": [
+    {
+      "claims": {
+        "figure_type": "line plot",
+        "panels": [
+          {
+            "approximate_readings": [
+              {
+                "value": "≈ -2 × 10⁻⁵",
+                "what": "COPRA error at 300 iterations"
+              },
+              {
+                "value": "≈ 10⁻³",
+                "what": "PIE error at 300 iterations"
+              },
+              {
+                "value": "≈ 10⁻³",
+                "what": "PCGPA error at 300 iterations"
+              }
+            ],
+            "features": [
+              "Three curves representing different algorithms: COPRA (blue dashed), PIE (orange solid), and PCGPA (brown solid).",
+              "The COPRA curve drops sharply to below 0 around 100 iterations.",
+              "The PIE and PCGPA curves drop to a plateau around 10⁻³."
+            ],
+            "kind": "line plot",
+            "label": "a",
+            "legend": [
+              "COPRA",
+              "PIE",
+              "PCGPA"
+            ],
+            "printed_numbers": [
+              "1%",
+              "0",
+              "100",
+              "200",
+              "300",
+              "10⁰",
+              "10⁻¹",
+              "10⁻²",
+              "10⁻³",
+              "10⁻⁴",
+              "0",
+              "-10⁻⁴"
+            ],
+            "printed_text": [
+              "(a) SHG-FROG",
+              "σ = 1%"
+            ],
+            "trends": [
+              "COPRA converges to a lower error value than PIE and PCGPA.",
+              "PIE and PCGPA show similar convergence behavior, plateauing at a higher error level."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [
+                "0",
+                "100",
+                "200",
+                "300"
+              ],
+              "quantity": "iterations",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "10⁰",
+                "10⁻¹",
+                "10⁻²",
+                "10⁻³",
+                "10⁻⁴",
+                "0",
+                "-10⁻⁴"
+              ],
+              "quantity": "trace error R - R0",
+              "unit": null
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "≈ 10⁻⁴",
+                "what": "SHG solid error at 300 iterations"
+              },
+              {
+                "value": "≈ 10⁻³",
+                "what": "THG solid error at 300 iterations"
+              },
+              {
+                "value": "≈ 10⁻⁴",
+                "what": "SD solid error at 300 iterations"
+              }
+            ],
+            "features": [
+              "Six curves representing SHG (blue), THG (green), and SD (black), each with a solid (local) and dashed (global) line.",
+              "Shaded regions indicate the interquartile range for each method.",
+              "The THG curves (green) are generally higher than SHG and SD curves."
+            ],
+            "kind": "line plot",
+            "label": "b",
+            "legend": [
+              "SHG",
+              "THG",
+              "SD"
+            ],
+            "printed_numbers": [
+              "0",
+              "100",
+              "200",
+              "300",
+              "10⁰",
+              "10⁻¹",
+              "10⁻²",
+              "10⁻³",
+              "10⁻⁴",
+              "0",
+              "-10⁻⁴"
+            ],
+            "printed_text": [
+              "(b) iFROG"
+            ],
+            "trends": [
+              "All methods converge towards lower error values as iterations increase.",
+              "The solid and dashed lines for each method are close, with dashed lines often slightly higher or lower depending on the method.",
+              "SD (black) and SHG (blue) converge to similar low error values, while THG (green) remains higher."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [
+                "0",
+                "100",
+                "200",
+                "300"
+              ],
+              "quantity": "iterations",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "10⁰",
+                "10⁻¹",
+                "10⁻²",
+                "10⁻³",
+                "10⁻⁴",
+                "0",
+                "-10⁻⁴"
+              ],
+              "quantity": "trace error R - R0",
+              "unit": null
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "≈ 10⁻⁴",
+                "what": "SHG solid error at 300 iterations"
+              },
+              {
+                "value": "≈ 10⁻⁴",
+                "what": "THG solid error at 300 iterations"
+              },
+              {
+                "value": "≈ 10⁻⁴",
+                "what": "SD solid error at 300 iterations"
+              }
+            ],
+            "features": [
+              "Six curves for SHG (blue), THG (green), and SD (black), with solid and dashed lines.",
+              "Shaded regions for interquartile range.",
+              "The curves show a rapid initial drop followed by a slower convergence."
+            ],
+            "kind": "line plot",
+            "label": "c",
+            "legend": [
+              "SHG",
+              "THG",
+              "SD"
+            ],
+            "printed_numbers": [
+              "0",
+              "100",
+              "200",
+              "300",
+              "10⁰",
+              "10⁻¹",
+              "10⁻²",
+              "10⁻³",
+              "10⁻⁴",
+              "0",
+              "-10⁻⁴"
+            ],
+            "printed_text": [
+              "(c) d-scan"
+            ],
+            "trends": [
+              "SHG (blue) converges to the lowest error values.",
+              "THG (green) and SD (black) converge to slightly higher error values than SHG.",
+              "The difference between solid and dashed lines is minimal for all methods."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [
+                "0",
+                "100",
+                "200",
+                "300"
+              ],
+              "quantity": "iterations",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "10⁰",
+                "10⁻¹",
+                "10⁻²",
+                "10⁻³",
+                "10⁻⁴",
+                "0",
+                "-10⁻⁴"
+              ],
+              "quantity": "trace error R - R0",
+              "unit": null
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "≈ 10⁻⁴",
+                "what": "SHG solid error at 300 iterations"
+              },
+              {
+                "value": "≈ 10⁻⁴",
+                "what": "THG solid error at 300 iterations"
+              },
+              {
+                "value": "≈ 10⁻⁴",
+                "what": "SD solid error at 300 iterations"
+              }
+            ],
+            "features": [
+              "Six curves for SHG (blue), THG (green), and SD (black), with solid and dashed lines.",
+              "Shaded regions for interquartile range.",
+              "The curves show a very rapid convergence to low error values."
+            ],
+            "kind": "line plot",
+            "label": "d",
+            "legend": [
+              "SHG",
+              "THG",
+              "SD"
+            ],
+            "printed_numbers": [
+              "0",
+              "100",
+              "200",
+              "300",
+              "10⁰",
+              "10⁻¹",
+              "10⁻²",
+              "10⁻³",
+              "10⁻⁴",
+              "0",
+              "-10⁻⁴"
+            ],
+            "printed_text": [
+              "(d) MIIPS"
+            ],
+            "trends": [
+              "All methods (SHG, THG, SD) converge to very similar low error values.",
+              "The solid and dashed lines are nearly indistinguishable for all methods.",
+              "Convergence is faster in this panel compared to (b) and (c)."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [
+                "0",
+                "100",
+                "200",
+                "300"
+              ],
+              "quantity": "iterations",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "10⁰",
+                "10⁻¹",
+                "10⁻²",
+                "10⁻³",
+                "10⁻⁴",
+                "0",
+                "-10⁻⁴"
+              ],
+              "quantity": "trace error R - R0",
+              "unit": null
+            }
+          }
+        ],
+        "relationships": [
+          "All panels share the same x-axis (iterations) and y-axis (trace error R - R0) scales.",
+          "Panel (a) compares different algorithms (COPRA, PIE, PCGPA) for SHG-FROG.",
+          "Panels (b), (c), and (d) compare different PNPS methods (SHG, THG, SD) for iFROG, d-scan, and MIIPS, respectively.",
+          "In panels (b)-(d), solid lines represent local iteration and dashed lines represent global iteration."
+        ],
+        "summary": "The figure displays four panels showing the convergence behavior of different algorithms and methods for noisy measurements. Each panel plots the trace error (R - R0) against the number of iterations, comparing different techniques such as SHG-FROG, iFROG, d-scan, and MIIPS.",
+        "uncertain": []
+      },
+      "created_utc": "2026-09-24T11:47:07+00:00",
+      "figure_id": "fig_5b3a1c2da09b",
+      "finish_reason": "stop",
+      "generation_tokens": 2627,
+      "image_sha256": "d99dcb9d5a5e90a48f7484e6afe3dc862c06ea926d809753711e0fa71cb5a240",
+      "machine_generated": true,
+      "model": {
+        "label": "Qwen3.8-27B",
+        "repository": "Qwen/Qwen3.8-27B",
+        "revision": "1d4bf0f2ff60",
+        "runtime": "mlx-vlm"
+      },
+      "notice": "Machine-generated visual description, not part of the published paper. Readings, labels and trends may be wrong or invented; check them against the figure before relying on them.",
+      "parse_error": null,
+      "printed_check": {
+        "applicable": false,
+        "claimed": 114,
+        "confirmed": 0,
+        "informative_claimed": 0,
+        "informative_confirmed": 0,
+        "unconfirmed": []
+      },
+      "prompt_sha256": "71d449b348647074d8280fa917dcaef2de9d48a31699a0d2936060e2fecf69e0",
+      "prompt_tokens": 1166,
+      "prompt_version": "figure-claims-v2",
+      "raw_text": "{\n    \"figure_type\": \"line plot\",\n    \"summary\": \"The figure displays four panels showing the convergence behavior of different algorithms and methods for noisy measurements. Each panel plots the trace error (R - R0) against the number of iterations, comparing different techniques such as SHG-FROG, iFROG, d-scan, and MIIPS.\",\n    \"panels\": [\n        {\n            \"label\": \"a\",\n            \"kind\": \"line plot\",\n            \"x_axis\": {\n                \"quantity\": \"iterations\",\n                \"unit\": null,\n                \"printed_ticks\": [\n                    \"0\",\n                    \"100\",\n                    \"200\",\n                    \"300\"\n                ]\n            },\n            \"y_axis\": {\n                \"quantity\": \"trace error R - R0\",\n                \"unit\": null,\n                \"printed_ticks\": [\n                    \"10⁰\",\n                    \"10⁻¹\",\n                    \"10⁻²\",\n                    \"10⁻³\",\n                    \"10⁻⁴\",\n                    \"0\",\n                    \"-10⁻⁴\"\n                ]\n            },\n            \"legend\": [\n                \"COPRA\",\n                \"PIE\",\n                \"PCGPA\"\n            ],\n            \"printed_text\": [\n                \"(a) SHG-FROG\",\n                \"σ = 1%\"\n            ],\n            \"printed_numbers\": [\n                \"1%\",\n                \"0\",\n                \"100\",\n                \"200\",\n                \"300\",\n                \"10⁰\",\n                \"10⁻¹\",\n                \"10⁻²\",\n                \"10⁻³\",\n                \"10⁻⁴\",\n                \"0\",\n                \"-10⁻⁴\"\n            ],\n            \"features\": [\n                \"Three curves representing different algorithms: COPRA (blue dashed), PIE (orange solid), and PCGPA (brown solid).\",\n                \"The COPRA curve drops sharply to below 0 around 100 iterations.\",\n                \"The PIE and PCGPA curves drop to a plateau around 10⁻³.\"\n            ],\n            \"trends\": [\n                \"COPRA converges to a lower error value than PIE and PCGPA.\",\n                \"PIE and PCGPA show similar convergence behavior, plateauing at a higher error level.\"\n            ],\n            \"approximate_readings\": [\n                {\n                    \"what\": \"COPRA error at 300 iterations\",\n                    \"value\": \"≈ -2 × 10⁻⁵\"\n                },\n                {\n                    \"what\": \"PIE error at 300 iterations\",\n                    \"value\": \"≈ 10⁻³\"\n                },\n                {\n                    \"what\": \"PCGPA error at 300 iterations\",\n                    \"value\": \"≈ 10⁻³\"\n                }\n            ],\n            \"uncertain\": []\n        },\n        {\n            \"label\": \"b\",\n            \"kind\": \"line plot\",\n            \"x_axis\": {\n                \"quantity\": \"iterations\",\n                \"unit\": null,\n                \"printed_ticks\": [\n                    \"0\",\n                    \"100\",\n                    \"200\",\n                    \"300\"\n                ]\n            },\n            \"y_axis\": {\n                \"quantity\": \"trace error R - R0\",\n                \"unit\": null,\n                \"printed_ticks\": [\n                    \"10⁰\",\n                    \"10⁻¹\",\n                    \"10⁻²\",\n                    \"10⁻³\",\n                    \"10⁻⁴\",\n                    \"0\",\n                    \"-10⁻⁴\"\n                ]\n            },\n            \"legend\": [\n                \"SHG\",\n                \"THG\",\n                \"SD\"\n            ],\n            \"printed_text\": [\n                \"(b) iFROG\"\n            ],\n            \"printed_numbers\": [\n                \"0\",\n                \"100\",\n                \"200\",\n                \"300\",\n                \"10⁰\",\n                \"10⁻¹\",\n                \"10⁻²\",\n                \"10⁻³\",\n                \"10⁻⁴\",\n                \"0\",\n                \"-10⁻⁴\"\n            ],\n            \"features\": [\n                \"Six curves representing SHG (blue), THG (green), and SD (black), each with a solid (local) and dashed (global) line.\",\n                \"Shaded regions indicate the interquartile range for each method.\",\n                \"The THG curves (green) are generally higher than SHG and SD curves.\"\n            ],\n            \"trends\": [\n                \"All methods converge towards lower error values as iterations increase.\",\n                \"The solid and dashed lines for each method are close, with dashed lines often slightly higher or lower depending on the method.\",\n                \"SD (black) and SHG (blue) converge to similar low error values, while THG (green) remains higher.\"\n            ],\n            \"approximate_readings\": [\n                {\n                    \"what\": \"SHG solid error at 300 iterations\",\n                    \"value\": \"≈ 10⁻⁴\"\n                },\n                {\n                    \"what\": \"THG solid error at 300 iterations\",\n                    \"value\": \"≈ 10⁻³\"\n                },\n                {\n                    \"what\": \"SD solid error at 300 iterations\",\n                    \"value\": \"≈ 10⁻⁴\"\n                }\n            ],\n            \"uncertain\": []\n        },\n        {\n            \"label\": \"c\",\n            \"kind\": \"line plot\",\n            \"x_axis\": {\n                \"quantity\": \"iterations\",\n                \"unit\": null,\n                \"printed_ticks\": [\n                    \"0\",\n                    \"100\",\n                    \"200\",\n                    \"300\"\n                ]\n            },\n            \"y_axis\": {\n                \"quantity\": \"trace error R - R0\",\n                \"unit\": null,\n                \"printed_ticks\": [\n                    \"10⁰\",\n                    \"10⁻¹\",\n                    \"10⁻²\",\n                    \"10⁻³\",\n                    \"10⁻⁴\",\n                    \"0\",\n                    \"-10⁻⁴\"\n                ]\n            },\n            \"legend\": [\n                \"SHG\",\n                \"THG\",\n                \"SD\"\n            ],\n            \"printed_text\": [\n                \"(c) d-scan\"\n            ],\n            \"printed_numbers\": [\n                \"0\",\n                \"100\",\n                \"200\",\n                \"300\",\n                \"10⁰\",\n                \"10⁻¹\",\n                \"10⁻²\",\n                \"10⁻³\",\n                \"10⁻⁴\",\n                \"0\",\n                \"-10⁻⁴\"\n            ],\n            \"features\": [\n                \"Six curves for SHG (blue), THG (green), and SD (black), with solid and dashed lines.\",\n                \"Shaded regions for interquartile range.\",\n                \"The curves show a rapid initial drop followed by a slower convergence.\"\n            ],\n            \"trends\": [\n                \"SHG (blue) converges to the lowest error values.\",\n                \"THG (green) and SD (black) converge to slightly higher error values than SHG.\",\n                \"The difference between solid and dashed lines is minimal for all methods.\"\n            ],\n            \"approximate_readings\": [\n                {\n                    \"what\": \"SHG solid error at 300 iterations\",\n                    \"value\": \"≈ 10⁻⁴\"\n                },\n                {\n                    \"what\": \"THG solid error at 300 iterations\",\n                    \"value\": \"≈ 10⁻⁴\"\n                },\n                {\n                    \"what\": \"SD solid error at 300 iterations\",\n                    \"value\": \"≈ 10⁻⁴\"\n                }\n            ],\n            \"uncertain\": []\n        },\n        {\n            \"label\": \"d\",\n            \"kind\": \"line plot\",\n            \"x_axis\": {\n                \"quantity\": \"iterations\",\n                \"unit\": null,\n                \"printed_ticks\": [\n                    \"0\",\n                    \"100\",\n                    \"200\",\n                    \"300\"\n                ]\n            },\n            \"y_axis\": {\n                \"quantity\": \"trace error R - R0\",\n                \"unit\": null,\n                \"printed_ticks\": [\n                    \"10⁰\",\n                    \"10⁻¹\",\n                    \"10⁻²\",\n                    \"10⁻³\",\n                    \"10⁻⁴\",\n                    \"0\",\n                    \"-10⁻⁴\"\n                ]\n            },\n            \"legend\": [\n                \"SHG\",\n                \"THG\",\n                \"SD\"\n            ],\n            \"printed_text\": [\n                \"(d) MIIPS\"\n            ],\n            \"printed_numbers\": [\n                \"0\",\n                \"100\",\n                \"200\",\n                \"300\",\n                \"10⁰\",\n                \"10⁻¹\",\n                \"10⁻²\",\n                \"10⁻³\",\n                \"10⁻⁴\",\n                \"0\",\n                \"-10⁻⁴\"\n            ],\n            \"features\": [\n                \"Six curves for SHG (blue), THG (green), and SD (black), with solid and dashed lines.\",\n                \"Shaded regions for interquartile range.\",\n                \"The curves show a very rapid convergence to low error values.\"\n            ],\n            \"trends\": [\n                \"All methods (SHG, THG, SD) converge to very similar low error values.\",\n                \"The solid and dashed lines are nearly indistinguishable for all methods.\",\n                \"Convergence is faster in this panel compared to (b) and (c).\"\n            ],\n            \"approximate_readings\": [\n                {\n                    \"what\": \"SHG solid error at 300 iterations\",\n                    \"value\": \"≈ 10⁻⁴\"\n                },\n                {\n                    \"what\": \"THG solid error at 300 iterations\",\n                    \"value\": \"≈ 10⁻⁴\"\n                },\n                {\n                    \"what\": \"SD solid error at 300 iterations\",\n                    \"value\": \"≈ 10⁻⁴\"\n                }\n            ],\n            \"uncertain\": []\n        }\n    ],\n    \"relationships\": [\n        \"All panels share the same x-axis (iterations) and y-axis (trace error R - R0) scales.\",\n        \"Panel (a) compares different algorithms (COPRA, PIE, PCGPA) for SHG-FROG.\",\n        \"Panels (b), (c), and (d) compare different PNPS methods (SHG, THG, SD) for iFROG, d-scan, and MIIPS, respectively.\",\n        \"In panels (b)-(d), solid lines represent local iteration and dashed lines represent global iteration.\"\n    ],\n    \"uncertain\": []\n}",
+      "sampling": {
+        "enable_thinking": false,
+        "max_tokens": 8192,
+        "seed": 0,
+        "temperature": 0.0
+      },
+      "schema": "paperextract.figure-description",
+      "schema_version": 1,
+      "seconds": 351.28,
+      "usd": null
+    }
+  ],
+  "figure_id": "fig_5b3a1c2da09b",
+  "schema": "paperextract.figure-descriptions",
+  "schema_version": 1
+}

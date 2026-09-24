@@ -1,0 +1,262 @@
+{
+  "alternatives": [],
+  "candidates": [
+    {
+      "kind": "doi",
+      "sources": [
+        "pdf_information",
+        "fingerprint",
+        "page_1_text"
+      ],
+      "value": "10.1364/optica.6.000495"
+    }
+  ],
+  "checks": [
+    {
+      "detail": "Titles agree: 'Common pulse retrieval algorithm: a fast and universal method to retrieve ultrashort pulses'",
+      "name": "title",
+      "outcome": "pass"
+    },
+    {
+      "detail": "1 of 1 observed author(s) appear among 4 registry author(s)",
+      "name": "authors",
+      "outcome": "pass"
+    },
+    {
+      "detail": "Registry year 2019; PDF date hints [2019, 2024]",
+      "name": "year",
+      "outcome": "pass"
+    }
+  ],
+  "doi": "10.1364/optica.6.000495",
+  "fields": [
+    {
+      "name": "title",
+      "source": "crossref",
+      "status": "VALIDATED",
+      "value": "Common pulse retrieval algorithm: a fast and universal method to retrieve ultrashort pulses"
+    },
+    {
+      "name": "authors",
+      "source": "crossref",
+      "status": "VALIDATED",
+      "value": [
+        {
+          "family": "Geib",
+          "given": "Nils C.",
+          "literal": null,
+          "orcid": "https://orcid.org/0000-0002-6192-9572",
+          "sequence": "first"
+        },
+        {
+          "family": "Zilk",
+          "given": "Matthias",
+          "literal": null,
+          "orcid": null,
+          "sequence": "additional"
+        },
+        {
+          "family": "Pertsch",
+          "given": "Thomas",
+          "literal": null,
+          "orcid": null,
+          "sequence": "additional"
+        },
+        {
+          "family": "Eilenberger",
+          "given": "Falk",
+          "literal": null,
+          "orcid": null,
+          "sequence": "additional"
+        }
+      ]
+    },
+    {
+      "name": "journal",
+      "source": "crossref",
+      "status": "VALIDATED",
+      "value": "Optica"
+    },
+    {
+      "name": "publisher",
+      "source": "crossref",
+      "status": "VALIDATED",
+      "value": "Optica Publishing Group"
+    },
+    {
+      "name": "doi",
+      "source": "crossref",
+      "status": "VALIDATED",
+      "value": "10.1364/optica.6.000495"
+    },
+    {
+      "name": "volume",
+      "source": "crossref",
+      "status": "VALIDATED",
+      "value": "6"
+    },
+    {
+      "name": "issue",
+      "source": "crossref",
+      "status": "VALIDATED",
+      "value": "4"
+    },
+    {
+      "name": "pages",
+      "source": "crossref",
+      "status": "VALIDATED",
+      "value": "495"
+    },
+    {
+      "name": "article_number",
+      "source": null,
+      "status": "UNVERIFIED",
+      "value": null
+    },
+    {
+      "name": "year",
+      "source": "crossref",
+      "status": "VALIDATED",
+      "value": 2019
+    },
+    {
+      "name": "published_online",
+      "source": "crossref",
+      "status": "VALIDATED",
+      "value": [
+        2019,
+        4,
+        12
+      ]
+    },
+    {
+      "name": "published_print",
+      "source": "crossref",
+      "status": "VALIDATED",
+      "value": [
+        2019,
+        4,
+        20
+      ]
+    },
+    {
+      "name": "url",
+      "source": "crossref",
+      "status": "VALIDATED",
+      "value": "https://doi.org/10.1364/optica.6.000495"
+    },
+    {
+      "name": "issn",
+      "source": "crossref",
+      "status": "VALIDATED",
+      "value": [
+        "2334-2536"
+      ]
+    },
+    {
+      "name": "license",
+      "source": "crossref",
+      "status": "VALIDATED",
+      "value": [
+        "https://doi.org/10.1364/OA_License_v1#VOR-OA",
+        "https://opg.optica.org/policies/opg-tdm-policy.json"
+      ]
+    },
+    {
+      "name": "article_type",
+      "source": "crossref",
+      "status": "VALIDATED",
+      "value": "journal-article"
+    }
+  ],
+  "observed": {
+    "authors": [
+      "N. C. Geib, M. Zilk, T. Pertsch, F. Eilenberger"
+    ],
+    "title": "Common pulse retrieval algorithm: a fast and universal method to retrieve ultrashort pulses",
+    "years": [
+      2019,
+      2024
+    ]
+  },
+  "provider": "crossref",
+  "reasons": [
+    "registry record agrees with the article's title and authors"
+  ],
+  "record": {
+    "abstract": null,
+    "article_number": null,
+    "authors": [
+      {
+        "family": "Geib",
+        "given": "Nils C.",
+        "literal": null,
+        "orcid": "https://orcid.org/0000-0002-6192-9572",
+        "sequence": "first"
+      },
+      {
+        "family": "Zilk",
+        "given": "Matthias",
+        "literal": null,
+        "orcid": null,
+        "sequence": "additional"
+      },
+      {
+        "family": "Pertsch",
+        "given": "Thomas",
+        "literal": null,
+        "orcid": null,
+        "sequence": "additional"
+      },
+      {
+        "family": "Eilenberger",
+        "given": "Falk",
+        "literal": null,
+        "orcid": null,
+        "sequence": "additional"
+      }
+    ],
+    "body_sha256": "3686650a7000f6b2cfe9c9cb66c8324cae2e4cf036ea38e30ff8dc68aca3b73b",
+    "cached": false,
+    "container_title": "Optica",
+    "doi": "10.1364/optica.6.000495",
+    "issn": [
+      "2334-2536"
+    ],
+    "issue": "4",
+    "issued": [
+      2019,
+      4,
+      12
+    ],
+    "license_urls": [
+      "https://doi.org/10.1364/OA_License_v1#VOR-OA",
+      "https://opg.optica.org/policies/opg-tdm-policy.json"
+    ],
+    "pages": "495",
+    "provider": "crossref",
+    "published_online": [
+      2019,
+      4,
+      12
+    ],
+    "published_print": [
+      2019,
+      4,
+      20
+    ],
+    "publisher": "Optica Publishing Group",
+    "retrieved_utc": "2026-09-24T11:06:46+00:00",
+    "source_url": "https://api.crossref.org/works/10.1364/optica.6.000495",
+    "subtitle": null,
+    "title": "Common pulse retrieval algorithm: a fast and universal method to retrieve ultrashort pulses",
+    "title_raw": "Common pulse retrieval algorithm: a fast and universal method to retrieve ultrashort pulses",
+    "type": "journal-article",
+    "url": "https://doi.org/10.1364/optica.6.000495",
+    "volume": "6"
+  },
+  "schema": "paperextract.identity",
+  "schema_version": 1,
+  "status": "VALIDATED",
+  "work_id": "work_5e824f36347a"
+}

@@ -4,15 +4,11 @@ Working instructions for agents and contributors to **paperextract**.
 
 ## Scope and authority
 
-Read `dev/Status.md` first for current scope, completed work, verification, and the
-next action. Then read `dev/Brief.md` and the relevant parts of `dev/Plan.md` before
-changing behavior. The brief is the original specification: leave it unchanged
-unless John explicitly requests an edit. John approved the plan on 22 September
-2026. The plan is the accepted working design;
-provisional choices remain provisional until their recorded evidence gates pass.
-Initial P1 backend trials are complete and P2 implementation has started; wider
-qualification continues. Consult the tracker for the selected adapter and exact
-implemented surface. Do not turn proposed commands into claims of existing features.
+Read `README.md`, `CHANGELOG.md` and the manual under `docs/` for the implemented
+surface before changing behavior. The maintainer keeps the design notes, the
+implementation tracker and private evidence outside this repository; when one is
+provided for the session, read it first and keep it current. Do not turn proposed
+commands into claims of existing features.
 
 Follow the user's task scope. Resolve ordinary reversible implementation details
 using the accepted design and existing patterns. Ask about material ambiguity,
@@ -141,14 +137,13 @@ claims need dated primary sources; benchmark claims need measured evidence.
 
 ## Git and reporting
 
-Maintain `dev/Status.md` as the canonical implementation and agent-handoff tracker.
-Update it at meaningful checkpoints, before an agent handoff, and before the final
-response of every work session. Record the current milestone, completed and
-unfinished work, exact verification results, decisions, blockers, artifact paths,
-and the next concrete action. Mark checks as pending until actually run. Identify
-private or ignored artifacts that another checkout will not contain. Keep a short
-dated session log; distinguish plans, implemented behavior, and measured results.
-Use `dev/Corpus.md` for corpus qualification notes, not private paper contents.
+Record user-visible changes under `[Unreleased]` in `CHANGELOG.md`. When the
+maintainer supplies a private tracker, update it at meaningful checkpoints, before
+an agent handoff, and before the final response of every work session: the current
+milestone, completed and unfinished work, exact verification results, decisions,
+blockers, artifact paths, and the next concrete action. Mark checks as pending until
+actually run. Keep private tracker contents, corpus notes and paper contents out of
+the repository.
 
 Preserve unrelated user changes. Stage deliberately by path; never `git add .` or
 `git add -A`. Do not commit unless requested. Never push, tag, release, rewrite

@@ -103,8 +103,7 @@ Options: `--backend`, `--endpoint`, `--model` (served name or Anthropic model),
 
 ## A GPU session
 
-Measured on 23 September 2026 on one rented H100 80 GB with vLLM 0.30.0 (see
-[trials](trials.md)): Qwen3.8-27B in bf16 described figures for about
+Measured on 23 September 2026 on one rented H100 80 GB with vLLM 0.30.0: Qwen3.8-27B in bf16 described figures for about
 $0.003–0.01 of GPU time each at $4.41 per hour when 16 were in flight;
 startup, model download and idle time come on top. Claude Opus 5.5 at low
 effort cost $0.04–0.06 per figure. On the Mac the same model took about two

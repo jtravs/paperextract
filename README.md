@@ -74,6 +74,7 @@ uv run paperextract describe --all --library ~/papers     # optional figure desc
 The manual is at **[paperextract.readthedocs.io](https://paperextract.readthedocs.io)**:
 
 - [Getting started](https://paperextract.readthedocs.io/en/latest/usage.html): installation, a first extraction and what it produces
+- [Worked example](https://paperextract.readthedocs.io/en/latest/tutorial.html): a real paper followed from PDF to library, with the frozen input and output in [`examples/`](https://github.com/jtravs/paperextract/tree/main/examples)
 - [Command line](https://paperextract.readthedocs.io/en/latest/cli.html): every command and setting
 - [Running on a Slurm cluster](https://paperextract.readthedocs.io/en/latest/cluster.html): GPU batches
 - [Figure descriptions](https://paperextract.readthedocs.io/en/latest/describe.html)
@@ -85,11 +86,10 @@ To build it locally, run `uv run poe docs` and open
 
 ## Status
 
-paperextract is in active development and has not been released. The
-pipeline is complete and has been run on about 170 papers on macOS and on
-NVIDIA A40 GPUs; accuracy has not yet been measured against a reviewed
-reference set. See the [changelog](https://github.com/jtravs/paperextract/blob/main/CHANGELOG.md), the
-[design](https://github.com/jtravs/paperextract/blob/main/dev/Plan.md) and the [implementation status](https://github.com/jtravs/paperextract/blob/main/dev/Status.md).
+paperextract is alpha software. The pipeline is complete and has been run on
+about 170 papers on macOS and on NVIDIA A40 GPUs; accuracy has not yet been
+measured against a reviewed reference set. See the
+[changelog](https://github.com/jtravs/paperextract/blob/main/CHANGELOG.md).
 
 ## Contributing
 

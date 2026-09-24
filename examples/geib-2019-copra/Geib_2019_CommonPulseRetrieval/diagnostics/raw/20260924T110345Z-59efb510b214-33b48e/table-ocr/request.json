@@ -1,0 +1,25 @@
+{
+  "backend": "mineru",
+  "expected_page_count": 11,
+  "model_dir": "/Users/Shared/paperextract-example/paperextract/model-cache/mineru/models",
+  "output_dir": "/Users/Shared/paperextract-example/library/.paperextract/runs/20260924T110345Z-59efb510b214-33b48e/worker-ocr",
+  "pages": [
+    2,
+    3
+  ],
+  "profile": {
+    "batch_invariant": true,
+    "cpu_threads": 4,
+    "image_analysis": false,
+    "parse_mode": "ocr",
+    "small_backend": "onnx",
+    "tier": "standard",
+    "vlm_engine": "llama-cpp",
+    "vlm_max_concurrency": 1
+  },
+  "protocol_version": 1,
+  "request_id": "20260924T110345Z-59efb510b214-33b48e-ocr",
+  "schema": "paperextract.worker-request",
+  "source_path": "/Users/Shared/paperextract-example/library/.paperextract/runs/20260924T110345Z-59efb510b214-33b48e/source.pdf",
+  "source_sha256": "59efb510b214f6b36154f6e22fe416290c417b6ca474fc6e8463d2fcfd7b05ea"
+}

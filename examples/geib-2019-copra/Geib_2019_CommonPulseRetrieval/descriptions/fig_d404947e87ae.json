@@ -1,0 +1,320 @@
+{
+  "descriptions": [
+    {
+      "claims": {
+        "figure_type": "composite plot",
+        "panels": [
+          {
+            "approximate_readings": [
+              {
+                "value": "10⁰",
+                "what": "Peak intensity"
+              }
+            ],
+            "features": [
+              "A central, bright, X-shaped or bow-tie pattern is visible in the middle of the plot.",
+              "The background is dark purple, indicating low intensity.",
+              "The central region is bright orange and yellow, indicating high intensity.",
+              "The pattern is symmetric about the center of the delay and frequency axes."
+            ],
+            "kind": "heatmap",
+            "label": "a",
+            "legend": [],
+            "printed_numbers": [
+              "10⁰",
+              "10⁻¹",
+              "10⁻²",
+              "0",
+              "-10⁻²",
+              "-10⁻¹"
+            ],
+            "printed_text": [
+              "SHG-FROG",
+              "delay",
+              "frequency ωSHG",
+              "trace intensity [a.u.]"
+            ],
+            "trends": [
+              "Intensity is highest at the center (delay=0, frequency=center) and decreases radially outward.",
+              "The bright region extends along a diagonal axis."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": "frequency ωSHG",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [],
+              "quantity": "delay",
+              "unit": null
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "1.00",
+                "what": "Blue peak height"
+              },
+              {
+                "value": "0.85",
+                "what": "Black peak height"
+              }
+            ],
+            "features": [
+              "A black curve (test pulse) shows a broad peak with a smaller secondary peak to its left.",
+              "A blue curve (retrieved intensity) shows a sharp, narrow peak that aligns with the main peak of the black curve.",
+              "An orange curve (retrieved phase) fluctuates, starting high on the left, dipping in the middle, and rising on the right.",
+              "The blue curve has a shaded region indicating uncertainty or error."
+            ],
+            "kind": "line plot",
+            "label": "b",
+            "legend": [],
+            "printed_numbers": [
+              "3.24%",
+              "11.32%",
+              "0.00",
+              "0.25",
+              "0.50",
+              "0.75",
+              "1.00"
+            ],
+            "printed_text": [
+              "PCGPA",
+              "R = 3.24%",
+              "ε = 11.32%",
+              "intensity [a.u.]",
+              "phase [rad]",
+              "frequency ω"
+            ],
+            "trends": [
+              "The blue peak is much narrower and taller than the corresponding black peak.",
+              "The orange phase curve is noisy and does not follow a smooth trend."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": "frequency ω",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "0.00",
+                "0.25",
+                "0.50",
+                "0.75",
+                "1.00"
+              ],
+              "quantity": "intensity [a.u.] (left), phase [rad] (right)",
+              "unit": "a.u., rad"
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "1.00",
+                "what": "Blue peak height"
+              }
+            ],
+            "features": [
+              "Similar structure to panel (b) with black, blue, and orange curves.",
+              "The blue peak is sharp and aligns with the black curve's main peak.",
+              "The orange phase curve shows fluctuations."
+            ],
+            "kind": "line plot",
+            "label": "c",
+            "legend": [],
+            "printed_numbers": [
+              "3.03%",
+              "8.99%",
+              "0.00",
+              "0.25",
+              "0.50",
+              "0.75",
+              "1.00"
+            ],
+            "printed_text": [
+              "PIE",
+              "R = 3.03%",
+              "ε = 8.99%",
+              "frequency ω"
+            ],
+            "trends": [
+              "The blue peak is narrower than the black peak.",
+              "The orange curve is noisy."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": "frequency ω",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "0.00",
+                "0.25",
+                "0.50",
+                "0.75",
+                "1.00"
+              ],
+              "quantity": "intensity [a.u.] (left), phase [rad] (right)",
+              "unit": "a.u., rad"
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "1.00",
+                "what": "Blue peak height"
+              }
+            ],
+            "features": [
+              "Similar structure to previous panels.",
+              "The blue peak is sharp and aligns with the black curve.",
+              "The orange phase curve is less noisy than in previous panels."
+            ],
+            "kind": "line plot",
+            "label": "d",
+            "legend": [],
+            "printed_numbers": [
+              "2.91%",
+              "5.43%",
+              "0.00",
+              "0.25",
+              "0.50",
+              "0.75",
+              "1.00"
+            ],
+            "printed_text": [
+              "LM",
+              "R = 2.91%",
+              "ε = 5.43%",
+              "frequency ω"
+            ],
+            "trends": [
+              "The blue peak is narrower than the black peak.",
+              "The orange curve is smoother than in (b) and (c)."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": "frequency ω",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "0.00",
+                "0.25",
+                "0.50",
+                "0.75",
+                "1.00"
+              ],
+              "quantity": "intensity [a.u.] (left), phase [rad] (right)",
+              "unit": "a.u., rad"
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "1.00",
+                "what": "Blue peak height"
+              }
+            ],
+            "features": [
+              "Similar structure to previous panels.",
+              "The blue peak is sharp and aligns with the black curve.",
+              "The orange phase curve is smooth."
+            ],
+            "kind": "line plot",
+            "label": "e",
+            "legend": [],
+            "printed_numbers": [
+              "2.91%",
+              "5.28%",
+              "0.00",
+              "0.25",
+              "0.50",
+              "0.75",
+              "1.00"
+            ],
+            "printed_text": [
+              "COPRA",
+              "R = 2.91%",
+              "ε = 5.28%",
+              "frequency ω"
+            ],
+            "trends": [
+              "The blue peak is narrower than the black peak.",
+              "The orange curve is the smoothest among the four algorithms."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": "frequency ω",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "0.00",
+                "0.25",
+                "0.50",
+                "0.75",
+                "1.00"
+              ],
+              "quantity": "intensity [a.u.] (left), phase [rad] (right)",
+              "unit": "a.u., rad"
+            }
+          }
+        ],
+        "relationships": [
+          "Panels (b) through (e) share the same x-axis (frequency ω) and y-axis scales (intensity 0.00-1.00, phase -10 to 10).",
+          "The black curve (test pulse) is identical in all four retrieval panels, serving as a reference.",
+          "The blue curves (retrieved intensity) are similar in shape and position across all panels, showing a sharp peak.",
+          "The orange curves (retrieved phase) vary in smoothness and noise level across the panels, with (e) appearing the smoothest.",
+          "The accuracy metrics (R and ε) are printed in each panel, showing a general trend of improvement from (b) to (e)."
+        ],
+        "summary": "The figure displays a synthetic SHG-FROG trace in panel (a) and compares pulse retrieval results from four different algorithms in panels (b) through (e). Each retrieval panel shows the reconstructed intensity (blue) and phase (orange) alongside the original test pulse (black), with quantitative accuracy metrics (R and ε) provided for each method.",
+        "uncertain": []
+      },
+      "created_utc": "2026-09-24T11:47:07+00:00",
+      "figure_id": "fig_d404947e87ae",
+      "finish_reason": "stop",
+      "generation_tokens": 2352,
+      "image_sha256": "ac0384fa1318bacd172fe205e9f137075db130d77f3a9403c4604368ff06207b",
+      "machine_generated": true,
+      "model": {
+        "label": "Qwen3.8-27B",
+        "repository": "Qwen/Qwen3.8-27B",
+        "revision": "1d4bf0f2ff60",
+        "runtime": "mlx-vlm"
+      },
+      "notice": "Machine-generated visual description, not part of the published paper. Readings, labels and trends may be wrong or invented; check them against the figure before relying on them.",
+      "parse_error": null,
+      "printed_check": {
+        "applicable": false,
+        "claimed": 90,
+        "confirmed": 0,
+        "informative_claimed": 0,
+        "informative_confirmed": 0,
+        "unconfirmed": []
+      },
+      "prompt_sha256": "64d7be1603b4977f831e40220419a2c4399f1f020e1e2bae6f7908006ac49abe",
+      "prompt_tokens": 1203,
+      "prompt_version": "figure-claims-v2",
+      "raw_text": "```json\n{\n  \"figure_type\": \"composite plot\",\n  \"summary\": \"The figure displays a synthetic SHG-FROG trace in panel (a) and compares pulse retrieval results from four different algorithms in panels (b) through (e). Each retrieval panel shows the reconstructed intensity (blue) and phase (orange) alongside the original test pulse (black), with quantitative accuracy metrics (R and ε) provided for each method.\",\n  \"panels\": [\n    {\n      \"label\": \"a\",\n      \"kind\": \"heatmap\",\n      \"x_axis\": {\n        \"quantity\": \"frequency ωSHG\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"delay\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"legend\": [],\n      \"printed_text\": [\n        \"SHG-FROG\",\n        \"delay\",\n        \"frequency ωSHG\",\n        \"trace intensity [a.u.]\"\n      ],\n      \"printed_numbers\": [\n        \"10⁰\",\n        \"10⁻¹\",\n        \"10⁻²\",\n        \"0\",\n        \"-10⁻²\",\n        \"-10⁻¹\"\n      ],\n      \"features\": [\n        \"A central, bright, X-shaped or bow-tie pattern is visible in the middle of the plot.\",\n        \"The background is dark purple, indicating low intensity.\",\n        \"The central region is bright orange and yellow, indicating high intensity.\",\n        \"The pattern is symmetric about the center of the delay and frequency axes.\"\n      ],\n      \"trends\": [\n        \"Intensity is highest at the center (delay=0, frequency=center) and decreases radially outward.\",\n        \"The bright region extends along a diagonal axis.\"\n      ],\n      \"approximate_readings\": [\n        {\n          \"what\": \"Peak intensity\",\n          \"value\": \"10⁰\"\n        }\n      ],\n      \"uncertain\": []\n    },\n    {\n      \"label\": \"b\",\n      \"kind\": \"line plot\",\n      \"x_axis\": {\n        \"quantity\": \"frequency ω\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"intensity [a.u.] (left), phase [rad] (right)\",\n        \"unit\": \"a.u., rad\",\n        \"printed_ticks\": [\n          \"0.00\",\n          \"0.25\",\n          \"0.50\",\n          \"0.75\",\n          \"1.00\"\n        ]\n      },\n      \"legend\": [],\n      \"printed_text\": [\n        \"PCGPA\",\n        \"R = 3.24%\",\n        \"ε = 11.32%\",\n        \"intensity [a.u.]\",\n        \"phase [rad]\",\n        \"frequency ω\"\n      ],\n      \"printed_numbers\": [\n        \"3.24%\",\n        \"11.32%\",\n        \"0.00\",\n        \"0.25\",\n        \"0.50\",\n        \"0.75\",\n        \"1.00\"\n      ],\n      \"features\": [\n        \"A black curve (test pulse) shows a broad peak with a smaller secondary peak to its left.\",\n        \"A blue curve (retrieved intensity) shows a sharp, narrow peak that aligns with the main peak of the black curve.\",\n        \"An orange curve (retrieved phase) fluctuates, starting high on the left, dipping in the middle, and rising on the right.\",\n        \"The blue curve has a shaded region indicating uncertainty or error.\"\n      ],\n      \"trends\": [\n        \"The blue peak is much narrower and taller than the corresponding black peak.\",\n        \"The orange phase curve is noisy and does not follow a smooth trend.\"\n      ],\n      \"approximate_readings\": [\n        {\n          \"what\": \"Blue peak height\",\n          \"value\": \"1.00\"\n        },\n        {\n          \"what\": \"Black peak height\",\n          \"value\": \"0.85\"\n        }\n      ],\n      \"uncertain\": []\n    },\n    {\n      \"label\": \"c\",\n      \"kind\": \"line plot\",\n      \"x_axis\": {\n        \"quantity\": \"frequency ω\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"intensity [a.u.] (left), phase [rad] (right)\",\n        \"unit\": \"a.u., rad\",\n        \"printed_ticks\": [\n          \"0.00\",\n          \"0.25\",\n          \"0.50\",\n          \"0.75\",\n          \"1.00\"\n        ]\n      },\n      \"legend\": [],\n      \"printed_text\": [\n        \"PIE\",\n        \"R = 3.03%\",\n        \"ε = 8.99%\",\n        \"frequency ω\"\n      ],\n      \"printed_numbers\": [\n        \"3.03%\",\n        \"8.99%\",\n        \"0.00\",\n        \"0.25\",\n        \"0.50\",\n        \"0.75\",\n        \"1.00\"\n      ],\n      \"features\": [\n        \"Similar structure to panel (b) with black, blue, and orange curves.\",\n        \"The blue peak is sharp and aligns with the black curve's main peak.\",\n        \"The orange phase curve shows fluctuations.\"\n      ],\n      \"trends\": [\n        \"The blue peak is narrower than the black peak.\",\n        \"The orange curve is noisy.\"\n      ],\n      \"approximate_readings\": [\n        {\n          \"what\": \"Blue peak height\",\n          \"value\": \"1.00\"\n        }\n      ],\n      \"uncertain\": []\n    },\n    {\n      \"label\": \"d\",\n      \"kind\": \"line plot\",\n      \"x_axis\": {\n        \"quantity\": \"frequency ω\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"intensity [a.u.] (left), phase [rad] (right)\",\n        \"unit\": \"a.u., rad\",\n        \"printed_ticks\": [\n          \"0.00\",\n          \"0.25\",\n          \"0.50\",\n          \"0.75\",\n          \"1.00\"\n        ]\n      },\n      \"legend\": [],\n      \"printed_text\": [\n        \"LM\",\n        \"R = 2.91%\",\n        \"ε = 5.43%\",\n        \"frequency ω\"\n      ],\n      \"printed_numbers\": [\n        \"2.91%\",\n        \"5.43%\",\n        \"0.00\",\n        \"0.25\",\n        \"0.50\",\n        \"0.75\",\n        \"1.00\"\n      ],\n      \"features\": [\n        \"Similar structure to previous panels.\",\n        \"The blue peak is sharp and aligns with the black curve.\",\n        \"The orange phase curve is less noisy than in previous panels.\"\n      ],\n      \"trends\": [\n        \"The blue peak is narrower than the black peak.\",\n        \"The orange curve is smoother than in (b) and (c).\"\n      ],\n      \"approximate_readings\": [\n        {\n          \"what\": \"Blue peak height\",\n          \"value\": \"1.00\"\n        }\n      ],\n      \"uncertain\": []\n    },\n    {\n      \"label\": \"e\",\n      \"kind\": \"line plot\",\n      \"x_axis\": {\n        \"quantity\": \"frequency ω\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"intensity [a.u.] (left), phase [rad] (right)\",\n        \"unit\": \"a.u., rad\",\n        \"printed_ticks\": [\n          \"0.00\",\n          \"0.25\",\n          \"0.50\",\n          \"0.75\",\n          \"1.00\"\n        ]\n      },\n      \"legend\": [],\n      \"printed_text\": [\n        \"COPRA\",\n        \"R = 2.91%\",\n        \"ε = 5.28%\",\n        \"frequency ω\"\n      ],\n      \"printed_numbers\": [\n        \"2.91%\",\n        \"5.28%\",\n        \"0.00\",\n        \"0.25\",\n        \"0.50\",\n        \"0.75\",\n        \"1.00\"\n      ],\n      \"features\": [\n        \"Similar structure to previous panels.\",\n        \"The blue peak is sharp and aligns with the black curve.\",\n        \"The orange phase curve is smooth.\"\n      ],\n      \"trends\": [\n        \"The blue peak is narrower than the black peak.\",\n        \"The orange curve is the smoothest among the four algorithms.\"\n      ],\n      \"approximate_readings\": [\n        {\n          \"what\": \"Blue peak height\",\n          \"value\": \"1.00\"\n        }\n      ],\n      \"uncertain\": []\n    }\n  ],\n  \"relationships\": [\n    \"Panels (b) through (e) share the same x-axis (frequency ω) and y-axis scales (intensity 0.00-1.00, phase -10 to 10).\",\n    \"The black curve (test pulse) is identical in all four retrieval panels, serving as a reference.\",\n    \"The blue curves (retrieved intensity) are similar in shape and position across all panels, showing a sharp peak.\",\n    \"The orange curves (retrieved phase) vary in smoothness and noise level across the panels, with (e) appearing the smoothest.\",\n    \"The accuracy metrics (R and ε) are printed in each panel, showing a general trend of improvement from (b) to (e).\"\n  ],\n  \"uncertain\": []\n}\n```",
+      "sampling": {
+        "enable_thinking": false,
+        "max_tokens": 8192,
+        "seed": 0,
+        "temperature": 0.0
+      },
+      "schema": "paperextract.figure-description",
+      "schema_version": 1,
+      "seconds": 309.93,
+      "usd": null
+    }
+  ],
+  "figure_id": "fig_d404947e87ae",
+  "schema": "paperextract.figure-descriptions",
+  "schema_version": 1
+}

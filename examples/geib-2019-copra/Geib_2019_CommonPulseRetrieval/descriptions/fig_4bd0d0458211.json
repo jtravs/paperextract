@@ -1,0 +1,350 @@
+{
+  "descriptions": [
+    {
+      "claims": {
+        "figure_type": "composite plot",
+        "panels": [
+          {
+            "approximate_readings": [],
+            "features": [
+              "A central, bright, diamond-shaped region with a four-lobed structure, surrounded by a dark background with visible noise."
+            ],
+            "kind": "heatmap",
+            "label": "a",
+            "legend": [],
+            "printed_numbers": [],
+            "printed_text": [
+              "SHG-FROG",
+              "(a)"
+            ],
+            "trends": [],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": null,
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [],
+              "quantity": "delay",
+              "unit": null
+            }
+          },
+          {
+            "approximate_readings": [],
+            "features": [
+              "A pattern of horizontal fringes (interference stripes) concentrated in the center, with a bright central horizontal line."
+            ],
+            "kind": "heatmap",
+            "label": "b",
+            "legend": [],
+            "printed_numbers": [],
+            "printed_text": [
+              "THG-iFROG",
+              "(b)"
+            ],
+            "trends": [],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": null,
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [],
+              "quantity": "delay",
+              "unit": null
+            }
+          },
+          {
+            "approximate_readings": [],
+            "features": [
+              "A bright, vertical, fan-like structure that widens towards the top of the plot."
+            ],
+            "kind": "heatmap",
+            "label": "c",
+            "legend": [],
+            "printed_numbers": [],
+            "printed_text": [
+              "SHG-d-scan",
+              "(c)"
+            ],
+            "trends": [],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": null,
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [],
+              "quantity": "glass path",
+              "unit": null
+            }
+          },
+          {
+            "approximate_readings": [],
+            "features": [
+              "A complex, swirling pattern of bright and dark regions, resembling a vortex or turbulent flow."
+            ],
+            "kind": "heatmap",
+            "label": "d",
+            "legend": [],
+            "printed_numbers": [],
+            "printed_text": [
+              "SHG-MIIPS",
+              "(d)"
+            ],
+            "trends": [],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": null,
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [],
+              "quantity": "shift δ",
+              "unit": null
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "1.00",
+                "what": "Peak intensity of blue curve"
+              }
+            ],
+            "features": [
+              "A blue curve (intensity) with a sharp peak reaching 1.00 and a smaller shoulder peak to its left.",
+              "An orange curve (phase) fluctuating between approximately 0 and 10 rad.",
+              "A black curve (original) showing a smooth intensity profile and a phase profile."
+            ],
+            "kind": "line plot",
+            "label": "e",
+            "legend": [
+              "original",
+              "intensity",
+              "phase"
+            ],
+            "printed_numbers": [
+              "3.16%"
+            ],
+            "printed_text": [
+              "(e)",
+              "ε = 3.16%"
+            ],
+            "trends": [
+              "The blue intensity curve closely follows the black original intensity curve, with a sharp peak at the same position."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": "frequency ω",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "0.00",
+                "0.25",
+                "0.50",
+                "0.75",
+                "1.00"
+              ],
+              "quantity": "intensity [a.u.]",
+              "unit": "a.u."
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "1.00",
+                "what": "Peak intensity of blue curve"
+              }
+            ],
+            "features": [
+              "Similar to panel (e), showing blue, orange, and black curves.",
+              "The blue intensity curve has a sharp peak reaching 1.00."
+            ],
+            "kind": "line plot",
+            "label": "f",
+            "legend": [
+              "original",
+              "intensity",
+              "phase"
+            ],
+            "printed_numbers": [
+              "3.31%"
+            ],
+            "printed_text": [
+              "(f)",
+              "ε = 3.31%"
+            ],
+            "trends": [
+              "The blue intensity curve tracks the black original curve, with a sharp peak."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": "frequency ω",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "0.00",
+                "0.25",
+                "0.50",
+                "0.75",
+                "1.00"
+              ],
+              "quantity": "intensity [a.u.]",
+              "unit": "a.u."
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "1.00",
+                "what": "Peak intensity of blue curve"
+              }
+            ],
+            "features": [
+              "Similar to panel (e), showing blue, orange, and black curves.",
+              "The blue intensity curve has a sharp peak reaching 1.00."
+            ],
+            "kind": "line plot",
+            "label": "g",
+            "legend": [
+              "original",
+              "intensity",
+              "phase"
+            ],
+            "printed_numbers": [
+              "2.89%"
+            ],
+            "printed_text": [
+              "(g)",
+              "ε = 2.89%"
+            ],
+            "trends": [
+              "The blue intensity curve tracks the black original curve, with a sharp peak."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": "frequency ω",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "0.00",
+                "0.25",
+                "0.50",
+                "0.75",
+                "1.00"
+              ],
+              "quantity": "intensity [a.u.]",
+              "unit": "a.u."
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "1.00",
+                "what": "Peak intensity of blue curve"
+              }
+            ],
+            "features": [
+              "Similar to panel (e), showing blue, orange, and black curves.",
+              "The blue intensity curve has a sharp peak reaching 1.00."
+            ],
+            "kind": "line plot",
+            "label": "h",
+            "legend": [
+              "original",
+              "intensity",
+              "phase"
+            ],
+            "printed_numbers": [
+              "2.18%"
+            ],
+            "printed_text": [
+              "(h)",
+              "ε = 2.18%"
+            ],
+            "trends": [
+              "The blue intensity curve tracks the black original curve, with a sharp peak."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": "frequency ω",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "0.00",
+                "0.25",
+                "0.50",
+                "0.75",
+                "1.00"
+              ],
+              "quantity": "intensity [a.u.]",
+              "unit": "a.u."
+            }
+          }
+        ],
+        "relationships": [
+          "The figure is organized into two rows and four columns.",
+          "Each column corresponds to a specific measurement technique: SHG-FROG (a, e), THG-iFROG (b, f), SHG-d-scan (c, g), and SHG-MIIPS (d, h).",
+          "The top row (a-d) shows the raw measurement data as heatmaps.",
+          "The bottom row (e-h) shows the results of the pulse retrieval process for the corresponding measurement in the column above.",
+          "A shared color bar on the right indicates 'trace intensity' on a logarithmic scale from 10⁻² to 10⁰ for the heatmaps.",
+          "A shared legend on the right defines the line colors for the bottom row: black for 'original', blue for 'intensity', and orange for 'phase'.",
+          "The bottom row plots use a dual y-axis: the left axis is 'intensity [a.u.]' (0.00 to 1.00) and the right axis is 'phase [rad]' (-10 to 10)."
+        ],
+        "summary": "The figure displays a comparison of four different pulse retrieval methods (SHG-FROG, THG-iFROG, SHG-d-scan, SHG-MIIPS). The top row (a-d) shows the synthetic measurement traces as 2D heatmaps, while the bottom row (e-h) presents the corresponding retrieved pulse intensity and phase spectra compared to the original pulse.",
+        "uncertain": []
+      },
+      "created_utc": "2026-09-24T11:47:07+00:00",
+      "figure_id": "fig_4bd0d0458211",
+      "finish_reason": "stop",
+      "generation_tokens": 2439,
+      "image_sha256": "8b8f13ab12d5e6e2dfec9fc690ccfea94a977bee33ce30f3dd3339a2a40c5452",
+      "machine_generated": true,
+      "model": {
+        "label": "Qwen3.8-27B",
+        "repository": "Qwen/Qwen3.8-27B",
+        "revision": "1d4bf0f2ff60",
+        "runtime": "mlx-vlm"
+      },
+      "notice": "Machine-generated visual description, not part of the published paper. Readings, labels and trends may be wrong or invented; check them against the figure before relying on them.",
+      "parse_error": null,
+      "printed_check": {
+        "applicable": false,
+        "claimed": 68,
+        "confirmed": 0,
+        "informative_claimed": 0,
+        "informative_confirmed": 0,
+        "unconfirmed": []
+      },
+      "prompt_sha256": "16e85e42cacf651647002c01ade69af931b9635b06c670311a5f77b6e1cadb00",
+      "prompt_tokens": 1548,
+      "prompt_version": "figure-claims-v2",
+      "raw_text": "```json\n{\n  \"figure_type\": \"composite plot\",\n  \"summary\": \"The figure displays a comparison of four different pulse retrieval methods (SHG-FROG, THG-iFROG, SHG-d-scan, SHG-MIIPS). The top row (a-d) shows the synthetic measurement traces as 2D heatmaps, while the bottom row (e-h) presents the corresponding retrieved pulse intensity and phase spectra compared to the original pulse.\",\n  \"panels\": [\n    {\n      \"label\": \"a\",\n      \"kind\": \"heatmap\",\n      \"x_axis\": {\n        \"quantity\": null,\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"delay\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"legend\": [],\n      \"printed_text\": [\n        \"SHG-FROG\",\n        \"(a)\"\n      ],\n      \"printed_numbers\": [],\n      \"features\": [\n        \"A central, bright, diamond-shaped region with a four-lobed structure, surrounded by a dark background with visible noise.\"\n      ],\n      \"trends\": [],\n      \"approximate_readings\": [],\n      \"uncertain\": []\n    },\n    {\n      \"label\": \"b\",\n      \"kind\": \"heatmap\",\n      \"x_axis\": {\n        \"quantity\": null,\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"delay\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"legend\": [],\n      \"printed_text\": [\n        \"THG-iFROG\",\n        \"(b)\"\n      ],\n      \"printed_numbers\": [],\n      \"features\": [\n        \"A pattern of horizontal fringes (interference stripes) concentrated in the center, with a bright central horizontal line.\"\n      ],\n      \"trends\": [],\n      \"approximate_readings\": [],\n      \"uncertain\": []\n    },\n    {\n      \"label\": \"c\",\n      \"kind\": \"heatmap\",\n      \"x_axis\": {\n        \"quantity\": null,\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"glass path\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"legend\": [],\n      \"printed_text\": [\n        \"SHG-d-scan\",\n        \"(c)\"\n      ],\n      \"printed_numbers\": [],\n      \"features\": [\n        \"A bright, vertical, fan-like structure that widens towards the top of the plot.\"\n      ],\n      \"trends\": [],\n      \"approximate_readings\": [],\n      \"uncertain\": []\n    },\n    {\n      \"label\": \"d\",\n      \"kind\": \"heatmap\",\n      \"x_axis\": {\n        \"quantity\": null,\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"shift δ\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"legend\": [],\n      \"printed_text\": [\n        \"SHG-MIIPS\",\n        \"(d)\"\n      ],\n      \"printed_numbers\": [],\n      \"features\": [\n        \"A complex, swirling pattern of bright and dark regions, resembling a vortex or turbulent flow.\"\n      ],\n      \"trends\": [],\n      \"approximate_readings\": [],\n      \"uncertain\": []\n    },\n    {\n      \"label\": \"e\",\n      \"kind\": \"line plot\",\n      \"x_axis\": {\n        \"quantity\": \"frequency ω\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"intensity [a.u.]\",\n        \"unit\": \"a.u.\",\n        \"printed_ticks\": [\n          \"0.00\",\n          \"0.25\",\n          \"0.50\",\n          \"0.75\",\n          \"1.00\"\n        ]\n      },\n      \"legend\": [\n        \"original\",\n        \"intensity\",\n        \"phase\"\n      ],\n      \"printed_text\": [\n        \"(e)\",\n        \"ε = 3.16%\"\n      ],\n      \"printed_numbers\": [\n        \"3.16%\"\n      ],\n      \"features\": [\n        \"A blue curve (intensity) with a sharp peak reaching 1.00 and a smaller shoulder peak to its left.\",\n        \"An orange curve (phase) fluctuating between approximately 0 and 10 rad.\",\n        \"A black curve (original) showing a smooth intensity profile and a phase profile.\"\n      ],\n      \"trends\": [\n        \"The blue intensity curve closely follows the black original intensity curve, with a sharp peak at the same position.\"\n      ],\n      \"approximate_readings\": [\n        {\n          \"what\": \"Peak intensity of blue curve\",\n          \"value\": \"1.00\"\n        }\n      ],\n      \"uncertain\": []\n    },\n    {\n      \"label\": \"f\",\n      \"kind\": \"line plot\",\n      \"x_axis\": {\n        \"quantity\": \"frequency ω\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"intensity [a.u.]\",\n        \"unit\": \"a.u.\",\n        \"printed_ticks\": [\n          \"0.00\",\n          \"0.25\",\n          \"0.50\",\n          \"0.75\",\n          \"1.00\"\n        ]\n      },\n      \"legend\": [\n        \"original\",\n        \"intensity\",\n        \"phase\"\n      ],\n      \"printed_text\": [\n        \"(f)\",\n        \"ε = 3.31%\"\n      ],\n      \"printed_numbers\": [\n        \"3.31%\"\n      ],\n      \"features\": [\n        \"Similar to panel (e), showing blue, orange, and black curves.\",\n        \"The blue intensity curve has a sharp peak reaching 1.00.\"\n      ],\n      \"trends\": [\n        \"The blue intensity curve tracks the black original curve, with a sharp peak.\"\n      ],\n      \"approximate_readings\": [\n        {\n          \"what\": \"Peak intensity of blue curve\",\n          \"value\": \"1.00\"\n        }\n      ],\n      \"uncertain\": []\n    },\n    {\n      \"label\": \"g\",\n      \"kind\": \"line plot\",\n      \"x_axis\": {\n        \"quantity\": \"frequency ω\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"intensity [a.u.]\",\n        \"unit\": \"a.u.\",\n        \"printed_ticks\": [\n          \"0.00\",\n          \"0.25\",\n          \"0.50\",\n          \"0.75\",\n          \"1.00\"\n        ]\n      },\n      \"legend\": [\n        \"original\",\n        \"intensity\",\n        \"phase\"\n      ],\n      \"printed_text\": [\n        \"(g)\",\n        \"ε = 2.89%\"\n      ],\n      \"printed_numbers\": [\n        \"2.89%\"\n      ],\n      \"features\": [\n        \"Similar to panel (e), showing blue, orange, and black curves.\",\n        \"The blue intensity curve has a sharp peak reaching 1.00.\"\n      ],\n      \"trends\": [\n        \"The blue intensity curve tracks the black original curve, with a sharp peak.\"\n      ],\n      \"approximate_readings\": [\n        {\n          \"what\": \"Peak intensity of blue curve\",\n          \"value\": \"1.00\"\n        }\n      ],\n      \"uncertain\": []\n    },\n    {\n      \"label\": \"h\",\n      \"kind\": \"line plot\",\n      \"x_axis\": {\n        \"quantity\": \"frequency ω\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"intensity [a.u.]\",\n        \"unit\": \"a.u.\",\n        \"printed_ticks\": [\n          \"0.00\",\n          \"0.25\",\n          \"0.50\",\n          \"0.75\",\n          \"1.00\"\n        ]\n      },\n      \"legend\": [\n        \"original\",\n        \"intensity\",\n        \"phase\"\n      ],\n      \"printed_text\": [\n        \"(h)\",\n        \"ε = 2.18%\"\n      ],\n      \"printed_numbers\": [\n        \"2.18%\"\n      ],\n      \"features\": [\n        \"Similar to panel (e), showing blue, orange, and black curves.\",\n        \"The blue intensity curve has a sharp peak reaching 1.00.\"\n      ],\n      \"trends\": [\n        \"The blue intensity curve tracks the black original curve, with a sharp peak.\"\n      ],\n      \"approximate_readings\": [\n        {\n          \"what\": \"Peak intensity of blue curve\",\n          \"value\": \"1.00\"\n        }\n      ],\n      \"uncertain\": []\n    }\n  ],\n  \"relationships\": [\n    \"The figure is organized into two rows and four columns.\",\n    \"Each column corresponds to a specific measurement technique: SHG-FROG (a, e), THG-iFROG (b, f), SHG-d-scan (c, g), and SHG-MIIPS (d, h).\",\n    \"The top row (a-d) shows the raw measurement data as heatmaps.\",\n    \"The bottom row (e-h) shows the results of the pulse retrieval process for the corresponding measurement in the column above.\",\n    \"A shared color bar on the right indicates 'trace intensity' on a logarithmic scale from 10⁻² to 10⁰ for the heatmaps.\",\n    \"A shared legend on the right defines the line colors for the bottom row: black for 'original', blue for 'intensity', and orange for 'phase'.\",\n    \"The bottom row plots use a dual y-axis: the left axis is 'intensity [a.u.]' (0.00 to 1.00) and the right axis is 'phase [rad]' (-10 to 10).\"\n  ],\n  \"uncertain\": []\n}\n```",
+      "sampling": {
+        "enable_thinking": false,
+        "max_tokens": 8192,
+        "seed": 0,
+        "temperature": 0.0
+      },
+      "schema": "paperextract.figure-description",
+      "schema_version": 1,
+      "seconds": 319.77,
+      "usd": null
+    }
+  ],
+  "figure_id": "fig_4bd0d0458211",
+  "schema": "paperextract.figure-descriptions",
+  "schema_version": 1
+}

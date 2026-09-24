@@ -1,0 +1,164 @@
+{
+  "descriptions": [
+    {
+      "claims": {
+        "figure_type": "composite",
+        "panels": [
+          {
+            "approximate_readings": [],
+            "features": [
+              "A central bright region (white/yellow) located at the intersection of the horizontal and vertical axes.",
+              "The pattern is symmetric about the center.",
+              "Four distinct lobes of moderate intensity (orange/red) extend from the center along the horizontal and vertical axes.",
+              "The background is black, indicating low intensity."
+            ],
+            "kind": "heatmap",
+            "label": "a",
+            "legend": [],
+            "printed_numbers": [],
+            "printed_text": [
+              "SHG-FROG",
+              "(a)"
+            ],
+            "trends": [],
+            "uncertain": [
+              "Specific numerical values for frequency and delay are not provided on the axes."
+            ],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": "frequency ωSHG",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [],
+              "quantity": "delay",
+              "unit": null
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "10⁻⁸",
+                "what": "Trace error for LM at ~2000 evaluations"
+              },
+              {
+                "value": "10⁻⁵",
+                "what": "Trace error for BFGS at 20000 evaluations"
+              },
+              {
+                "value": "10⁻³",
+                "what": "Trace error for DE at 20000 evaluations"
+              },
+              {
+                "value": "10⁻²",
+                "what": "Trace error for NM at 20000 evaluations"
+              }
+            ],
+            "features": [
+              "Four curves representing different algorithms: NM (blue), DE (orange), BFGS (green), and LM (red).",
+              "All curves start at a trace error of approximately 10⁻¹ at 0 evaluations.",
+              "The LM curve (red) drops sharply to a trace error of ~10⁻⁸ within the first ~2000 evaluations.",
+              "The BFGS curve (green) decreases steadily, reaching ~10⁻⁵ by 20000 evaluations.",
+              "The DE curve (orange) decreases slowly, reaching ~10⁻³ by 20000 evaluations.",
+              "The NM curve (blue) decreases the slowest, reaching ~10⁻² by 20000 evaluations."
+            ],
+            "kind": "line plot",
+            "label": "b",
+            "legend": [
+              "NM",
+              "DE",
+              "BFGS",
+              "LM"
+            ],
+            "printed_numbers": [
+              "0",
+              "10000",
+              "20000",
+              "10⁻⁹",
+              "10⁻⁷",
+              "10⁻⁵",
+              "10⁻³",
+              "10⁻¹",
+              "10¹"
+            ],
+            "printed_text": [
+              "(b)"
+            ],
+            "trends": [
+              "The LM algorithm converges the fastest, achieving the lowest error in the fewest evaluations.",
+              "The BFGS algorithm is the second fastest, followed by DE, and then NM.",
+              "The NM algorithm shows the slowest convergence rate among the four."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [
+                "0",
+                "10000",
+                "20000"
+              ],
+              "quantity": "evaluations of T̃mn",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "10⁻⁹",
+                "10⁻⁷",
+                "10⁻⁵",
+                "10⁻³",
+                "10⁻¹",
+                "10¹"
+              ],
+              "quantity": "trace error R",
+              "unit": null
+            }
+          }
+        ],
+        "relationships": [
+          "Panel (a) shows the data (the SHG-FROG trace) that is being analyzed or reconstructed.",
+          "Panel (b) shows the performance of algorithms in minimizing the error of that trace."
+        ],
+        "summary": "The figure consists of two panels. Panel (a) displays a synthetic SHG-FROG trace as a 2D color map. Panel (b) is a line plot comparing the convergence of four different minimization algorithms (NM, DE, BFGS, LM) by plotting trace error against the number of evaluations.",
+        "uncertain": []
+      },
+      "created_utc": "2026-09-24T11:47:07+00:00",
+      "figure_id": "fig_e3ce42709fa2",
+      "finish_reason": "stop",
+      "generation_tokens": 1144,
+      "image_sha256": "534d552e2f5fb3fb3cbccd6e1e5e2c932987ed088436315f378e920e7ba87f49",
+      "machine_generated": true,
+      "model": {
+        "label": "Qwen3.8-27B",
+        "repository": "Qwen/Qwen3.8-27B",
+        "revision": "1d4bf0f2ff60",
+        "runtime": "mlx-vlm"
+      },
+      "notice": "Machine-generated visual description, not part of the published paper. Readings, labels and trends may be wrong or invented; check them against the figure before relying on them.",
+      "parse_error": null,
+      "printed_check": {
+        "applicable": false,
+        "claimed": 29,
+        "confirmed": 0,
+        "informative_claimed": 0,
+        "informative_confirmed": 0,
+        "unconfirmed": []
+      },
+      "prompt_sha256": "8ce38c7bd86a60db245daef6a69113f87645d5c69a74251a5810a745184e9f5e",
+      "prompt_tokens": 1057,
+      "prompt_version": "figure-claims-v2",
+      "raw_text": "```json\n{\n  \"figure_type\": \"composite\",\n  \"summary\": \"The figure consists of two panels. Panel (a) displays a synthetic SHG-FROG trace as a 2D color map. Panel (b) is a line plot comparing the convergence of four different minimization algorithms (NM, DE, BFGS, LM) by plotting trace error against the number of evaluations.\",\n  \"panels\": [\n    {\n      \"label\": \"a\",\n      \"kind\": \"heatmap\",\n      \"x_axis\": {\n        \"quantity\": \"frequency ωSHG\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"delay\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"legend\": [],\n      \"printed_text\": [\n        \"SHG-FROG\",\n        \"(a)\"\n      ],\n      \"printed_numbers\": [],\n      \"features\": [\n        \"A central bright region (white/yellow) located at the intersection of the horizontal and vertical axes.\",\n        \"The pattern is symmetric about the center.\",\n        \"Four distinct lobes of moderate intensity (orange/red) extend from the center along the horizontal and vertical axes.\",\n        \"The background is black, indicating low intensity.\"\n      ],\n      \"trends\": [],\n      \"approximate_readings\": [],\n      \"uncertain\": [\n        \"Specific numerical values for frequency and delay are not provided on the axes.\"\n      ]\n    },\n    {\n      \"label\": \"b\",\n      \"kind\": \"line plot\",\n      \"x_axis\": {\n        \"quantity\": \"evaluations of T̃mn\",\n        \"unit\": null,\n        \"printed_ticks\": [\n          \"0\",\n          \"10000\",\n          \"20000\"\n        ]\n      },\n      \"y_axis\": {\n        \"quantity\": \"trace error R\",\n        \"unit\": null,\n        \"printed_ticks\": [\n          \"10⁻⁹\",\n          \"10⁻⁷\",\n          \"10⁻⁵\",\n          \"10⁻³\",\n          \"10⁻¹\",\n          \"10¹\"\n        ]\n      },\n      \"legend\": [\n        \"NM\",\n        \"DE\",\n        \"BFGS\",\n        \"LM\"\n      ],\n      \"printed_text\": [\n        \"(b)\"\n      ],\n      \"printed_numbers\": [\n        \"0\",\n        \"10000\",\n        \"20000\",\n        \"10⁻⁹\",\n        \"10⁻⁷\",\n        \"10⁻⁵\",\n        \"10⁻³\",\n        \"10⁻¹\",\n        \"10¹\"\n      ],\n      \"features\": [\n        \"Four curves representing different algorithms: NM (blue), DE (orange), BFGS (green), and LM (red).\",\n        \"All curves start at a trace error of approximately 10⁻¹ at 0 evaluations.\",\n        \"The LM curve (red) drops sharply to a trace error of ~10⁻⁸ within the first ~2000 evaluations.\",\n        \"The BFGS curve (green) decreases steadily, reaching ~10⁻⁵ by 20000 evaluations.\",\n        \"The DE curve (orange) decreases slowly, reaching ~10⁻³ by 20000 evaluations.\",\n        \"The NM curve (blue) decreases the slowest, reaching ~10⁻² by 20000 evaluations.\"\n      ],\n      \"trends\": [\n        \"The LM algorithm converges the fastest, achieving the lowest error in the fewest evaluations.\",\n        \"The BFGS algorithm is the second fastest, followed by DE, and then NM.\",\n        \"The NM algorithm shows the slowest convergence rate among the four.\"\n      ],\n      \"approximate_readings\": [\n        {\n          \"what\": \"Trace error for LM at ~2000 evaluations\",\n          \"value\": \"10⁻⁸\"\n        },\n        {\n          \"what\": \"Trace error for BFGS at 20000 evaluations\",\n          \"value\": \"10⁻⁵\"\n        },\n        {\n          \"what\": \"Trace error for DE at 20000 evaluations\",\n          \"value\": \"10⁻³\"\n        },\n        {\n          \"what\": \"Trace error for NM at 20000 evaluations\",\n          \"value\": \"10⁻²\"\n        }\n      ],\n      \"uncertain\": []\n    }\n  ],\n  \"relationships\": [\n    \"Panel (a) shows the data (the SHG-FROG trace) that is being analyzed or reconstructed.\",\n    \"Panel (b) shows the performance of algorithms in minimizing the error of that trace.\"\n  ],\n  \"uncertain\": []\n}\n```",
+      "sampling": {
+        "enable_thinking": false,
+        "max_tokens": 8192,
+        "seed": 0,
+        "temperature": 0.0
+      },
+      "schema": "paperextract.figure-description",
+      "schema_version": 1,
+      "seconds": 147.61,
+      "usd": null
+    }
+  ],
+  "figure_id": "fig_e3ce42709fa2",
+  "schema": "paperextract.figure-descriptions",
+  "schema_version": 1
+}

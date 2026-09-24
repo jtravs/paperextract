@@ -65,7 +65,7 @@ fallback_version = "0.0.0"
 packages = ["src/paperextract"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src", "tests", "docs", "dev/Plan.md", "dev/Brief.md", "dev/Status.md", "dev/Corpus.md", "dev/Trials.md", "workers/README.md", "workers/models.json", "workers/*/pyproject.toml", "workers/*/uv.lock", "workers/*/*.py", "skills", "AGENTS.md", "CHANGELOG.md", "CITATION.cff", "README.md", "LICENSE", "NOTICE", "pyproject.toml", "uv.lock"]
+include = ["src", "tests", "docs", "workers/README.md", "workers/models.json", "workers/*/pyproject.toml", "workers/*/uv.lock", "workers/*/*.py", "skills", "AGENTS.md", "CHANGELOG.md", "CITATION.cff", "/README.md", "LICENSE", "NOTICE", "pyproject.toml", "uv.lock"]
 
 [tool.ruff]
 line-length = 88
@@ -122,7 +122,7 @@ exclude = ['\.__init__$']
 
 [tool.codespell]
 # Keep supplied source material and generated artifacts out of prose checks.
-skip = "uv.lock,dev/Brief.md,LICENSE,./.git,./.venv,./.pytest_cache,./.ruff_cache,./dist,./docs/_build,./data,./incoming,./literature,./model-cache,./benchmark-results"
+skip = "uv.lock,LICENSE,./examples,./.git,./.venv,./.pytest_cache,./.ruff_cache,./dist,./docs/_build,./data,./incoming,./literature,./model-cache,./benchmark-results"
 quiet-level = 3
 
 [tool.poe.executor]

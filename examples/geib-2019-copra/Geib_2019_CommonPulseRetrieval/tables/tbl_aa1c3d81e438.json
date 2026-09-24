@@ -1,0 +1,179 @@
+{
+  "alternatives": [
+    {
+      "cells": [
+        {
+          "column": 0,
+          "column_span": 1,
+          "html": "Process",
+          "row": 0,
+          "row_span": 1,
+          "text": "Process"
+        },
+        {
+          "column": 1,
+          "column_span": 1,
+          "html": "SHG",
+          "row": 0,
+          "row_span": 1,
+          "text": "SHG"
+        },
+        {
+          "column": 2,
+          "column_span": 1,
+          "html": "THG",
+          "row": 0,
+          "row_span": 1,
+          "text": "THG"
+        },
+        {
+          "column": 3,
+          "column_span": 1,
+          "html": "SD",
+          "row": 0,
+          "row_span": 1,
+          "text": "SD"
+        },
+        {
+          "column": 0,
+          "column_span": 1,
+          "html": "N\u0005E\u0006",
+          "row": 1,
+          "row_span": 1,
+          "text": "N\u0005E\u0006"
+        },
+        {
+          "column": 1,
+          "column_span": 1,
+          "html": "E<sup>2</sup>",
+          "row": 1,
+          "row_span": 1,
+          "text": "E2"
+        },
+        {
+          "column": 2,
+          "column_span": 1,
+          "html": "E<sup>3</sup>",
+          "row": 1,
+          "row_span": 1,
+          "text": "E3"
+        },
+        {
+          "column": 3,
+          "column_span": 1,
+          "html": "jEj<sup>2</sup>E",
+          "row": 1,
+          "row_span": 1,
+          "text": "jEj2E"
+        }
+      ],
+      "columns": 4,
+      "html": "<table><tbody><tr><td>Process</td><td>SHG</td><td>THG</td><td>SD</td></tr><tr><td>N\u0005E\u0006</td><td>E<sup>2</sup></td><td>E<sup>3</sup></td><td>jEj<sup>2</sup>E</td></tr></tbody></table>",
+      "rows": 2,
+      "source": "native"
+    }
+  ],
+  "asset": "native/images/page_2_table_9.jpg",
+  "body_source": "ocr",
+  "caption": [
+    {
+      "kind": "text",
+      "styles": [],
+      "text": "Table 3. Nonlinear Process Operators for Collinear Schemes",
+      "url": null
+    }
+  ],
+  "cells": [
+    {
+      "column": 0,
+      "column_span": 1,
+      "html": "Process",
+      "row": 0,
+      "row_span": 1,
+      "text": "Process"
+    },
+    {
+      "column": 1,
+      "column_span": 1,
+      "html": "SHG",
+      "row": 0,
+      "row_span": 1,
+      "text": "SHG"
+    },
+    {
+      "column": 2,
+      "column_span": 1,
+      "html": "THG",
+      "row": 0,
+      "row_span": 1,
+      "text": "THG"
+    },
+    {
+      "column": 3,
+      "column_span": 1,
+      "html": "SD",
+      "row": 0,
+      "row_span": 1,
+      "text": "SD"
+    },
+    {
+      "column": 0,
+      "column_span": 1,
+      "html": "<eq>\\mathcal{N}[E]</eq>",
+      "row": 1,
+      "row_span": 1,
+      "text": "\\mathcal{N}[E]"
+    },
+    {
+      "column": 1,
+      "column_span": 1,
+      "html": "<eq>E^{2}</eq>",
+      "row": 1,
+      "row_span": 1,
+      "text": "E^{2}"
+    },
+    {
+      "column": 2,
+      "column_span": 1,
+      "html": "<eq>E^{3}</eq>",
+      "row": 1,
+      "row_span": 1,
+      "text": "E^{3}"
+    },
+    {
+      "column": 3,
+      "column_span": 1,
+      "html": "<eq>|E|^{2}E</eq>",
+      "row": 1,
+      "row_span": 1,
+      "text": "|E|^{2}E"
+    }
+  ],
+  "columns": 4,
+  "continues_previous": false,
+  "footnotes": [],
+  "html": "<table><tr><td>Process</td><td>SHG</td><td>THG</td><td>SD</td></tr><tr><td><eq>\\mathcal{N}[E]</eq></td><td><eq>E^{2}</eq></td><td><eq>E^{3}</eq></td><td><eq>|E|^{2}E</eq></td></tr></table>",
+  "id": "tbl_aa1c3d81e438",
+  "kind": "table",
+  "label": "3",
+  "rows": 2,
+  "schema": "paperextract.table",
+  "schema_version": 3,
+  "span": {
+    "backend_index": 9,
+    "backend_type": "table_body",
+    "bbox_fraction": [
+      0.069,
+      0.289,
+      0.482,
+      0.329
+    ],
+    "bbox_pt": [
+      42.23,
+      228.89,
+      294.98,
+      260.57
+    ],
+    "page": 3
+  }
+}

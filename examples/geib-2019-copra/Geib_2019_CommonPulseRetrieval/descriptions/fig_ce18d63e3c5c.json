@@ -1,0 +1,146 @@
+{
+  "descriptions": [
+    {
+      "claims": {
+        "figure_type": "composite plot",
+        "panels": [
+          {
+            "approximate_readings": [],
+            "features": [
+              "A central bright region (orange/yellow) shaped like a bowtie or X, centered on the axes.",
+              "The background is dark purple with speckle noise.",
+              "A vertical color bar on the right indicates the scale for trace intensity."
+            ],
+            "kind": "2D color map",
+            "label": "a",
+            "legend": [],
+            "printed_numbers": [
+              "10⁰",
+              "10⁻¹",
+              "10⁻²",
+              "0",
+              "-10⁻²",
+              "-10⁻¹"
+            ],
+            "printed_text": [
+              "SHG-FROG",
+              "trace intensity [a.u.]"
+            ],
+            "trends": [
+              "Intensity is highest at the center (delay=0, frequency=center) and decreases radially outward.",
+              "The pattern exhibits symmetry along both the horizontal and vertical axes."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": "frequency ωSHG",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [],
+              "quantity": "delay",
+              "unit": null
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "1.00",
+                "what": "Peak intensity of black curve"
+              },
+              {
+                "value": "≈ 0.85",
+                "what": "Peak intensity of orange curve"
+              }
+            ],
+            "features": [
+              "A black line curve with a sharp central peak and smaller side peaks.",
+              "A blue filled area (shaded region) located under the central peak of the black curve.",
+              "An orange line curve that is generally higher than the black curve, with a broad peak structure.",
+              "The black curve has a prominent peak reaching the top of the y-axis scale."
+            ],
+            "kind": "line plot",
+            "label": "b",
+            "legend": [],
+            "printed_numbers": [
+              "3.24",
+              "11.32"
+            ],
+            "printed_text": [
+              "PCGPA",
+              "R = 3.24%",
+              "ε = 11.32%"
+            ],
+            "trends": [
+              "The black curve has a sharp peak at the center frequency, reaching an intensity of 1.00.",
+              "The orange curve is broader and has a lower peak intensity than the black curve's central peak, but is higher in the wings.",
+              "The blue shaded region is narrow and centered on the main peak of the black curve."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": "frequency ω",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "0.00",
+                "0.25",
+                "0.50",
+                "0.75",
+                "1.00"
+              ],
+              "quantity": "intensity [a.u.]",
+              "unit": null
+            }
+          }
+        ],
+        "relationships": [
+          "Both panels relate to the same optical signal, with panel (a) showing the 2D FROG trace and panel (b) showing the retrieved or measured spectra.",
+          "The central peak in panel (b) corresponds to the high-intensity center of the bowtie pattern in panel (a)."
+        ],
+        "summary": "The figure displays two panels related to optical pulse characterization. Panel (a) shows a 2D color map of trace intensity versus frequency and delay, labeled SHG-FROG. Panel (b) is a line plot of intensity versus frequency, labeled PCGPA, showing a black trace, a blue filled region, and an orange trace, with specific percentage values annotated.",
+        "uncertain": []
+      },
+      "created_utc": "2026-09-24T11:47:07+00:00",
+      "figure_id": "fig_ce18d63e3c5c",
+      "finish_reason": "stop",
+      "generation_tokens": 968,
+      "image_sha256": "306c9640ef7746041c84ef2e9836e5d98e513c6b4500fa5d635902db2a1d5a78",
+      "machine_generated": true,
+      "model": {
+        "label": "Qwen3.8-27B",
+        "repository": "Qwen/Qwen3.8-27B",
+        "revision": "1d4bf0f2ff60",
+        "runtime": "mlx-vlm"
+      },
+      "notice": "Machine-generated visual description, not part of the published paper. Readings, labels and trends may be wrong or invented; check them against the figure before relying on them.",
+      "parse_error": null,
+      "printed_check": {
+        "applicable": false,
+        "claimed": 22,
+        "confirmed": 0,
+        "informative_claimed": 0,
+        "informative_confirmed": 0,
+        "unconfirmed": []
+      },
+      "prompt_sha256": "4d9224f953fdb41e53bbb469d4d240b312303f5cdcff6e4ed6bc533d0bc36458",
+      "prompt_tokens": 757,
+      "prompt_version": "figure-claims-v2",
+      "raw_text": "```json\n{\n  \"figure_type\": \"composite plot\",\n  \"summary\": \"The figure displays two panels related to optical pulse characterization. Panel (a) shows a 2D color map of trace intensity versus frequency and delay, labeled SHG-FROG. Panel (b) is a line plot of intensity versus frequency, labeled PCGPA, showing a black trace, a blue filled region, and an orange trace, with specific percentage values annotated.\",\n  \"panels\": [\n    {\n      \"label\": \"a\",\n      \"kind\": \"2D color map\",\n      \"x_axis\": {\n        \"quantity\": \"frequency ωSHG\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"delay\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"legend\": [],\n      \"printed_text\": [\n        \"SHG-FROG\",\n        \"trace intensity [a.u.]\"\n      ],\n      \"printed_numbers\": [\n        \"10⁰\",\n        \"10⁻¹\",\n        \"10⁻²\",\n        \"0\",\n        \"-10⁻²\",\n        \"-10⁻¹\"\n      ],\n      \"features\": [\n        \"A central bright region (orange/yellow) shaped like a bowtie or X, centered on the axes.\",\n        \"The background is dark purple with speckle noise.\",\n        \"A vertical color bar on the right indicates the scale for trace intensity.\"\n      ],\n      \"trends\": [\n        \"Intensity is highest at the center (delay=0, frequency=center) and decreases radially outward.\",\n        \"The pattern exhibits symmetry along both the horizontal and vertical axes.\"\n      ],\n      \"approximate_readings\": [],\n      \"uncertain\": []\n    },\n    {\n      \"label\": \"b\",\n      \"kind\": \"line plot\",\n      \"x_axis\": {\n        \"quantity\": \"frequency ω\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"intensity [a.u.]\",\n        \"unit\": null,\n        \"printed_ticks\": [\n          \"0.00\",\n          \"0.25\",\n          \"0.50\",\n          \"0.75\",\n          \"1.00\"\n        ]\n      },\n      \"legend\": [],\n      \"printed_text\": [\n        \"PCGPA\",\n        \"R = 3.24%\",\n        \"ε = 11.32%\"\n      ],\n      \"printed_numbers\": [\n        \"3.24\",\n        \"11.32\"\n      ],\n      \"features\": [\n        \"A black line curve with a sharp central peak and smaller side peaks.\",\n        \"A blue filled area (shaded region) located under the central peak of the black curve.\",\n        \"An orange line curve that is generally higher than the black curve, with a broad peak structure.\",\n        \"The black curve has a prominent peak reaching the top of the y-axis scale.\"\n      ],\n      \"trends\": [\n        \"The black curve has a sharp peak at the center frequency, reaching an intensity of 1.00.\",\n        \"The orange curve is broader and has a lower peak intensity than the black curve's central peak, but is higher in the wings.\",\n        \"The blue shaded region is narrow and centered on the main peak of the black curve.\"\n      ],\n      \"approximate_readings\": [\n        {\n          \"what\": \"Peak intensity of black curve\",\n          \"value\": \"1.00\"\n        },\n        {\n          \"what\": \"Peak intensity of orange curve\",\n          \"value\": \"≈ 0.85\"\n        }\n      ],\n      \"uncertain\": []\n    }\n  ],\n  \"relationships\": [\n    \"Both panels relate to the same optical signal, with panel (a) showing the 2D FROG trace and panel (b) showing the retrieved or measured spectra.\",\n    \"The central peak in panel (b) corresponds to the high-intensity center of the bowtie pattern in panel (a).\"\n  ],\n  \"uncertain\": []\n}\n```",
+      "sampling": {
+        "enable_thinking": false,
+        "max_tokens": 8192,
+        "seed": 0,
+        "temperature": 0.0
+      },
+      "schema": "paperextract.figure-description",
+      "schema_version": 1,
+      "seconds": 130.05,
+      "usd": null
+    }
+  ],
+  "figure_id": "fig_ce18d63e3c5c",
+  "schema": "paperextract.figure-descriptions",
+  "schema_version": 1
+}

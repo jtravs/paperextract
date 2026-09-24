@@ -11,6 +11,3 @@ indent_size = 4
 [*.{md,yml,yaml}]
 indent_size = 2
 
-[dev/Brief.md]
-insert_final_newline = false
-trim_trailing_whitespace = false

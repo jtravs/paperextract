@@ -1,0 +1,306 @@
+{
+  "descriptions": [
+    {
+      "claims": {
+        "figure_type": "line plot",
+        "panels": [
+          {
+            "approximate_readings": [
+              {
+                "value": "10⁻⁹",
+                "what": "COPRA plateau value"
+              },
+              {
+                "value": "10⁻¹¹",
+                "what": "PIE plateau value"
+              },
+              {
+                "value": "10⁻¹¹",
+                "what": "PCGPA plateau value"
+              }
+            ],
+            "features": [
+              "Three curves representing COPRA (blue), PIE (orange), and PCGPA (brown), each with a shaded interquartile range.",
+              "All curves start at a trace error R of approximately 10⁻¹ at 0 iterations.",
+              "The COPRA curve drops sharply to a plateau around 10⁻⁹ by approximately 20 iterations.",
+              "The PIE curve drops to a plateau around 10⁻¹¹ by approximately 100 iterations.",
+              "The PCGPA curve descends more gradually, reaching a plateau near 10⁻¹¹ around 250 iterations."
+            ],
+            "kind": "line plot",
+            "label": "a",
+            "legend": [
+              "COPRA",
+              "PIE",
+              "PCGPA"
+            ],
+            "printed_numbers": [
+              "10⁻¹",
+              "10⁻³",
+              "10⁻⁵",
+              "10⁻⁷",
+              "10⁻⁹",
+              "10⁻¹¹",
+              "0",
+              "100",
+              "200",
+              "300"
+            ],
+            "printed_text": [
+              "(a) SHG-FROG"
+            ],
+            "trends": [
+              "COPRA converges the fastest, reaching a stable error level in the fewest iterations.",
+              "PIE converges faster than PCGPA but slower than COPRA.",
+              "PCGPA shows the slowest convergence, requiring the most iterations to reach the lowest error level."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [
+                "0",
+                "100",
+                "200",
+                "300"
+              ],
+              "quantity": "iterations",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "10⁻¹¹",
+                "10⁻⁹",
+                "10⁻⁷",
+                "10⁻⁵",
+                "10⁻³",
+                "10⁻¹"
+              ],
+              "quantity": "trace error R",
+              "unit": null
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "approx. 10⁻⁹",
+                "what": "SHG plateau value"
+              },
+              {
+                "value": "approx. 10⁻⁷",
+                "what": "THG/SD plateau value"
+              }
+            ],
+            "features": [
+              "Three curves: SHG (blue), THG (green), and SD (black dashed line).",
+              "All curves start near the top of the y-axis and drop sharply within the first 20 iterations.",
+              "The SHG curve plateaus at a lower value than the THG and SD curves.",
+              "The THG and SD curves overlap significantly, plateauing at a higher error level than SHG."
+            ],
+            "kind": "line plot",
+            "label": "b",
+            "legend": [
+              "SHG",
+              "THG",
+              "SD"
+            ],
+            "printed_numbers": [
+              "0",
+              "100",
+              "200",
+              "300"
+            ],
+            "printed_text": [
+              "(b) iFROG"
+            ],
+            "trends": [
+              "SHG achieves a lower final trace error than THG and SD.",
+              "THG and SD exhibit nearly identical convergence behavior and final error levels."
+            ],
+            "uncertain": [
+              "Y-axis tick labels are not visible in this panel, so values are estimated relative to panel (a)."
+            ],
+            "x_axis": {
+              "printed_ticks": [
+                "0",
+                "100",
+                "200",
+                "300"
+              ],
+              "quantity": "iterations",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [],
+              "quantity": null,
+              "unit": null
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "approx. 10⁻⁷",
+                "what": "SHG plateau value"
+              },
+              {
+                "value": "approx. 10⁻⁶",
+                "what": "THG plateau value"
+              }
+            ],
+            "features": [
+              "Three curves: SHG (blue), THG (green), and SD (black dashed line).",
+              "All curves start at 10⁻¹ and drop rapidly to a plateau region between 10⁻⁶ and 10⁻⁷.",
+              "The curves are closely clustered, with SHG being the lowest and THG the highest."
+            ],
+            "kind": "line plot",
+            "label": "c",
+            "legend": [
+              "SHG",
+              "THG",
+              "SD"
+            ],
+            "printed_numbers": [
+              "10⁻¹",
+              "10⁻³",
+              "10⁻⁵",
+              "10⁻⁷",
+              "0",
+              "100",
+              "200",
+              "300"
+            ],
+            "printed_text": [
+              "(c) d-scan"
+            ],
+            "trends": [
+              "SHG converges to a slightly lower error than THG and SD.",
+              "All three methods show similar convergence rates, reaching their plateaus within the first 50 iterations."
+            ],
+            "uncertain": [],
+            "x_axis": {
+              "printed_ticks": [
+                "0",
+                "100",
+                "200",
+                "300"
+              ],
+              "quantity": "iterations",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "10⁻⁷",
+                "10⁻⁵",
+                "10⁻³",
+                "10⁻¹"
+              ],
+              "quantity": "trace error R",
+              "unit": null
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "approx. 10⁻⁷",
+                "what": "SHG plateau value"
+              },
+              {
+                "value": "approx. 10⁻⁶",
+                "what": "THG plateau value"
+              }
+            ],
+            "features": [
+              "Three curves: SHG (blue), THG (green), and SD (black dashed line).",
+              "The curves show a similar pattern to panel (c), dropping from a high initial error to a plateau.",
+              "The SHG curve is the lowest, followed by SD, then THG."
+            ],
+            "kind": "line plot",
+            "label": "d",
+            "legend": [
+              "SHG",
+              "THG",
+              "SD"
+            ],
+            "printed_numbers": [
+              "0",
+              "100",
+              "200",
+              "300"
+            ],
+            "printed_text": [
+              "(d) MIIPS"
+            ],
+            "trends": [
+              "SHG achieves the lowest error, while THG achieves the highest error among the three methods.",
+              "The convergence is rapid, with most of the error reduction occurring in the first 20 iterations."
+            ],
+            "uncertain": [
+              "Y-axis tick labels are not visible in this panel, so values are estimated relative to panel (c)."
+            ],
+            "x_axis": {
+              "printed_ticks": [
+                "0",
+                "100",
+                "200",
+                "300"
+              ],
+              "quantity": "iterations",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [],
+              "quantity": null,
+              "unit": null
+            }
+          }
+        ],
+        "relationships": [
+          "All four panels share the same x-axis quantity (iterations) and range (0 to 300).",
+          "Panel (a) compares different algorithms (COPRA, PIE, PCGPA), whereas panels (b), (c), and (d) compare different PNPS methods (SHG, THG, SD) within specific frameworks.",
+          "The y-axis in panel (a) spans a wider range (10⁻¹¹ to 10⁻¹) compared to panel (c) (10⁻⁷ to 10⁻¹), indicating different error magnitudes or scales.",
+          "The legend entries for SHG, THG, and SD are consistent across panels (b), (c), and (d)."
+        ],
+        "summary": "The figure displays four panels showing the convergence behavior of different algorithms and methods, plotting the trace error R against the number of iterations. Panel (a) compares three algorithms (COPRA, PIE, PCGPA), while panels (b), (c), and (d) compare different PNPS methods (SHG, THG, SD) within specific frameworks (iFROG, d-scan, MIIPS). All plots show a rapid decrease in error followed by a plateau.",
+        "uncertain": [
+          "The exact y-axis values for panels (b) and (d) are not explicitly labeled, so readings are approximate based on visual alignment with panel (a) or (c)."
+        ]
+      },
+      "created_utc": "2026-09-24T11:47:07+00:00",
+      "figure_id": "fig_757f0a97813b",
+      "finish_reason": "stop",
+      "generation_tokens": 2411,
+      "image_sha256": "5e484f340b2e420ec79b5152a266701b451657417de3d283b3eff432cb5a1223",
+      "machine_generated": true,
+      "model": {
+        "label": "Qwen3.8-27B",
+        "repository": "Qwen/Qwen3.8-27B",
+        "revision": "1d4bf0f2ff60",
+        "runtime": "mlx-vlm"
+      },
+      "notice": "Machine-generated visual description, not part of the published paper. Readings, labels and trends may be wrong or invented; check them against the figure before relying on them.",
+      "parse_error": null,
+      "printed_check": {
+        "applicable": false,
+        "claimed": 74,
+        "confirmed": 0,
+        "informative_claimed": 0,
+        "informative_confirmed": 0,
+        "unconfirmed": []
+      },
+      "prompt_sha256": "a0b1f3cf2301d8b8eb7b4f938d8bc3aadc20fe1baa236461f043e2df13fb31b1",
+      "prompt_tokens": 1168,
+      "prompt_version": "figure-claims-v2",
+      "raw_text": "```json\n{\n    \"figure_type\": \"line plot\",\n    \"summary\": \"The figure displays four panels showing the convergence behavior of different algorithms and methods, plotting the trace error R against the number of iterations. Panel (a) compares three algorithms (COPRA, PIE, PCGPA), while panels (b), (c), and (d) compare different PNPS methods (SHG, THG, SD) within specific frameworks (iFROG, d-scan, MIIPS). All plots show a rapid decrease in error followed by a plateau.\",\n    \"panels\": [\n        {\n            \"label\": \"a\",\n            \"kind\": \"line plot\",\n            \"x_axis\": {\n                \"quantity\": \"iterations\",\n                \"unit\": null,\n                \"printed_ticks\": [\n                    \"0\",\n                    \"100\",\n                    \"200\",\n                    \"300\"\n                ]\n            },\n            \"y_axis\": {\n                \"quantity\": \"trace error R\",\n                \"unit\": null,\n                \"printed_ticks\": [\n                    \"10⁻¹¹\",\n                    \"10⁻⁹\",\n                    \"10⁻⁷\",\n                    \"10⁻⁵\",\n                    \"10⁻³\",\n                    \"10⁻¹\"\n                ]\n            },\n            \"legend\": [\n                \"COPRA\",\n                \"PIE\",\n                \"PCGPA\"\n            ],\n            \"printed_text\": [\n                \"(a) SHG-FROG\"\n            ],\n            \"printed_numbers\": [\n                \"10⁻¹\",\n                \"10⁻³\",\n                \"10⁻⁵\",\n                \"10⁻⁷\",\n                \"10⁻⁹\",\n                \"10⁻¹¹\",\n                \"0\",\n                \"100\",\n                \"200\",\n                \"300\"\n            ],\n            \"features\": [\n                \"Three curves representing COPRA (blue), PIE (orange), and PCGPA (brown), each with a shaded interquartile range.\",\n                \"All curves start at a trace error R of approximately 10⁻¹ at 0 iterations.\",\n                \"The COPRA curve drops sharply to a plateau around 10⁻⁹ by approximately 20 iterations.\",\n                \"The PIE curve drops to a plateau around 10⁻¹¹ by approximately 100 iterations.\",\n                \"The PCGPA curve descends more gradually, reaching a plateau near 10⁻¹¹ around 250 iterations.\"\n            ],\n            \"trends\": [\n                \"COPRA converges the fastest, reaching a stable error level in the fewest iterations.\",\n                \"PIE converges faster than PCGPA but slower than COPRA.\",\n                \"PCGPA shows the slowest convergence, requiring the most iterations to reach the lowest error level.\"\n            ],\n            \"approximate_readings\": [\n                {\n                    \"what\": \"COPRA plateau value\",\n                    \"value\": \"10⁻⁹\"\n                },\n                {\n                    \"what\": \"PIE plateau value\",\n                    \"value\": \"10⁻¹¹\"\n                },\n                {\n                    \"what\": \"PCGPA plateau value\",\n                    \"value\": \"10⁻¹¹\"\n                }\n            ],\n            \"uncertain\": []\n        },\n        {\n            \"label\": \"b\",\n            \"kind\": \"line plot\",\n            \"x_axis\": {\n                \"quantity\": \"iterations\",\n                \"unit\": null,\n                \"printed_ticks\": [\n                    \"0\",\n                    \"100\",\n                    \"200\",\n                    \"300\"\n                ]\n            },\n            \"y_axis\": {\n                \"quantity\": null,\n                \"unit\": null,\n                \"printed_ticks\": []\n            },\n            \"legend\": [\n                \"SHG\",\n                \"THG\",\n                \"SD\"\n            ],\n            \"printed_text\": [\n                \"(b) iFROG\"\n            ],\n            \"printed_numbers\": [\n                \"0\",\n                \"100\",\n                \"200\",\n                \"300\"\n            ],\n            \"features\": [\n                \"Three curves: SHG (blue), THG (green), and SD (black dashed line).\",\n                \"All curves start near the top of the y-axis and drop sharply within the first 20 iterations.\",\n                \"The SHG curve plateaus at a lower value than the THG and SD curves.\",\n                \"The THG and SD curves overlap significantly, plateauing at a higher error level than SHG.\"\n            ],\n            \"trends\": [\n                \"SHG achieves a lower final trace error than THG and SD.\",\n                \"THG and SD exhibit nearly identical convergence behavior and final error levels.\"\n            ],\n            \"approximate_readings\": [\n                {\n                    \"what\": \"SHG plateau value\",\n                    \"value\": \"approx. 10⁻⁹\"\n                },\n                {\n                    \"what\": \"THG/SD plateau value\",\n                    \"value\": \"approx. 10⁻⁷\"\n                }\n            ],\n            \"uncertain\": [\n                \"Y-axis tick labels are not visible in this panel, so values are estimated relative to panel (a).\"\n            ]\n        },\n        {\n            \"label\": \"c\",\n            \"kind\": \"line plot\",\n            \"x_axis\": {\n                \"quantity\": \"iterations\",\n                \"unit\": null,\n                \"printed_ticks\": [\n                    \"0\",\n                    \"100\",\n                    \"200\",\n                    \"300\"\n                ]\n            },\n            \"y_axis\": {\n                \"quantity\": \"trace error R\",\n                \"unit\": null,\n                \"printed_ticks\": [\n                    \"10⁻⁷\",\n                    \"10⁻⁵\",\n                    \"10⁻³\",\n                    \"10⁻¹\"\n                ]\n            },\n            \"legend\": [\n                \"SHG\",\n                \"THG\",\n                \"SD\"\n            ],\n            \"printed_text\": [\n                \"(c) d-scan\"\n            ],\n            \"printed_numbers\": [\n                \"10⁻¹\",\n                \"10⁻³\",\n                \"10⁻⁵\",\n                \"10⁻⁷\",\n                \"0\",\n                \"100\",\n                \"200\",\n                \"300\"\n            ],\n            \"features\": [\n                \"Three curves: SHG (blue), THG (green), and SD (black dashed line).\",\n                \"All curves start at 10⁻¹ and drop rapidly to a plateau region between 10⁻⁶ and 10⁻⁷.\",\n                \"The curves are closely clustered, with SHG being the lowest and THG the highest.\"\n            ],\n            \"trends\": [\n                \"SHG converges to a slightly lower error than THG and SD.\",\n                \"All three methods show similar convergence rates, reaching their plateaus within the first 50 iterations.\"\n            ],\n            \"approximate_readings\": [\n                {\n                    \"what\": \"SHG plateau value\",\n                    \"value\": \"approx. 10⁻⁷\"\n                },\n                {\n                    \"what\": \"THG plateau value\",\n                    \"value\": \"approx. 10⁻⁶\"\n                }\n            ],\n            \"uncertain\": []\n        },\n        {\n            \"label\": \"d\",\n            \"kind\": \"line plot\",\n            \"x_axis\": {\n                \"quantity\": \"iterations\",\n                \"unit\": null,\n                \"printed_ticks\": [\n                    \"0\",\n                    \"100\",\n                    \"200\",\n                    \"300\"\n                ]\n            },\n            \"y_axis\": {\n                \"quantity\": null,\n                \"unit\": null,\n                \"printed_ticks\": []\n            },\n            \"legend\": [\n                \"SHG\",\n                \"THG\",\n                \"SD\"\n            ],\n            \"printed_text\": [\n                \"(d) MIIPS\"\n            ],\n            \"printed_numbers\": [\n                \"0\",\n                \"100\",\n                \"200\",\n                \"300\"\n            ],\n            \"features\": [\n                \"Three curves: SHG (blue), THG (green), and SD (black dashed line).\",\n                \"The curves show a similar pattern to panel (c), dropping from a high initial error to a plateau.\",\n                \"The SHG curve is the lowest, followed by SD, then THG.\"\n            ],\n            \"trends\": [\n                \"SHG achieves the lowest error, while THG achieves the highest error among the three methods.\",\n                \"The convergence is rapid, with most of the error reduction occurring in the first 20 iterations.\"\n            ],\n            \"approximate_readings\": [\n                {\n                    \"what\": \"SHG plateau value\",\n                    \"value\": \"approx. 10⁻⁷\"\n                },\n                {\n                    \"what\": \"THG plateau value\",\n                    \"value\": \"approx. 10⁻⁶\"\n                }\n            ],\n            \"uncertain\": [\n                \"Y-axis tick labels are not visible in this panel, so values are estimated relative to panel (c).\"\n            ]\n        }\n    ],\n    \"relationships\": [\n        \"All four panels share the same x-axis quantity (iterations) and range (0 to 300).\",\n        \"Panel (a) compares different algorithms (COPRA, PIE, PCGPA), whereas panels (b), (c), and (d) compare different PNPS methods (SHG, THG, SD) within specific frameworks.\",\n        \"The y-axis in panel (a) spans a wider range (10⁻¹¹ to 10⁻¹) compared to panel (c) (10⁻⁷ to 10⁻¹), indicating different error magnitudes or scales.\",\n        \"The legend entries for SHG, THG, and SD are consistent across panels (b), (c), and (d).\"\n    ],\n    \"uncertain\": [\n        \"The exact y-axis values for panels (b) and (d) are not explicitly labeled, so readings are approximate based on visual alignment with panel (a) or (c).\"\n    ]\n}\n```",
+      "sampling": {
+        "enable_thinking": false,
+        "max_tokens": 8192,
+        "seed": 0,
+        "temperature": 0.0
+      },
+      "schema": "paperextract.figure-description",
+      "schema_version": 1,
+      "seconds": 318.8,
+      "usd": null
+    }
+  ],
+  "figure_id": "fig_757f0a97813b",
+  "schema": "paperextract.figure-descriptions",
+  "schema_version": 1
+}

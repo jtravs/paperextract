@@ -1,0 +1,348 @@
+{
+  "alternatives": [
+    {
+      "cells": [
+        {
+          "column": 0,
+          "column_span": 1,
+          "html": "",
+          "row": 0,
+          "row_span": 1,
+          "text": ""
+        },
+        {
+          "column": 1,
+          "column_span": 1,
+          "html": "",
+          "row": 0,
+          "row_span": 1,
+          "text": ""
+        },
+        {
+          "column": 2,
+          "column_span": 1,
+          "html": "e",
+          "row": 0,
+          "row_span": 1,
+          "text": "e"
+        },
+        {
+          "column": 0,
+          "column_span": 1,
+          "html": "Scheme",
+          "row": 1,
+          "row_span": 1,
+          "text": "Scheme"
+        },
+        {
+          "column": 1,
+          "column_span": 1,
+          "html": "Parameter δ",
+          "row": 1,
+          "row_span": 1,
+          "text": "Parameter δ"
+        },
+        {
+          "column": 2,
+          "column_span": 1,
+          "html": "H<sub>δ</sub>\u0004ω\u0005",
+          "row": 1,
+          "row_span": 1,
+          "text": "Hδ\u0004ω\u0005"
+        },
+        {
+          "column": 0,
+          "column_span": 1,
+          "html": "d-Scan<sup>b</sup>",
+          "row": 2,
+          "row_span": 1,
+          "text": "d-Scanb"
+        },
+        {
+          "column": 1,
+          "column_span": 1,
+          "html": "Glass insertion z",
+          "row": 2,
+          "row_span": 1,
+          "text": "Glass insertion z"
+        },
+        {
+          "column": 2,
+          "column_span": 1,
+          "html": "exp\u0005ik\u0001ω\u0007Ω<sub>0</sub>\u0003z\u0006",
+          "row": 2,
+          "row_span": 1,
+          "text": "exp\u0005ik\u0001ω\u0007Ω0\u0003z\u0006"
+        },
+        {
+          "column": 0,
+          "column_span": 1,
+          "html": "MIIPS<sup>c</sup>",
+          "row": 3,
+          "row_span": 1,
+          "text": "MIIPSc"
+        },
+        {
+          "column": 1,
+          "column_span": 1,
+          "html": "Pattern shift δ",
+          "row": 3,
+          "row_span": 1,
+          "text": "Pattern shift δ"
+        },
+        {
+          "column": 2,
+          "column_span": 1,
+          "html": "exp\u0005iα cos\u0001γω - δ\u0003\u0006",
+          "row": 3,
+          "row_span": 1,
+          "text": "exp\u0005iα cos\u0001γω - δ\u0003\u0006"
+        },
+        {
+          "column": 0,
+          "column_span": 1,
+          "html": "iFROG",
+          "row": 4,
+          "row_span": 1,
+          "text": "iFROG"
+        },
+        {
+          "column": 1,
+          "column_span": 1,
+          "html": "Delay τ",
+          "row": 4,
+          "row_span": 1,
+          "text": "Delay τ"
+        },
+        {
+          "column": 2,
+          "column_span": 1,
+          "html": "1∕2\u0007exp\u0005iτ\u0001ω\u0007Ω<sub>0</sub>\u0003\u0006∕2",
+          "row": 4,
+          "row_span": 1,
+          "text": "1∕2\u0007exp\u0005iτ\u0001ω\u0007Ω0\u0003\u0006∕2"
+        }
+      ],
+      "columns": 3,
+      "html": "<table><tbody><tr><td></td><td></td><td>e</td></tr><tr><td>Scheme</td><td>Parameter δ</td><td>H<sub>δ</sub>\u0004ω\u0005</td></tr><tr><td>d-Scan<sup>b</sup></td><td>Glass insertion z</td><td>exp\u0005ik\u0001ω\u0007Ω<sub>0</sub>\u0003z\u0006</td></tr><tr><td>MIIPS<sup>c</sup></td><td>Pattern shift δ</td><td>exp\u0005iα cos\u0001γω - δ\u0003\u0006</td></tr><tr><td>iFROG</td><td>Delay τ</td><td>1∕2\u0007exp\u0005iτ\u0001ω\u0007Ω<sub>0</sub>\u0003\u0006∕2</td></tr></tbody></table>",
+      "rows": 5,
+      "source": "native"
+    }
+  ],
+  "asset": "native/images/page_2_table_4.jpg",
+  "body_source": "ocr",
+  "caption": [
+    {
+      "kind": "text",
+      "styles": [],
+      "text": "Table 2. Parametrization Filter for Selected Collinear Schemes",
+      "url": null
+    },
+    {
+      "kind": "text",
+      "styles": [
+        "superscript"
+      ],
+      "text": "a",
+      "url": null
+    }
+  ],
+  "cells": [
+    {
+      "column": 0,
+      "column_span": 1,
+      "html": "Scheme",
+      "row": 0,
+      "row_span": 1,
+      "text": "Scheme"
+    },
+    {
+      "column": 1,
+      "column_span": 1,
+      "html": "Parameter δ",
+      "row": 0,
+      "row_span": 1,
+      "text": "Parameter δ"
+    },
+    {
+      "column": 2,
+      "column_span": 1,
+      "html": "<eq>\\widetilde{H}_{\\delta}(\\omega)</eq>",
+      "row": 0,
+      "row_span": 1,
+      "text": "\\widetilde{H}_{\\delta}(\\omega)"
+    },
+    {
+      "column": 0,
+      "column_span": 1,
+      "html": "d-Scanb",
+      "row": 1,
+      "row_span": 1,
+      "text": "d-Scanb"
+    },
+    {
+      "column": 1,
+      "column_span": 1,
+      "html": "Glass insertion z",
+      "row": 1,
+      "row_span": 1,
+      "text": "Glass insertion z"
+    },
+    {
+      "column": 2,
+      "column_span": 1,
+      "html": "exp[ik(ω + Ω0)z]",
+      "row": 1,
+      "row_span": 1,
+      "text": "exp[ik(ω + Ω0)z]"
+    },
+    {
+      "column": 0,
+      "column_span": 1,
+      "html": "MIIPSc",
+      "row": 2,
+      "row_span": 1,
+      "text": "MIIPSc"
+    },
+    {
+      "column": 1,
+      "column_span": 1,
+      "html": "Pattern shift δ",
+      "row": 2,
+      "row_span": 1,
+      "text": "Pattern shift δ"
+    },
+    {
+      "column": 2,
+      "column_span": 1,
+      "html": "exp[iα cos(γω - δ)]",
+      "row": 2,
+      "row_span": 1,
+      "text": "exp[iα cos(γω - δ)]"
+    },
+    {
+      "column": 0,
+      "column_span": 1,
+      "html": "iFROG",
+      "row": 3,
+      "row_span": 1,
+      "text": "iFROG"
+    },
+    {
+      "column": 1,
+      "column_span": 1,
+      "html": "Delay τ",
+      "row": 3,
+      "row_span": 1,
+      "text": "Delay τ"
+    },
+    {
+      "column": 2,
+      "column_span": 1,
+      "html": "1/2 + exp[iτ(ω + Ω0)]/2",
+      "row": 3,
+      "row_span": 1,
+      "text": "1/2 + exp[iτ(ω + Ω0)]/2"
+    }
+  ],
+  "columns": 3,
+  "continues_previous": false,
+  "footnotes": [
+    [
+      {
+        "kind": "text",
+        "styles": [
+          "superscript"
+        ],
+        "text": "a",
+        "url": null
+      },
+      {
+        "kind": "text",
+        "styles": [],
+        "text": "More examples can be found in the ",
+        "url": null
+      },
+      {
+        "kind": "link",
+        "styles": [],
+        "text": "Supplement 1",
+        "url": "https://doi.org/10.6084/m9.figshare.7832330"
+      },
+      {
+        "kind": "text",
+        "styles": [],
+        "text": ".",
+        "url": null
+      }
+    ],
+    [
+      {
+        "kind": "text",
+        "styles": [],
+        "text": "b",
+        "url": null
+      },
+      {
+        "kind": "text",
+        "styles": [
+          "subscript"
+        ],
+        "text": "k",
+        "url": null
+      },
+      {
+        "kind": "text",
+        "styles": [],
+        "text": "\u0001Ω\u0003 depends on the material of the wedges and is usually defined by Sellmeier equations.",
+        "url": null
+      }
+    ],
+    [
+      {
+        "kind": "text",
+        "styles": [],
+        "text": "c",
+        "url": null
+      },
+      {
+        "kind": "text",
+        "styles": [
+          "subscript"
+        ],
+        "text": "α",
+        "url": null
+      },
+      {
+        "kind": "text",
+        "styles": [],
+        "text": " and γ are free parameters of the method and have to be adapted to the measured pulses.",
+        "url": null
+      }
+    ]
+  ],
+  "html": "<table><tr><td>Scheme</td><td>Parameter δ</td><td><eq>\\widetilde{H}_{\\delta}(\\omega)</eq></td></tr><tr><td>d-Scanb</td><td>Glass insertion z</td><td>exp[ik(ω + Ω0)z]</td></tr><tr><td>MIIPSc</td><td>Pattern shift δ</td><td>exp[iα cos(γω - δ)]</td></tr><tr><td>iFROG</td><td>Delay τ</td><td>1/2 + exp[iτ(ω + Ω0)]/2</td></tr></table>",
+  "id": "tbl_1a66f53e4b87",
+  "kind": "table",
+  "label": "2",
+  "rows": 4,
+  "schema": "paperextract.table",
+  "schema_version": 3,
+  "span": {
+    "backend_index": 4,
+    "backend_type": "table_body",
+    "bbox_fraction": [
+      0.069,
+      0.087,
+      0.482,
+      0.158
+    ],
+    "bbox_pt": [
+      42.23,
+      68.9,
+      294.98,
+      125.14
+    ],
+    "page": 3
+  }
+}

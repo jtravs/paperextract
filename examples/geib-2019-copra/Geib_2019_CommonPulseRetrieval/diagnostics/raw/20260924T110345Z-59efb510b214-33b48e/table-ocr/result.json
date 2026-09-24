@@ -1,0 +1,374 @@
+{
+  "backend": "mineru",
+  "backend_version": "4.0.5",
+  "configuration": {
+    "mineru": {
+      "doclib": {
+        "compaction_interval_sec": 3600,
+        "data_dir": "/Users/Shared/paperextract-example/library/.paperextract/runs/20260924T110345Z-59efb510b214-33b48e/worker-ocr/mineru-home/doclib",
+        "device_check_interval_sec": 5,
+        "endpoint_path": "/Users/Shared/paperextract-example/library/.paperextract/runs/20260924T110345Z-59efb510b214-33b48e/worker-ocr/mineru-home/doclib.endpoint.json",
+        "ingest_lock_timeout_sec": 60,
+        "ingest_workers": 2,
+        "log": {
+          "access_path": null,
+          "app_path": null,
+          "dir": "/Users/Shared/paperextract-example/library/.paperextract/runs/20260924T110345Z-59efb510b214-33b48e/worker-ocr/mineru-home/logs",
+          "level": null,
+          "parse_server_stderr_path": null,
+          "parse_server_stdout_path": null,
+          "stderr_path": null,
+          "stdout_path": null
+        },
+        "managed_parse_server": {
+          "host": "127.0.0.1",
+          "port": 16580,
+          "port_probe_count": 100,
+          "strict_port": false
+        },
+        "parse_lock_timeout_sec": 1800,
+        "parse_server_health_check_interval_sec": 30,
+        "parse_server_probe_timeout_sec": 10,
+        "parse_server_startup_grace_sec": 30,
+        "parse_server_startup_timeout_sec": 600,
+        "parse_server_stop_timeout_sec": 10,
+        "parse_workers": 2,
+        "scan_interval_sec": 300,
+        "scan_lock_timeout_sec": 1800,
+        "sqlite": {
+          "busy_timeout_ms": 5000,
+          "cache_size": -20000,
+          "journal_size_limit": 33554432,
+          "lock_retry_attempts": 3,
+          "lock_retry_base_delay_ms": 50,
+          "mmap_size": 268435456,
+          "path": "/Users/Shared/paperextract-example/library/.paperextract/runs/20260924T110345Z-59efb510b214-33b48e/worker-ocr/mineru-home/doclib.db",
+          "synchronous": "NORMAL",
+          "temp_store": "memory",
+          "wal_autocheckpoint": 1000
+        },
+        "tcp": {
+          "backlog": 128,
+          "enabled": "auto",
+          "host": "127.0.0.1",
+          "port": 15980,
+          "port_probe_count": 100,
+          "strict_port": false,
+          "timeout": 600
+        },
+        "uds": {
+          "enabled": "auto",
+          "path": "/Users/Shared/paperextract-example/library/.paperextract/runs/20260924T110345Z-59efb510b214-33b48e/worker-ocr/mineru-home/doclib.sock",
+          "permission": 384
+        }
+      },
+      "llm_aided": {
+        "api_key": "",
+        "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        "enable_thinking": null,
+        "features": {
+          "cross_page_table_cell_merge": false,
+          "title_leveling": false
+        },
+        "max_concurrency": 16,
+        "model": "qwen3.5-plus"
+      },
+      "log": {
+        "level": "info"
+      },
+      "model": {
+        "base_dir": "/Users/Shared/paperextract-example/paperextract/model-cache/mineru/models",
+        "small_backend": "onnx",
+        "source": "local",
+        "vlm": {
+          "api_key": "",
+          "engine": "llama-cpp",
+          "http_timeout": 600,
+          "max_concurrency": 100,
+          "model": "",
+          "server_url": ""
+        }
+      },
+      "render": {
+        "latex_delimiters": {
+          "display": {
+            "left": "$$",
+            "right": "$$"
+          },
+          "inline": {
+            "left": "$",
+            "right": "$"
+          }
+        }
+      }
+    },
+    "native_schema": {
+      "schema": "docvortex.middle",
+      "schema_version": "2.0"
+    },
+    "page_range": "2-3",
+    "parser": {
+      "effort": "high",
+      "image_analysis": false,
+      "parse_mode": "ocr",
+      "tier": "standard",
+      "vlm": {
+        "api_key": "",
+        "engine": "llama-cpp",
+        "http_timeout": 600,
+        "max_concurrency": 1,
+        "model": "",
+        "server_url": ""
+      }
+    },
+    "torch_interop_threads": 1,
+    "torch_threads": 4
+  },
+  "coverage": {
+    "empty": [],
+    "requested": [
+      2,
+      3
+    ],
+    "returned": [
+      2,
+      3
+    ]
+  },
+  "diagnostics": [
+    {
+      "code": "PARTIAL_DOCUMENT",
+      "message": "MinerU marks this output as a partial document.",
+      "severity": "info"
+    }
+  ],
+  "environment": {
+    "cpu_count": 18,
+    "cuda": {
+      "available": false,
+      "devices": [],
+      "torch_cuda": null,
+      "visible": null
+    },
+    "machine": "arm64",
+    "model_dir": "/Users/Shared/paperextract-example/paperextract/model-cache/mineru/models",
+    "model_files": [
+      {
+        "path": "MinerU-4_models_onnx/Layout/PP-DocLayoutV2/inference.onnx",
+        "size_bytes": 213963712
+      },
+      {
+        "path": "MinerU-4_models_onnx/Layout/PP-DocLayoutV2/inference.yml",
+        "size_bytes": 1482
+      },
+      {
+        "path": "MinerU-4_models_onnx/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M.onnx",
+        "size_bytes": 591263297
+      },
+      {
+        "path": "MinerU-4_models_onnx/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M_inference.yml",
+        "size_bytes": 2244564
+      },
+      {
+        "path": "MinerU-4_models_onnx/OCR/paddleocr/ch_PP-OCRv6_small_rec_infer.onnx",
+        "size_bytes": 21159378
+      },
+      {
+        "path": "MinerU-4_models_onnx/OCR/paddleocr/ch_PP-OCRv6_small_rec_inference.yml",
+        "size_bytes": 150752
+      },
+      {
+        "path": "MinerU-4_models_onnx/OCR/paddleocr/ch_PP-OCRv6_tiny_det_infer.onnx",
+        "size_bytes": 1780590
+      },
+      {
+        "path": "MinerU-4_models_onnx/OCR/paddleocr/ch_PP-OCRv6_tiny_det_inference.yml",
+        "size_bytes": 1068
+      },
+      {
+        "path": "MinerU-4_models_onnx/OCR/paddleocr/seal_PP-OCRv4_det_infer.onnx",
+        "size_bytes": 4769171
+      },
+      {
+        "path": "MinerU-4_models_onnx/OCR/paddleocr/seal_PP-OCRv4_det_inference.yml",
+        "size_bytes": 711
+      },
+      {
+        "path": "MinerU-4_models_onnx/README.md",
+        "size_bytes": 1298
+      },
+      {
+        "path": "MinerU-4_models_onnx/Table/PP-LCNet_x1_0_table_cls.onnx",
+        "size_bytes": 6776877
+      },
+      {
+        "path": "MinerU-4_models_onnx/Table/slanet-plus.onnx",
+        "size_bytes": 7758305
+      },
+      {
+        "path": "MinerU-4_models_onnx/Table/unet.onnx",
+        "size_bytes": 8335007
+      },
+      {
+        "path": "MinerU-4_models_onnx/manifest.json",
+        "size_bytes": 12920
+      },
+      {
+        "path": "MinerU2.5-Pro-2605-1.2B-GGUF/MinerU2.5-Pro-2605-1.2B-Q8_0.gguf",
+        "size_bytes": 531066496
+      },
+      {
+        "path": "MinerU2.5-Pro-2605-1.2B-GGUF/mmproj-MinerU2.5-Pro-2605-1.2B-Q8_0.gguf",
+        "size_bytes": 709409600
+      }
+    ],
+    "mps_available": true,
+    "packages": {
+      "docvortex": "0.4.21",
+      "mineru": "4.0.5",
+      "onnxruntime": "1.30.0",
+      "psutil": "7.2.2",
+      "pypdfium2": "5.13.0",
+      "torch": "2.14.0",
+      "vllm": null
+    },
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "variables": {
+      "HF_HUB_DISABLE_TELEMETRY": "1",
+      "HF_HUB_OFFLINE": "1",
+      "MINERU_HOME": "/Users/Shared/paperextract-example/library/.paperextract/runs/20260924T110345Z-59efb510b214-33b48e/worker-ocr/mineru-home",
+      "MINERU_LOG_LEVEL": "info",
+      "MINERU_MODEL_BASE_DIR": "/Users/Shared/paperextract-example/paperextract/model-cache/mineru/models",
+      "MINERU_MODEL_SMALL_BACKEND": "onnx",
+      "MINERU_MODEL_SOURCE": "local",
+      "MINERU_MODEL_VLM_ENGINE": "llama-cpp",
+      "OMP_NUM_THREADS": "4",
+      "TRANSFORMERS_OFFLINE": "1"
+    }
+  },
+  "failure": null,
+  "files": [
+    {
+      "path": "native/images/page_1_equation_15.jpg",
+      "sha256": "f764fcb5122a85e5bf0365cbb3196a3a12ac2aefec364b5eb33d211128bca1bf",
+      "size_bytes": 10073
+    },
+    {
+      "path": "native/images/page_1_equation_16.jpg",
+      "sha256": "ac79b742a629bcfc3c61994ce3c05766a8dbf9266a49701fc64e0456a8695827",
+      "size_bytes": 9665
+    },
+    {
+      "path": "native/images/page_1_equation_18.jpg",
+      "sha256": "ba3e8fe58bc46c495ecde719e8fc04670346a1bbf4f1c7b7017892da48da3628",
+      "size_bytes": 8830
+    },
+    {
+      "path": "native/images/page_1_equation_21.jpg",
+      "sha256": "fb0ce3356d8f61669ccbbb208fda7374b31db62e6a2705ed430d8aaa9d03ae77",
+      "size_bytes": 8237
+    },
+    {
+      "path": "native/images/page_1_table_24.jpg",
+      "sha256": "cf4cc304212208f58ddea5488a68631b47741d264c8deacfc6e9d3327c0487e4",
+      "size_bytes": 27644
+    },
+    {
+      "path": "native/images/page_2_equation_14.jpg",
+      "sha256": "65ff9e5fb3d9fcaeb5e030945539a3ab9dc3b8f7d09ba92cd496f14868fbecaa",
+      "size_bytes": 6610
+    },
+    {
+      "path": "native/images/page_2_equation_15.jpg",
+      "sha256": "102a9b816bd3f4e9afa3bc39caee6e9d83e712965bebbf09ccbc5dee1637ea38",
+      "size_bytes": 4566
+    },
+    {
+      "path": "native/images/page_2_equation_17.jpg",
+      "sha256": "622e193bd61e870c60a610868f07131096c0604b88dfc828f4e6d1f88515534b",
+      "size_bytes": 9122
+    },
+    {
+      "path": "native/images/page_2_equation_19.jpg",
+      "sha256": "077fa68d8761c93f907a2a05c7cf6526b0b9b0383f6fd55f0f7ac904a2513020",
+      "size_bytes": 12294
+    },
+    {
+      "path": "native/images/page_2_equation_21.jpg",
+      "sha256": "063238520abd50276250333147a0ed0abf2727dc9e2881150390a4b7ed7fbb3e",
+      "size_bytes": 12071
+    },
+    {
+      "path": "native/images/page_2_equation_23.jpg",
+      "sha256": "59a81f62f8f48c3c6fef9d8e135dc26aebfc0b6fe62ee670fc9b352e9a247268",
+      "size_bytes": 10502
+    },
+    {
+      "path": "native/images/page_2_equation_30.jpg",
+      "sha256": "45e31257f3da15e1b8292142541a1a3eddc7925c26971429d3b6f1e9166cb369",
+      "size_bytes": 9817
+    },
+    {
+      "path": "native/images/page_2_equation_32.jpg",
+      "sha256": "8a264a9770c76862ed55fef92412ca5cb5de7ad5e63b45baa70e6860571d525d",
+      "size_bytes": 10563
+    },
+    {
+      "path": "native/images/page_2_equation_35.jpg",
+      "sha256": "7695dfa043aea93126ef89f7ddd328908d57b0eaf5e63ea451790bd6d8268c8d",
+      "size_bytes": 10868
+    },
+    {
+      "path": "native/images/page_2_table_4.jpg",
+      "sha256": "0362e92c6cce21864415f4c84f62699c8c79853f237c3f749d0cba2133522f76",
+      "size_bytes": 34594
+    },
+    {
+      "path": "native/images/page_2_table_9.jpg",
+      "sha256": "d66bbda978468010dca0af8c5c31282a881b41f0d97d4a620fbf9f5008be804f",
+      "size_bytes": 18857
+    },
+    {
+      "path": "native/markdown.md",
+      "sha256": "f0fab3afc5e98cb8dae863fbd7998cdf100186c50f4fe5d27883aa29c0241532",
+      "size_bytes": 13742
+    },
+    {
+      "path": "native/middle_json.json",
+      "sha256": "3a6edacdf5571d12bdffeed6b5bbe56d9e96f7a3fb633770230ced7f7dfcaedf",
+      "size_bytes": 44155
+    },
+    {
+      "path": "native/model_output.json",
+      "sha256": "8e27ade9caadbba0ba2e31e62c350a267fb9d5ae7ebe7600ab4da78a2b2b1fe3",
+      "size_bytes": 338400
+    },
+    {
+      "path": "native/structured_content.json",
+      "sha256": "18b6c104dae22613aaf8deb1fb1bde18a55794fd4e5ccc9d1996ebeb8ab67065",
+      "size_bytes": 27825
+    }
+  ],
+  "page_count": 11,
+  "protocol_version": 1,
+  "request_id": "20260924T110345Z-59efb510b214-33b48e-ocr",
+  "resources": {
+    "load_average": [
+      16.16845703125,
+      12.89697265625,
+      13.07568359375
+    ],
+    "max_rss_children_bytes": 5636096,
+    "max_rss_self_bytes": 3210477568,
+    "note": "Maximum resident set sizes of this process and its waited-for children; not unified-memory pressure or peak accelerator memory."
+  },
+  "schema": "paperextract.worker-result",
+  "source_sha256": "59efb510b214f6b36154f6e22fe416290c417b6ca474fc6e8463d2fcfd7b05ea",
+  "status": "completed",
+  "timing": {
+    "parse_seconds": 54.471317541087046,
+    "save_seconds": 0.08850358286872506,
+    "startup_seconds": 3.030404806137085
+  }
+}

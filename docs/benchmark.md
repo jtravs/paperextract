@@ -89,7 +89,7 @@ hashes immediately before extraction; validation does not lock external files.
 Use isolated worker environments with exact dependency and model revisions. Record
 setup/download separately from fresh-process, cached-model and reused-worker runs.
 
-John reports concurrent work on the M5 Mac. Label runs from this session as
+Other work on the measuring machine distorts timings. Label such runs as
 contention-affected, record available system load and memory context, and use them
 for feasibility and fidelity inspection. Repeat measurements on a quieter machine
 before choosing defaults from latency rankings. Process RSS is not total unified

@@ -16,7 +16,7 @@ html_title = "paperextract"
 html_theme_options = {
     "logo": {"text": "paperextract"},
     "navbar_align": "left",
-    "header_links_before_dropdown": 4,
+    "header_links_before_dropdown": 5,
     "show_toc_level": 2,
     "navigation_with_keys": False,
     "secondary_sidebar_items": ["page-toc"],
@@ -24,4 +24,4 @@ html_theme_options = {
     "footer_end": ["theme-version"],
 }
 # Pages without subpages have no section navigation to show.
-html_sidebars: dict[str, list[str]] = {"index": [], "usage": []}
+html_sidebars: dict[str, list[str]] = {"index": [], "usage": [], "tutorial": []}

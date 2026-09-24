@@ -33,6 +33,7 @@ uv run paperextract search "soliton self-compression" --library ~/papers
 ## Where next
 
 - [Getting started](usage.md): install, extract a first paper, see what it produces.
+- [Worked example](tutorial.md): one real paper, input against output.
 - [Command line](cli.md): every command and setting.
 - [Running on a Slurm cluster](cluster.md): GPU batches.
 - [Known limitations](limitations.md): read before relying on a result.
@@ -41,6 +42,7 @@ uv run paperextract search "soliton self-compression" --library ~/papers
 :hidden:
 
 usage
+tutorial
 guide
 reference
 development

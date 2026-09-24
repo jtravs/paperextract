@@ -1,0 +1,254 @@
+{
+  "alternatives": [
+    {
+      "cells": [
+        {
+          "column": 0,
+          "column_span": 1,
+          "html": "",
+          "row": 0,
+          "row_span": 1,
+          "text": ""
+        },
+        {
+          "column": 1,
+          "column_span": 1,
+          "html": "e",
+          "row": 0,
+          "row_span": 1,
+          "text": "e"
+        },
+        {
+          "column": 0,
+          "column_span": 1,
+          "html": "Method",
+          "row": 1,
+          "row_span": 1,
+          "text": "Method"
+        },
+        {
+          "column": 1,
+          "column_span": 1,
+          "html": "S<sub>τ</sub>\u0001E\u0003",
+          "row": 1,
+          "row_span": 1,
+          "text": "Sτ\u0001E\u0003"
+        },
+        {
+          "column": 0,
+          "column_span": 1,
+          "html": "SHG-FROG",
+          "row": 2,
+          "row_span": 1,
+          "text": "SHG-FROG"
+        },
+        {
+          "column": 1,
+          "column_span": 1,
+          "html": "F<sup>-1</sup>\u0005e<sup>iτω</sup>E˜\u0006F<sup>-1</sup>\u0005E˜\u0006",
+          "row": 2,
+          "row_span": 1,
+          "text": "F-1\u0005eiτωE˜\u0006F-1\u0005E˜\u0006"
+        },
+        {
+          "column": 0,
+          "column_span": 1,
+          "html": "PG-FROG",
+          "row": 3,
+          "row_span": 1,
+          "text": "PG-FROG"
+        },
+        {
+          "column": 1,
+          "column_span": 1,
+          "html": "jF<sup>-1</sup>\u0005e<sup>iτω</sup>E˜\u0006j<sup>2</sup>F<sup>-1</sup>\u0005E˜\u0006",
+          "row": 3,
+          "row_span": 1,
+          "text": "jF-1\u0005eiτωE˜\u0006j2F-1\u0005E˜\u0006"
+        },
+        {
+          "column": 0,
+          "column_span": 1,
+          "html": "TDP<sup>b</sup>",
+          "row": 4,
+          "row_span": 1,
+          "text": "TDPb"
+        },
+        {
+          "column": 1,
+          "column_span": 1,
+          "html": "F<sup>-1</sup>\u0005e<sup>iτω</sup>B˜\u0001ω\u0003E˜\u0006F<sup>-1</sup>\u0005E˜\u0006",
+          "row": 4,
+          "row_span": 1,
+          "text": "F-1\u0005eiτωB˜\u0001ω\u0003E˜\u0006F-1\u0005E˜\u0006"
+        }
+      ],
+      "columns": 2,
+      "html": "<table><tbody><tr><td></td><td>e</td></tr><tr><td>Method</td><td>S<sub>τ</sub>\u0001E\u0003</td></tr><tr><td>SHG-FROG</td><td>F<sup>-1</sup>\u0005e<sup>iτω</sup>E˜\u0006F<sup>-1</sup>\u0005E˜\u0006</td></tr><tr><td>PG-FROG</td><td>jF<sup>-1</sup>\u0005e<sup>iτω</sup>E˜\u0006j<sup>2</sup>F<sup>-1</sup>\u0005E˜\u0006</td></tr><tr><td>TDP<sup>b</sup></td><td>F<sup>-1</sup>\u0005e<sup>iτω</sup>B˜\u0001ω\u0003E˜\u0006F<sup>-1</sup>\u0005E˜\u0006</td></tr></tbody></table>",
+      "rows": 5,
+      "source": "native"
+    }
+  ],
+  "asset": "native/images/page_1_table_24.jpg",
+  "body_source": "ocr",
+  "caption": [
+    {
+      "kind": "text",
+      "styles": [],
+      "text": "Table 1. Signal Operator for Selected Noncollinear Schemes",
+      "url": null
+    },
+    {
+      "kind": "text",
+      "styles": [
+        "superscript"
+      ],
+      "text": "a",
+      "url": null
+    }
+  ],
+  "cells": [
+    {
+      "column": 0,
+      "column_span": 1,
+      "html": "Method",
+      "row": 0,
+      "row_span": 1,
+      "text": "Method"
+    },
+    {
+      "column": 1,
+      "column_span": 1,
+      "html": "<eq>\\mathcal{S}_{\\tau}[\\tilde{E}]</eq>",
+      "row": 0,
+      "row_span": 1,
+      "text": "\\mathcal{S}_{\\tau}[\\tilde{E}]"
+    },
+    {
+      "column": 0,
+      "column_span": 1,
+      "html": "SHG-FROG",
+      "row": 1,
+      "row_span": 1,
+      "text": "SHG-FROG"
+    },
+    {
+      "column": 1,
+      "column_span": 1,
+      "html": "<eq>\\mathcal{F}^{-1}[e^{i\\tau\\omega}\\tilde{E}]\\mathcal{F}^{-1}[\\tilde{E}]</eq>",
+      "row": 1,
+      "row_span": 1,
+      "text": "\\mathcal{F}^{-1}[e^{i\\tau\\omega}\\tilde{E}]\\mathcal{F}^{-1}[\\tilde{E}]"
+    },
+    {
+      "column": 0,
+      "column_span": 1,
+      "html": "PG-FROG",
+      "row": 2,
+      "row_span": 1,
+      "text": "PG-FROG"
+    },
+    {
+      "column": 1,
+      "column_span": 1,
+      "html": "<eq>|\\mathcal{F}^{-1}[e^{i\\tau\\omega}\\tilde{E}]|^{2}\\mathcal{F}^{-1}[\\tilde{E}]</eq>",
+      "row": 2,
+      "row_span": 1,
+      "text": "|\\mathcal{F}^{-1}[e^{i\\tau\\omega}\\tilde{E}]|^{2}\\mathcal{F}^{-1}[\\tilde{E}]"
+    },
+    {
+      "column": 0,
+      "column_span": 1,
+      "html": "TDP<eq>^{b}</eq>",
+      "row": 3,
+      "row_span": 1,
+      "text": "TDP^{b}"
+    },
+    {
+      "column": 1,
+      "column_span": 1,
+      "html": "<eq>\\mathcal{F}^{-1}[e^{i\\tau\\omega}\\tilde{B}(\\omega)\\tilde{E}]\\mathcal{F}^{-1}[\\tilde{E}]</eq>",
+      "row": 3,
+      "row_span": 1,
+      "text": "\\mathcal{F}^{-1}[e^{i\\tau\\omega}\\tilde{B}(\\omega)\\tilde{E}]\\mathcal{F}^{-1}[\\tilde{E}]"
+    }
+  ],
+  "columns": 2,
+  "continues_previous": false,
+  "footnotes": [
+    [
+      {
+        "kind": "text",
+        "styles": [
+          "superscript"
+        ],
+        "text": "a",
+        "url": null
+      },
+      {
+        "kind": "text",
+        "styles": [],
+        "text": "The pulse delay τ is the parameter δ in these methods. More examples can be found in the ",
+        "url": null
+      },
+      {
+        "kind": "link",
+        "styles": [],
+        "text": "Supplement 1",
+        "url": "https://doi.org/10.6084/m9.figshare.7832330"
+      },
+      {
+        "kind": "text",
+        "styles": [],
+        "text": ".",
+        "url": null
+      }
+    ],
+    [
+      {
+        "kind": "text",
+        "styles": [],
+        "text": "b",
+        "url": null
+      },
+      {
+        "kind": "text",
+        "styles": [
+          "subscript"
+        ],
+        "text": "B",
+        "url": null
+      },
+      {
+        "kind": "text",
+        "styles": [],
+        "text": "˜\u0001ω\u0003 describes the transmission of a bandpass filter used in the scheme.",
+        "url": null
+      }
+    ]
+  ],
+  "html": "<table><tr><td>Method</td><td><eq>\\mathcal{S}_{\\tau}[\\tilde{E}]</eq></td></tr><tr><td>SHG-FROG</td><td><eq>\\mathcal{F}^{-1}[e^{i\\tau\\omega}\\tilde{E}]\\mathcal{F}^{-1}[\\tilde{E}]</eq></td></tr><tr><td>PG-FROG</td><td><eq>|\\mathcal{F}^{-1}[e^{i\\tau\\omega}\\tilde{E}]|^{2}\\mathcal{F}^{-1}[\\tilde{E}]</eq></td></tr><tr><td>TDP<eq>^{b}</eq></td><td><eq>\\mathcal{F}^{-1}[e^{i\\tau\\omega}\\tilde{B}(\\omega)\\tilde{E}]\\mathcal{F}^{-1}[\\tilde{E}]</eq></td></tr></table>",
+  "id": "tbl_b093eada9fc8",
+  "kind": "table",
+  "label": "1",
+  "rows": 4,
+  "schema": "paperextract.table",
+  "schema_version": 3,
+  "span": {
+    "backend_index": 24,
+    "backend_type": "table_body",
+    "bbox_fraction": [
+      0.515,
+      0.821,
+      0.928,
+      0.895
+    ],
+    "bbox_pt": [
+      315.18,
+      650.23,
+      567.94,
+      708.84
+    ],
+    "page": 2
+  }
+}

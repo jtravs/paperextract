@@ -5,6 +5,19 @@ version is derived from Git tags.
 
 ## [Unreleased]
 
+### Added
+
+- A worked example: the Geib et al. (2019) COPRA paper from *Optica* with its
+  frozen output under `examples/geib-2019-copra/`, followed from PDF to
+  library in the new *Worked example* page of the manual. The paper keeps its
+  publisher's non-commercial licence and is not part of the package.
+
+### Removed
+
+- The `dev/` design and tracking notes and the manual pages built from them
+  (design, status, corpus assessment and trials); the manual keeps the
+  tooling and release pages.
+
 ## [0.1.0] - 2026-09-24
 
 First release. Everything below is new.

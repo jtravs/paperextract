@@ -1,0 +1,4 @@
+Method,\mathcal{S}_{\tau}[\tilde{E}]
+SHG-FROG,\mathcal{F}^{-1}[e^{i\tau\omega}\tilde{E}]\mathcal{F}^{-1}[\tilde{E}]
+PG-FROG,|\mathcal{F}^{-1}[e^{i\tau\omega}\tilde{E}]|^{2}\mathcal{F}^{-1}[\tilde{E}]
+TDP^{b},\mathcal{F}^{-1}[e^{i\tau\omega}\tilde{B}(\omega)\tilde{E}]\mathcal{F}^{-1}[\tilde{E}]

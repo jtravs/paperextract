@@ -1,14 +1,10 @@
 # Development
 
-Tooling, design and the implementation record.
+Tooling and the release procedure.
 
 ```{toctree}
 :maxdepth: 1
 
 dev/tooling
 dev/releasing
-design
-status
-corpus
-trials
 ```

@@ -1,0 +1,150 @@
+{
+  "descriptions": [
+    {
+      "claims": {
+        "figure_type": "multi-panel plot",
+        "panels": [
+          {
+            "approximate_readings": [],
+            "features": [
+              "A black background with a central bright horizontal band.",
+              "Vertical fringes (oscillations) are visible across the entire width, most distinct in the upper and lower regions.",
+              "A vertical rectangular strip in the center is colored magenta/purple, overlaying the grayscale pattern.",
+              "The fringes appear to fan out or curve slightly as the delay moves away from the center."
+            ],
+            "kind": "2D intensity map",
+            "label": "a",
+            "legend": [],
+            "printed_numbers": [],
+            "printed_text": [
+              "THG-iFROG",
+              "(a)"
+            ],
+            "trends": [
+              "The intensity is highest at the center of the delay axis (horizontal line) and decreases symmetrically towards the top and bottom.",
+              "The vertical fringes are densest near the center and become more spaced out towards the edges."
+            ],
+            "uncertain": [
+              "The specific frequency or delay values corresponding to the axes are not labeled."
+            ],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": "frequency ω",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [],
+              "quantity": "delay",
+              "unit": null
+            }
+          },
+          {
+            "approximate_readings": [
+              {
+                "value": "1.00 a.u.",
+                "what": "Peak spectral intensity"
+              },
+              {
+                "value": "approx. 0.35 a.u.",
+                "what": "Secondary intensity peak (left shoulder)"
+              },
+              {
+                "value": "approx. -2 to 10 rad",
+                "what": "Phase range"
+              }
+            ],
+            "features": [
+              "A blue curve representing intensity, which has a sharp central peak and a smaller shoulder to the left.",
+              "A black curve representing intensity, which closely overlays the blue curve.",
+              "An orange curve representing phase, which fluctuates between approximately 0 and 10 rad.",
+              "A secondary y-axis on the right labeled 'phase [rad]' with ticks at 10, 0, and -10."
+            ],
+            "kind": "line plot",
+            "label": "b",
+            "legend": [],
+            "printed_numbers": [
+              "4.43%",
+              "10",
+              "0",
+              "-10"
+            ],
+            "printed_text": [
+              "(b)",
+              "ε = 4.43%",
+              "phase [rad]"
+            ],
+            "trends": [
+              "The blue and black intensity curves are nearly identical, peaking at 1.00 a.u. at the center frequency.",
+              "The orange phase curve shows a noisy, fluctuating pattern that drops off at the high frequency end.",
+              "The intensity drops to near zero at the far left and right ends of the frequency range."
+            ],
+            "uncertain": [
+              "The specific frequency values on the x-axis are not labeled."
+            ],
+            "x_axis": {
+              "printed_ticks": [],
+              "quantity": "frequency ω",
+              "unit": null
+            },
+            "y_axis": {
+              "printed_ticks": [
+                "0.00",
+                "0.25",
+                "0.50",
+                "0.75",
+                "1.00"
+              ],
+              "quantity": "spectral intensity [a.u.]",
+              "unit": "a.u."
+            }
+          }
+        ],
+        "relationships": [
+          "Panel (a) shows the raw measurement data (trace) used for the analysis, while panel (b) shows the result of that analysis (retrieved pulse).",
+          "The colored vertical strip in panel (a) corresponds to the spectral range where the measurement data was available for the retrieval shown in panel (b)."
+        ],
+        "summary": "The figure displays a THG-iFROG measurement and the resulting pulse retrieval. Panel (a) shows a 2D intensity map of the measurement trace with a specific spectral region highlighted in color. Panel (b) compares the retrieved pulse (intensity and phase) against a test pulse, showing a high degree of agreement.",
+        "uncertain": []
+      },
+      "created_utc": "2026-09-24T11:47:07+00:00",
+      "figure_id": "fig_cf329187355c",
+      "finish_reason": "stop",
+      "generation_tokens": 1035,
+      "image_sha256": "efec95c57271c72ab8e0c77b44d242609ea3e1abb8812fd986514263c63b959e",
+      "machine_generated": true,
+      "model": {
+        "label": "Qwen3.8-27B",
+        "repository": "Qwen/Qwen3.8-27B",
+        "revision": "1d4bf0f2ff60",
+        "runtime": "mlx-vlm"
+      },
+      "notice": "Machine-generated visual description, not part of the published paper. Readings, labels and trends may be wrong or invented; check them against the figure before relying on them.",
+      "parse_error": null,
+      "printed_check": {
+        "applicable": false,
+        "claimed": 19,
+        "confirmed": 0,
+        "informative_claimed": 0,
+        "informative_confirmed": 0,
+        "unconfirmed": []
+      },
+      "prompt_sha256": "8712fd11802e7a07a3595c02eb8a0abaa051abcc5a3dd7a81b2cb60403a594a9",
+      "prompt_tokens": 1069,
+      "prompt_version": "figure-claims-v2",
+      "raw_text": "```json\n{\n  \"figure_type\": \"multi-panel plot\",\n  \"summary\": \"The figure displays a THG-iFROG measurement and the resulting pulse retrieval. Panel (a) shows a 2D intensity map of the measurement trace with a specific spectral region highlighted in color. Panel (b) compares the retrieved pulse (intensity and phase) against a test pulse, showing a high degree of agreement.\",\n  \"panels\": [\n    {\n      \"label\": \"a\",\n      \"kind\": \"2D intensity map\",\n      \"x_axis\": {\n        \"quantity\": \"frequency ω\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"delay\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"legend\": [],\n      \"printed_text\": [\n        \"THG-iFROG\",\n        \"(a)\"\n      ],\n      \"printed_numbers\": [],\n      \"features\": [\n        \"A black background with a central bright horizontal band.\",\n        \"Vertical fringes (oscillations) are visible across the entire width, most distinct in the upper and lower regions.\",\n        \"A vertical rectangular strip in the center is colored magenta/purple, overlaying the grayscale pattern.\",\n        \"The fringes appear to fan out or curve slightly as the delay moves away from the center.\"\n      ],\n      \"trends\": [\n        \"The intensity is highest at the center of the delay axis (horizontal line) and decreases symmetrically towards the top and bottom.\",\n        \"The vertical fringes are densest near the center and become more spaced out towards the edges.\"\n      ],\n      \"approximate_readings\": [],\n      \"uncertain\": [\n        \"The specific frequency or delay values corresponding to the axes are not labeled.\"\n      ]\n    },\n    {\n      \"label\": \"b\",\n      \"kind\": \"line plot\",\n      \"x_axis\": {\n        \"quantity\": \"frequency ω\",\n        \"unit\": null,\n        \"printed_ticks\": []\n      },\n      \"y_axis\": {\n        \"quantity\": \"spectral intensity [a.u.]\",\n        \"unit\": \"a.u.\",\n        \"printed_ticks\": [\n          \"0.00\",\n          \"0.25\",\n          \"0.50\",\n          \"0.75\",\n          \"1.00\"\n        ]\n      },\n      \"legend\": [],\n      \"printed_text\": [\n        \"(b)\",\n        \"ε = 4.43%\",\n        \"phase [rad]\"\n      ],\n      \"printed_numbers\": [\n        \"4.43%\",\n        \"10\",\n        \"0\",\n        \"-10\"\n      ],\n      \"features\": [\n        \"A blue curve representing intensity, which has a sharp central peak and a smaller shoulder to the left.\",\n        \"A black curve representing intensity, which closely overlays the blue curve.\",\n        \"An orange curve representing phase, which fluctuates between approximately 0 and 10 rad.\",\n        \"A secondary y-axis on the right labeled 'phase [rad]' with ticks at 10, 0, and -10.\"\n      ],\n      \"trends\": [\n        \"The blue and black intensity curves are nearly identical, peaking at 1.00 a.u. at the center frequency.\",\n        \"The orange phase curve shows a noisy, fluctuating pattern that drops off at the high frequency end.\",\n        \"The intensity drops to near zero at the far left and right ends of the frequency range.\"\n      ],\n      \"approximate_readings\": [\n        {\n          \"what\": \"Peak spectral intensity\",\n          \"value\": \"1.00 a.u.\"\n        },\n        {\n          \"what\": \"Secondary intensity peak (left shoulder)\",\n          \"value\": \"approx. 0.35 a.u.\"\n        },\n        {\n          \"what\": \"Phase range\",\n          \"value\": \"approx. -2 to 10 rad\"\n        }\n      ],\n      \"uncertain\": [\n        \"The specific frequency values on the x-axis are not labeled.\"\n      ]\n    }\n  ],\n  \"relationships\": [\n    \"Panel (a) shows the raw measurement data (trace) used for the analysis, while panel (b) shows the result of that analysis (retrieved pulse).\",\n    \"The colored vertical strip in panel (a) corresponds to the spectral range where the measurement data was available for the retrieval shown in panel (b).\"\n  ],\n  \"uncertain\": []\n}\n```",
+      "sampling": {
+        "enable_thinking": false,
+        "max_tokens": 8192,
+        "seed": 0,
+        "temperature": 0.0
+      },
+      "schema": "paperextract.figure-description",
+      "schema_version": 1,
+      "seconds": 135.77,
+      "usd": null
+    }
+  ],
+  "figure_id": "fig_cf329187355c",
+  "schema": "paperextract.figure-descriptions",
+  "schema_version": 1
+}

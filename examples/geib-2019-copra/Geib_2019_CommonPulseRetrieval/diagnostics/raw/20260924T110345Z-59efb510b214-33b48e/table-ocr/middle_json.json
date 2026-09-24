@@ -1,0 +1,1425 @@
+{
+  "metadata": {
+    "file_suffix": "pdf",
+    "producer": {
+      "name": "mineru",
+      "version": "4.0.5"
+    },
+    "document": {
+      "title": "Common pulse retrieval algorithm: a fast and universal method to retrieve ultrashort pulses",
+      "authors": [
+        "N. C. Geib, M. Zilk, T. Pertsch, F. Eilenberger"
+      ],
+      "identifiers": [
+        "10.1364/OPTICA.6.000495"
+      ],
+      "publisher": "The Optical Society",
+      "created_at": "2019-04-10T18:23:44-04:00",
+      "modified_at": "2024-11-07T08:15:05-05:00",
+      "creator_application": "Aspose Pty Ltd.",
+      "producer_application": "Aspose.PDF for Java 24.9",
+      "page_count": 11,
+      "page_count_kind": "physical"
+    }
+  },
+  "extensions": {
+    "mineru": {
+      "tier": "standard",
+      "parse_mode": "ocr"
+    },
+    "docvortex_layout": {
+      "version": 1,
+      "pages": [
+        {
+          "page_idx": 1,
+          "width_pt": 612.0,
+          "height_pt": 792.0
+        },
+        {
+          "page_idx": 2,
+          "width_pt": 612.0,
+          "height_pt": 792.0
+        }
+      ]
+    }
+  },
+  "pages": [
+    {
+      "page_idx": 1,
+      "blocks": [
+        {
+          "type": "header",
+          "index": 0,
+          "bbox": [
+            0.091,
+            0.025,
+            0.234,
+            0.04
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "Research Article"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "index": 1,
+          "bbox": [
+            0.689,
+            0.028,
+            0.867,
+            0.04
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "Vol. 6, No. 4 / April 2019 / Optica"
+            }
+          ]
+        },
+        {
+          "type": "page_number",
+          "index": 2,
+          "bbox": [
+            0.888,
+            0.028,
+            0.911,
+            0.04
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "496"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "index": 3,
+          "bbox": [
+            0.067,
+            0.058,
+            0.484,
+            0.205
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "masks is applied to the pulses. Then the SHG spectrum for every phase mask is measured to obtain a two-dimensional measurement trace. The most prominent technique in this class is called multiphoton intrapulse interference phase scan (MIIPS) [26,27], where sinusoidal phase patterns with varying shifts are applied. Typically, this method is used for iterative spectral phase compensation by using an algorithm that extracts an approximation to the second derivative of the spectral phase from the measurement. Other techniques represent adaptations of existing measurement schemes to the use with a pulse shaper [28–31]."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "index": 4,
+          "bbox": [
+            0.067,
+            0.205,
+            0.485,
+            0.336
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "Time-domain ptychography (TDP) is a recently developed pulse measurement technique  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "[32–34]"
+            },
+            {
+              "type": "text",
+              "content": " . It is inspired by a coherent diffractive imaging technique of the same name  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "[35]"
+            },
+            {
+              "type": "text",
+              "content": " . It uses a correlation setup similar to FROG where the pulse in one arm is spectrally filtered. The pulse retrieval algorithms used for TDP are an adaption of the image retrieval algorithms in spatial ptychography  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "[36,37]"
+            },
+            {
+              "type": "text",
+              "content": " . They have also been successfully applied to cross-correlation FROG (XFROG)  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "[38]"
+            },
+            {
+              "type": "text",
+              "content": "  and SHG-FROG  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "[39,40]"
+            },
+            {
+              "type": "text",
+              "content": " ."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "index": 5,
+          "bbox": [
+            0.067,
+            0.336,
+            0.485,
+            0.483
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "Typically, each family of these pulse measurement methods comprises both a specific experimental setup and a tailored retrieval algorithm, which makes them difficult to compare. They are, however, structurally similar. For that reason, our paper starts in Section 2 by developing a common formalism for what we call parameterized nonlinear process spectra (PNPS) measurements. It allows to describe most self-referenced techniques for ultrashort pulse measurement using the same formalism. It forms the basis of our work and is used to develop all arguments in the following sections."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "index": 6,
+          "bbox": [
+            0.068,
+            0.482,
+            0.484,
+            0.556
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The main idea of our paper is presented in Section 3. We discuss PNPS pulse retrieval as a nonlinear least squares problem. We propose this as the natural way to view the pulse retrieval problem and stress that the least squares solution is ideal under the assumption of Gaussian noise."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "index": 7,
+          "bbox": [
+            0.068,
+            0.556,
+            0.484,
+            0.688
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The main result of our paper is the common pulse retrieval algorithm (COPRA) described in Section 4. It can be applied universally to all PNPS measurements. In our tests, we found that it is more accurate than other specialized pulse retrieval algorithms in the presence of Gaussian measurement noise. Furthermore, we found it to be faster than general least squares solvers, and, thus, it enables fast retrieval of pulse amplitude and phase from PNPS measurements for which no specialized algorithms were published yet, such as SD-d-scan or MIIPS."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "index": 8,
+          "bbox": [
+            0.067,
+            0.687,
+            0.485,
+            0.88
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "In Sections 5 and 6, we describe the comprehensive numerical tests that were performed to verify and demonstrate the properties of COPRA. They included testing the retrieval for various PNPS measurements, test pulses, and levels of noise. For SHG-FROG, we compare it to PCGPA and ptychographic retrieval. We show numerically that those algorithms do not converge on a least squares solution and, consequently, are less accurate in the presence of Gaussian measurement noise. We also demonstrate that COPRA is able to retrieve pulses from incomplete traces. Furthermore, we evaluate the applicability of general minimization algorithms on the pulse retrieval problem. We find that gradient-based algorithms such as Levenberg–Marquadt (LM) are generally superior to gradient-free methods."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "index": 9,
+          "bbox": [
+            0.068,
+            0.878,
+            0.484,
+            0.938
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "In Section 7, we summarize the results and give an outlook on future work. In the Supplement 1, we also give more details and technical aspects that facilitate the application and reimplementation of COPRA."
+            }
+          ]
+        },
+        {
+          "type": "paragraph_title",
+          "index": 10,
+          "bbox": [
+            0.515,
+            0.058,
+            0.639,
+            0.073
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "2. CONCEPTS"
+            }
+          ],
+          "level": 2
+        },
+        {
+          "type": "text",
+          "index": 11,
+          "bbox": [
+            0.513,
+            0.077,
+            0.931,
+            0.225
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "In this section, we introduce a unified description of most self-referenced pulse measurement methods. It is based on the observation that the measured quantity is the same for all methods mentioned in the introduction: a set of pulse spectra after a nonlinear process. Specifically, the nonlinear process is tunable by some parameter that forms the second measurement dimension. For example, for SHG-FROG, the parameter is the pulse delay, and the nonlinear process a noncollinear SHG. For SHG-d-scan, the parameter is the insertion distance of a glass wedge, and the nonlinear process is a collinear SHG."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "index": 12,
+          "bbox": [
+            0.513,
+            0.224,
+            0.931,
+            0.329
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "We call these measurements PNPS measurements. Other pulse measurement techniques exist that cannot be described in this way. Most prominently, this pertains to spectral phase interferometry for direct electric field reconstruction (SPIDER) [41] and other methods based on spectral interferometry. They do not require an iterative retrieval algorithm and are not subjects of this paper."
+            }
+          ]
+        },
+        {
+          "type": "paragraph_title",
+          "index": 13,
+          "bbox": [
+            0.514,
+            0.336,
+            0.756,
+            0.351
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "A. Continuous PNPS Formalism"
+            }
+          ],
+          "level": 2
+        },
+        {
+          "type": "text",
+          "index": 14,
+          "bbox": [
+            0.513,
+            0.355,
+            0.931,
+            0.416
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "We work with the complex-valued pulse envelope "
+            },
+            {
+              "type": "equation_inline",
+              "content": "E(t)"
+            },
+            {
+              "type": "text",
+              "content": " and its spectral counterpart "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{E}(\\omega)"
+            },
+            {
+              "type": "text",
+              "content": ", where "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\omega = \\Omega - \\Omega_0"
+            },
+            {
+              "type": "text",
+              "content": " is the centered frequency and "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\Omega_0"
+            },
+            {
+              "type": "text",
+              "content": " the central frequency. Both are related by the Fourier transform and its inverse using the following convention:"
+            }
+          ]
+        },
+        {
+          "type": "equation",
+          "index": 15,
+          "bbox": [
+            0.589,
+            0.423,
+            0.927,
+            0.457
+          ],
+          "image_path": "images/page_1_equation_15.jpg",
+          "content": "\\tilde {E} (\\omega) = \\mathcal {F} [ E ] (\\omega) = \\frac {1}{2 \\pi} \\int_ {- \\infty} ^ {\\infty} E (t) \\mathrm{e} ^ {\\mathrm{i} \\omega t} \\mathrm{d} t,\\tag{1}"
+        },
+        {
+          "type": "equation",
+          "index": 16,
+          "bbox": [
+            0.592,
+            0.47,
+            0.926,
+            0.503
+          ],
+          "image_path": "images/page_1_equation_16.jpg",
+          "content": "E (t) = \\mathcal {F} ^ {- 1} [ \\tilde {E} ] (t) = \\int_ {- \\infty} ^ {\\infty} \\tilde {E} (\\omega) \\mathrm{e} ^ {- \\mathrm{i} t \\omega} \\mathrm{d} \\omega .\\tag{2}"
+        },
+        {
+          "type": "text",
+          "index": 17,
+          "bbox": [
+            0.514,
+            0.51,
+            0.924,
+            0.527
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "All PNPS traces "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{T}"
+            },
+            {
+              "type": "text",
+              "content": " can be modeled by the following equation:"
+            }
+          ]
+        },
+        {
+          "type": "equation",
+          "index": 18,
+          "bbox": [
+            0.613,
+            0.53,
+            0.927,
+            0.549
+          ],
+          "image_path": "images/page_1_equation_18.jpg",
+          "content": "\\tilde {T} (\\delta , \\omega ; \\tilde {E}) = | \\mathcal {F} \\{\\mathcal {S} _ {\\delta} [ \\tilde {E} ] (t) \\} (\\omega) | ^ {2}.\\tag{3}"
+        },
+        {
+          "type": "text",
+          "index": 19,
+          "bbox": [
+            0.514,
+            0.551,
+            0.93,
+            0.612
+          ],
+          "content": [
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{T}"
+            },
+            {
+              "type": "text",
+              "content": " depends on the pulse "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{E}"
+            },
+            {
+              "type": "text",
+              "content": " and is evaluated at the frequency "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\omega"
+            },
+            {
+              "type": "text",
+              "content": " and the parameter "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\delta"
+            },
+            {
+              "type": "text",
+              "content": ". "
+            },
+            {
+              "type": "equation_inline",
+              "content": "S_{\\delta}"
+            },
+            {
+              "type": "text",
+              "content": " is the signal operator that describes a parameterized nonlinear process in the time domain. "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\delta"
+            },
+            {
+              "type": "text",
+              "content": " is a method-specific parameter that tunes the nonlinear process."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "index": 20,
+          "bbox": [
+            0.513,
+            0.611,
+            0.931,
+            0.686
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "Depending on the structure of the signal operator, we distinguish between noncollinear methods (e.g., FROG or TDP) and collinear methods (e.g., d-scan or iFROG). Examples of the signal operator in the former case can be found in Table 1. In the latter case, we can decompose the signal operator in the following way:"
+            }
+          ]
+        },
+        {
+          "type": "equation",
+          "index": 21,
+          "bbox": [
+            0.622,
+            0.689,
+            0.926,
+            0.707
+          ],
+          "image_path": "images/page_1_equation_21.jpg",
+          "content": "\\mathcal {S} _ {\\delta} [ \\tilde {E} ] (t) = \\mathcal {N} \\{\\mathcal {F} ^ {- 1} [ \\tilde {H} _ {\\delta} \\tilde {E} ] \\} (t).\\tag{4}"
+        },
+        {
+          "type": "text",
+          "index": 22,
+          "bbox": [
+            0.514,
+            0.71,
+            0.93,
+            0.772
+          ],
+          "content": [
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{H}_{\\delta}(\\omega)"
+            },
+            {
+              "type": "text",
+              "content": " is the parameterization filter and describes a parameterized linear operation in the frequency domain. Examples are listed in Table 2. N is the nonlinear process operator and describes the subsequent conversion of a pulse by a collinear nonlinear process."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "index": 24,
+          "bbox": [
+            0.515,
+            0.821,
+            0.928,
+            0.895
+          ],
+          "content": [
+            {
+              "type": "table_caption",
+              "index": 23,
+              "bbox": [
+                0.514,
+                0.791,
+                0.884,
+                0.82
+              ],
+              "content": [
+                {
+                  "type": "text",
+                  "content": "Table 1. Signal Operator for Selected Noncollinear Schemes "
+                },
+                {
+                  "type": "equation_inline",
+                  "content": "^{a}"
+                }
+              ]
+            },
+            {
+              "type": "table_body",
+              "index": 24,
+              "bbox": [
+                0.515,
+                0.821,
+                0.928,
+                0.895
+              ],
+              "image_path": "images/page_1_table_24.jpg",
+              "content": "<table><tr><td>Method</td><td><eq>\\mathcal{S}_{\\tau}[\\tilde{E}]</eq></td></tr><tr><td>SHG-FROG</td><td><eq>\\mathcal{F}^{-1}[e^{i\\tau\\omega}\\tilde{E}]\\mathcal{F}^{-1}[\\tilde{E}]</eq></td></tr><tr><td>PG-FROG</td><td><eq>|\\mathcal{F}^{-1}[e^{i\\tau\\omega}\\tilde{E}]|^{2}\\mathcal{F}^{-1}[\\tilde{E}]</eq></td></tr><tr><td>TDP<eq>^{b}</eq></td><td><eq>\\mathcal{F}^{-1}[e^{i\\tau\\omega}\\tilde{B}(\\omega)\\tilde{E}]\\mathcal{F}^{-1}[\\tilde{E}]</eq></td></tr></table>"
+            },
+            {
+              "type": "table_footnote",
+              "index": 25,
+              "bbox": [
+                0.515,
+                0.898,
+                0.929,
+                0.924
+              ],
+              "content": [
+                {
+                  "type": "equation_inline",
+                  "content": "^{a}"
+                },
+                {
+                  "type": "text",
+                  "content": " The pulse delay  "
+                },
+                {
+                  "type": "equation_inline",
+                  "content": "\\tau"
+                },
+                {
+                  "type": "text",
+                  "content": "  is the parameter  "
+                },
+                {
+                  "type": "equation_inline",
+                  "content": "\\delta"
+                },
+                {
+                  "type": "text",
+                  "content": "  in these methods. More examples can be found in the Supplement 1."
+                }
+              ]
+            },
+            {
+              "type": "table_footnote",
+              "index": 26,
+              "bbox": [
+                0.528,
+                0.924,
+                0.91,
+                0.938
+              ],
+              "content": [
+                {
+                  "type": "equation_inline",
+                  "content": "^{b}\\tilde{B}(\\omega)"
+                },
+                {
+                  "type": "text",
+                  "content": " describes the transmission of a bandpass filter used in the scheme."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page_idx": 2,
+      "blocks": [
+        {
+          "type": "header",
+          "index": 0,
+          "bbox": [
+            0.091,
+            0.026,
+            0.234,
+            0.04
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "Research Article"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "index": 1,
+          "bbox": [
+            0.688,
+            0.028,
+            0.867,
+            0.04
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "Vol. 6, No. 4 / April 2019 / Optica"
+            }
+          ]
+        },
+        {
+          "type": "page_number",
+          "index": 2,
+          "bbox": [
+            0.887,
+            0.029,
+            0.91,
+            0.04
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "497"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "index": 4,
+          "bbox": [
+            0.069,
+            0.087,
+            0.482,
+            0.158
+          ],
+          "content": [
+            {
+              "type": "table_caption",
+              "index": 3,
+              "bbox": [
+                0.069,
+                0.057,
+                0.453,
+                0.086
+              ],
+              "content": [
+                {
+                  "type": "text",
+                  "content": "Table 2. Parametrization Filter for Selected Collinear Schemes "
+                },
+                {
+                  "type": "equation_inline",
+                  "content": "^{a}"
+                }
+              ]
+            },
+            {
+              "type": "table_body",
+              "index": 4,
+              "bbox": [
+                0.069,
+                0.087,
+                0.482,
+                0.158
+              ],
+              "image_path": "images/page_2_table_4.jpg",
+              "content": "<table><tr><td>Scheme</td><td>Parameter δ</td><td><eq>\\widetilde{H}_{\\delta}(\\omega)</eq></td></tr><tr><td>d-Scanb</td><td>Glass insertion z</td><td>exp[ik(ω + Ω0)z]</td></tr><tr><td>MIIPSc</td><td>Pattern shift δ</td><td>exp[iα cos(γω - δ)]</td></tr><tr><td>iFROG</td><td>Delay τ</td><td>1/2 + exp[iτ(ω + Ω0)]/2</td></tr></table>"
+            },
+            {
+              "type": "table_footnote",
+              "index": 5,
+              "bbox": [
+                0.082,
+                0.162,
+                0.357,
+                0.175
+              ],
+              "content": [
+                {
+                  "type": "equation_inline",
+                  "content": "^{a}"
+                },
+                {
+                  "type": "text",
+                  "content": " More examples can be found in the Supplement 1."
+                }
+              ]
+            },
+            {
+              "type": "table_footnote",
+              "index": 6,
+              "bbox": [
+                0.069,
+                0.175,
+                0.483,
+                0.2
+              ],
+              "content": [
+                {
+                  "type": "equation_inline",
+                  "content": "^{b}k(\\Omega)"
+                },
+                {
+                  "type": "text",
+                  "content": "  depends on the material of the wedges and is usually defined by Sellmeier equations."
+                }
+              ]
+            },
+            {
+              "type": "table_footnote",
+              "index": 7,
+              "bbox": [
+                0.069,
+                0.2,
+                0.483,
+                0.226
+              ],
+              "content": [
+                {
+                  "type": "equation_inline",
+                  "content": "^{c}\\alpha"
+                },
+                {
+                  "type": "text",
+                  "content": "  and  "
+                },
+                {
+                  "type": "equation_inline",
+                  "content": "\\gamma"
+                },
+                {
+                  "type": "text",
+                  "content": "  are free parameters of the method and have to be adapted to the measured pulses."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "index": 9,
+          "bbox": [
+            0.069,
+            0.289,
+            0.482,
+            0.329
+          ],
+          "content": [
+            {
+              "type": "table_caption",
+              "index": 8,
+              "bbox": [
+                0.068,
+                0.258,
+                0.441,
+                0.286
+              ],
+              "content": [
+                {
+                  "type": "text",
+                  "content": "Table 3. Nonlinear Process Operators for Collinear Schemes"
+                }
+              ]
+            },
+            {
+              "type": "table_body",
+              "index": 9,
+              "bbox": [
+                0.069,
+                0.289,
+                0.482,
+                0.329
+              ],
+              "image_path": "images/page_2_table_9.jpg",
+              "content": "<table><tr><td>Process</td><td>SHG</td><td>THG</td><td>SD</td></tr><tr><td><eq>\\mathcal{N}[E]</eq></td><td><eq>E^{2}</eq></td><td><eq>E^{3}</eq></td><td><eq>|E|^{2}E</eq></td></tr></table>"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "index": 10,
+          "bbox": [
+            0.068,
+            0.355,
+            0.483,
+            0.385
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "Expressions for the processes commonly used in pulse measurement can be found in Table 3."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "index": 11,
+          "bbox": [
+            0.067,
+            0.385,
+            0.486,
+            0.577
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "PNPS traces do not uniquely define a pulse. For example, they are all ambiguous to the constant and linear phase of  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{E}(\\omega)"
+            },
+            {
+              "type": "text",
+              "content": " . Some methods (e.g., SHG-FROG and SHG-iFROG) leave the direction of time undetermined. Additionally, the relative phase of pulse components well-separated in frequency can be shown to be ambiguous, similar to how it was done for FROG [42]. Answering the underlying question if a PNPS trace is essentially unique, i.e., if it defines pulse amplitude and phase up to a set of known, so-called trivial ambiguities, is out of scope for this work. Even for the well-studied FROG method, it is still a topic of ongoing research [7,8,43]. We will take a pragmatic approach and test for nontrivial ambiguities by numerically retrieving pulses from a large number of synthetic measurements."
+            }
+          ]
+        },
+        {
+          "type": "paragraph_title",
+          "index": 12,
+          "bbox": [
+            0.068,
+            0.585,
+            0.288,
+            0.6
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "B. Discrete PNPS Formalism"
+            }
+          ],
+          "level": 2
+        },
+        {
+          "type": "text",
+          "index": 13,
+          "bbox": [
+            0.067,
+            0.604,
+            0.484,
+            0.65
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "To perform pulse retrieval, we have to introduce a discrete version of the PNPS formalism. We define equidistant simulation grids with N points in time and frequency,"
+            }
+          ]
+        },
+        {
+          "type": "equation",
+          "index": 14,
+          "bbox": [
+            0.149,
+            0.66,
+            0.481,
+            0.676
+          ],
+          "image_path": "images/page_2_equation_14.jpg",
+          "content": "t _ {n} \\equiv t _ {0} + n \\Delta t, \\quad n = 0, \\dots , N - 1,\\tag{5}"
+        },
+        {
+          "type": "equation",
+          "index": 15,
+          "bbox": [
+            0.218,
+            0.695,
+            0.481,
+            0.71
+          ],
+          "image_path": "images/page_2_equation_15.jpg",
+          "content": "\\omega_ {n} \\equiv \\omega_ {0} + n \\Delta \\omega .\\tag{6}"
+        },
+        {
+          "type": "text",
+          "index": 16,
+          "bbox": [
+            0.068,
+            0.721,
+            0.483,
+            0.781
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "We set  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "E_{n} \\equiv E(t_{n})"
+            },
+            {
+              "type": "text",
+              "content": "  and  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{E}_{n} \\equiv \\tilde{E}(\\omega_{n})"
+            },
+            {
+              "type": "text",
+              "content": " . We use  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\mathbf{E} \\equiv (E_{0}, \\ldots, E_{N-1})"
+            },
+            {
+              "type": "text",
+              "content": "  and  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{\\mathbf{E}} \\equiv (\\tilde{E}_{0}, \\ldots, \\tilde{E}_{N-1})"
+            },
+            {
+              "type": "text",
+              "content": "  to denote the whole pulse. The Fourier transform is approximated by discrete evaluation of the integral and is denoted by"
+            }
+          ]
+        },
+        {
+          "type": "equation",
+          "index": 17,
+          "bbox": [
+            0.132,
+            0.79,
+            0.481,
+            0.809
+          ],
+          "image_path": "images/page_2_equation_17.jpg",
+          "content": "\\tilde {E} _ {n} = \\mathrm{FT} _ {k \\to n} (E _ {k}) \\quad \\text {and} \\quad E _ {k} = \\mathrm{FT} _ {n \\to k} ^ {- 1} (\\tilde {E} _ {n}).\\tag{7}"
+        },
+        {
+          "type": "text",
+          "index": 18,
+          "bbox": [
+            0.068,
+            0.817,
+            0.484,
+            0.893
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "We have M spectra for the parameters  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\delta_{0},\\ldots,\\delta_{M-1}"
+            },
+            {
+              "type": "text",
+              "content": " . There is no restriction on the number, spacing, or position of the tuning parameters  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\delta_{m}"
+            },
+            {
+              "type": "text",
+              "content": " , e.g., as it is required by PCGPA for FROG. The discrete PNPS signal  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "S_{mk}"
+            },
+            {
+              "type": "text",
+              "content": "  is defined by a discrete evaluation of the signal operator at  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\delta_{m}"
+            },
+            {
+              "type": "text",
+              "content": "  and  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "t_{k}"
+            },
+            {
+              "type": "text",
+              "content": " ,"
+            }
+          ]
+        },
+        {
+          "type": "equation",
+          "index": 19,
+          "bbox": [
+            0.107,
+            0.905,
+            0.481,
+            0.933
+          ],
+          "image_path": "images/page_2_equation_19.jpg",
+          "content": "S _ {m k} \\equiv S _ {m k} (\\tilde {\\mathbf {E}}) \\approx \\mathcal {S} _ {\\delta_ {m}} [ \\tilde {E} ] (t _ {k}), \\qquad \\begin{array}{l} m = 0, \\dots , M - 1 \\\\ k = 0, \\dots , N - 1 \\end{array} .\\tag{8}"
+        },
+        {
+          "type": "text",
+          "index": 20,
+          "bbox": [
+            0.514,
+            0.058,
+            0.874,
+            0.074
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "Its counterpart in the frequency domain is denoted by"
+            }
+          ]
+        },
+        {
+          "type": "equation",
+          "index": 21,
+          "bbox": [
+            0.535,
+            0.083,
+            0.926,
+            0.113
+          ],
+          "image_path": "images/page_2_equation_21.jpg",
+          "content": "\\begin{array}{r l r}\\tilde {S} _ {m n} \\equiv \\tilde {S} _ {m n} (\\tilde {\\mathbf {E}}) = \\mathrm{FT} _ {k \\rightarrow n} (S _ {m k}),&m = 0, \\dots , M - 1\\\\&n = 0, \\dots , N - 1.\\end{array}\\tag{9}"
+        },
+        {
+          "type": "text",
+          "index": 22,
+          "bbox": [
+            0.514,
+            0.12,
+            0.886,
+            0.138
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "Finally, we can calculate the discrete PNPS trace "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{T}_{mn}"
+            },
+            {
+              "type": "text",
+              "content": " by"
+            }
+          ]
+        },
+        {
+          "type": "equation",
+          "index": 23,
+          "bbox": [
+            0.579,
+            0.14,
+            0.927,
+            0.16
+          ],
+          "image_path": "images/page_2_equation_23.jpg",
+          "content": "\\tilde {T} _ {m n} \\equiv \\tilde {T} _ {m n} (\\tilde {\\mathbf {E}}) = | \\tilde {S} _ {m n} (\\tilde {\\mathbf {E}}) | ^ {2} \\approx T (\\delta_ {m}, \\omega_ {n}; \\tilde {E}).\\tag{10}"
+        },
+        {
+          "type": "text",
+          "index": 24,
+          "bbox": [
+            0.513,
+            0.163,
+            0.931,
+            0.224
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The measurement from which the pulse is reconstructed, the measured PNPS trace, is denoted by  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{T}_{mn}^{meas}"
+            },
+            {
+              "type": "text",
+              "content": " . More details on how the calculations are performed can be found in the Supplement 1 (Section S2)."
+            }
+          ]
+        },
+        {
+          "type": "paragraph_title",
+          "index": 25,
+          "bbox": [
+            0.514,
+            0.247,
+            0.789,
+            0.263
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "3. PULSE RETRIEVAL PROBLEM"
+            }
+          ],
+          "level": 2
+        },
+        {
+          "type": "text",
+          "index": 26,
+          "bbox": [
+            0.512,
+            0.268,
+            0.931,
+            0.345
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The discrete pulse retrieval problem is to find the pulse  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{E}"
+            },
+            {
+              "type": "text",
+              "content": "  that gives rise to a PNPS trace  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{T}_{mn}"
+            },
+            {
+              "type": "text",
+              "content": "  that matches the measurement  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{T}_{mn}^{meas}"
+            },
+            {
+              "type": "text",
+              "content": " . As  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{T}_{mn}^{meas}"
+            },
+            {
+              "type": "text",
+              "content": "  is subject to measurement errors; the retrieval will never be exact, and we need to choose a metric to select the best solution."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "index": 27,
+          "bbox": [
+            0.513,
+            0.345,
+            0.931,
+            0.463
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "In this work, we view pulse retrieval as a nonlinear least squares problem. It is a nonlinear inverse problem, and solving such problems in the least squares sense is very well-established and understood [44]. Under the assumption of Gaussian measurement errors, the least squares solution represents an optimal choice, namely the maximum-likelihood estimate [45], and a Gaussian distribution is usually a good model for noise in spectrometric measurements [46]."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "index": 28,
+          "bbox": [
+            0.513,
+            0.462,
+            0.931,
+            0.61
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "To explain why we put so much emphasis on finding a least squares solution, we have to anticipate a key result from Section 6.B. We found that retrieval algorithms based on generalized projections or ptychography do not converge well onto a solution in the least squares sense. In our numerical tests, we found that they stagnate before reaching the close proximity of the least squares solution. In consequence, they underperform in the presence of additive Gaussian noise. This fact has been noticed several times in the literature  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "[11,24,31,47]"
+            },
+            {
+              "type": "text",
+              "content": " , but the relation to the missing least squares property was not reported so far."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "index": 29,
+          "bbox": [
+            0.513,
+            0.609,
+            0.931,
+            0.671
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "With this in mind, we state the pulse retrieval problem as fitting the 2N independent variables in  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{E}"
+            },
+            {
+              "type": "text",
+              "content": "  (real and imaginary parts) to MN dependent variables in  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{T}_{mn}^{meas}"
+            },
+            {
+              "type": "text",
+              "content": "  by minimizing the sum of squared residuals r,"
+            }
+          ]
+        },
+        {
+          "type": "equation",
+          "index": 30,
+          "bbox": [
+            0.606,
+            0.675,
+            0.927,
+            0.705
+          ],
+          "image_path": "images/page_2_equation_30.jpg",
+          "content": "r \\equiv r (\\tilde {\\mathbf {E}}) = \\sum_ {m, n} [ \\tilde {T} _ {m n} ^ {\\text {meas}} - \\mu \\tilde {T} _ {m n} (\\tilde {\\mathbf {E}}) ] ^ {2}.\\tag{11}"
+        },
+        {
+          "type": "text",
+          "index": 31,
+          "bbox": [
+            0.515,
+            0.711,
+            0.9,
+            0.727
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "Throughout the paper, we use the trace error "
+            },
+            {
+              "type": "equation_inline",
+              "content": "R"
+            },
+            {
+              "type": "text",
+              "content": " defined by"
+            }
+          ]
+        },
+        {
+          "type": "equation",
+          "index": 32,
+          "bbox": [
+            0.59,
+            0.735,
+            0.927,
+            0.759
+          ],
+          "image_path": "images/page_2_equation_32.jpg",
+          "content": "R \\equiv R (\\tilde {\\mathbf {E}}) = r ^ {1 / 2} / [ M N (\\max _ {m, n} \\tilde {T} _ {m n} ^ {\\mathrm{meas}}) ^ {2} ] ^ {1 / 2}\\tag{12}"
+        },
+        {
+          "type": "text",
+          "index": 33,
+          "bbox": [
+            0.514,
+            0.765,
+            0.931,
+            0.855
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "to assess the convergence. R is the normalized root mean square error (NRMSE) between  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{T}_{mn}^{meas}"
+            },
+            {
+              "type": "text",
+              "content": "  and  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\mu\\tilde{T}_{mn}"
+            },
+            {
+              "type": "text",
+              "content": " . The normalization facilitates the comparison of R between different measurements and PNPS schemes. In the FROG literature, the maximum of  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{T}_{mn}^{meas}"
+            },
+            {
+              "type": "text",
+              "content": "  is usually normalized to unity and, thus, R is then equivalent to the FROG error G."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "index": 34,
+          "bbox": [
+            0.513,
+            0.855,
+            0.931,
+            0.9
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The scaling factor  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\mu"
+            },
+            {
+              "type": "text",
+              "content": "  in Eq. (11) accounts for different scales of the measured and computed traces. Its value can be obtained for every  "
+            },
+            {
+              "type": "equation_inline",
+              "content": "\\tilde{E}"
+            },
+            {
+              "type": "text",
+              "content": "  from an analytical solution by"
+            }
+          ]
+        },
+        {
+          "type": "equation",
+          "index": 35,
+          "bbox": [
+            0.599,
+            0.903,
+            0.927,
+            0.934
+          ],
+          "image_path": "images/page_2_equation_35.jpg",
+          "content": "\\mu = \\sum_ {m, n} [ \\tilde {T} _ {m n} ^ {\\text {meas}} \\tilde {T} _ {m n} (\\tilde {\\mathbf {E}}) ] / \\sum_ {m, n} \\tilde {T} _ {m n} (\\tilde {\\mathbf {E}}) ^ {2}.\\tag{13}"
+        }
+      ]
+    }
+  ],
+  "is_full_document": false,
+  "schema": "docvortex.middle",
+  "schema_version": "2.0"
+}

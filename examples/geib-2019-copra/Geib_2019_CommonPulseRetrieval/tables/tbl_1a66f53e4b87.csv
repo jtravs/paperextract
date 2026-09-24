@@ -1,0 +1,4 @@
+Scheme,Parameter δ,\widetilde{H}_{\delta}(\omega)
+d-Scanb,Glass insertion z,exp[ik(ω + Ω0)z]
+MIIPSc,Pattern shift δ,exp[iα cos(γω - δ)]
+iFROG,Delay τ,1/2 + exp[iτ(ω + Ω0)]/2
