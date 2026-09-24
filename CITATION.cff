@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: If you use paperextract in your work, please cite it as below.
+type: software
+title: "paperextract: local-first, auditable extraction of scientific papers"
+authors:
+  - family-names: Travers
+    given-names: John C.
+    orcid: "https://orcid.org/0000-0003-0350-9104"
+    affiliation: "Heriot-Watt University"
+license: Apache-2.0
+repository-code: "https://github.com/jtravs/paperextract"
+url: "https://paperextract.readthedocs.io"
+keywords:
+  - scientific documents
+  - PDF extraction
+  - equations
+  - tables
+  - bibliographic metadata
+  - digital libraries

@@ -6,6 +6,7 @@ Tooling, design and the implementation record.
 :maxdepth: 1
 
 dev/tooling
+dev/releasing
 design
 status
 corpus

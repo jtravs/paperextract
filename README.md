@@ -1,5 +1,14 @@
 # paperextract
 
+[![Check](https://github.com/jtravs/paperextract/actions/workflows/check.yml/badge.svg)](https://github.com/jtravs/paperextract/actions/workflows/check.yml)
+[![Coverage](https://codecov.io/gh/jtravs/paperextract/graph/badge.svg)](https://codecov.io/gh/jtravs/paperextract)
+[![Docs](https://readthedocs.org/projects/paperextract/badge/?version=latest)](https://paperextract.readthedocs.io)
+[![PyPI](https://img.shields.io/pypi/v/paperextract)](https://pypi.org/project/paperextract/)
+[![Python](https://img.shields.io/pypi/pyversions/paperextract)](https://pypi.org/project/paperextract/)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![basedpyright](https://img.shields.io/badge/types-basedpyright-blue)](https://docs.basedpyright.com)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue)](https://github.com/jtravs/paperextract/blob/main/LICENSE)
+
 **Turn a folder of scientific PDFs into a searchable, citable, machine-readable
 library, locally, without losing the equations, tables or figures.**
 
@@ -62,14 +71,16 @@ uv run paperextract describe --all --library ~/papers     # optional figure desc
 
 ## Documentation
 
-- [Getting started](docs/usage.md): installation, a first extraction and what it produces
-- [Command line](docs/cli.md): every command and setting
-- [Running on a Slurm cluster](docs/cluster.md): GPU batches
-- [Figure descriptions](docs/describe.md)
-- [Known limitations](docs/limitations.md): read before relying on a result
-- [Model licences](docs/models.md): the terms of each backend's models
+The manual is at **[paperextract.readthedocs.io](https://paperextract.readthedocs.io)**:
 
-Build the full manual with `uv run poe docs` and open
+- [Getting started](https://paperextract.readthedocs.io/en/latest/usage.html): installation, a first extraction and what it produces
+- [Command line](https://paperextract.readthedocs.io/en/latest/cli.html): every command and setting
+- [Running on a Slurm cluster](https://paperextract.readthedocs.io/en/latest/cluster.html): GPU batches
+- [Figure descriptions](https://paperextract.readthedocs.io/en/latest/describe.html)
+- [Known limitations](https://paperextract.readthedocs.io/en/latest/limitations.html): read before relying on a result
+- [Model licences](https://paperextract.readthedocs.io/en/latest/models.html): the terms of each backend's models
+
+To build it locally, run `uv run poe docs` and open
 `docs/_build/html/index.html`.
 
 ## Status
@@ -77,8 +88,8 @@ Build the full manual with `uv run poe docs` and open
 paperextract is in active development and has not been released. The
 pipeline is complete and has been run on about 170 papers on macOS and on
 NVIDIA A40 GPUs; accuracy has not yet been measured against a reviewed
-reference set. See the [changelog](CHANGELOG.md), the
-[design](dev/Plan.md) and the [implementation status](dev/Status.md).
+reference set. See the [changelog](https://github.com/jtravs/paperextract/blob/main/CHANGELOG.md), the
+[design](https://github.com/jtravs/paperextract/blob/main/dev/Plan.md) and the [implementation status](https://github.com/jtravs/paperextract/blob/main/dev/Status.md).
 
 ## Contributing
 
@@ -88,12 +99,12 @@ uv run poe check      # lint, types, docstrings, spelling, tests, manual
 ```
 
 The default test suite is offline and needs no models. See
-[AGENTS.md](AGENTS.md) for conventions and [tooling](docs/dev/tooling.md) for
+[AGENTS.md](https://github.com/jtravs/paperextract/blob/main/AGENTS.md) for conventions and [tooling](https://paperextract.readthedocs.io/en/latest/dev/tooling.html) for
 the checks.
 
 ## Licence
 
-Apache License 2.0; see [LICENSE](LICENSE) and [NOTICE](NOTICE). paperextract
+Apache License 2.0; see [LICENSE](https://github.com/jtravs/paperextract/blob/main/LICENSE) and [NOTICE](https://github.com/jtravs/paperextract/blob/main/NOTICE). paperextract
 distributes no model weights: each backend's models keep their own licences
-(summarized in [model licences](docs/models.md)), and papers keep their
+(summarized in [model licences](https://paperextract.readthedocs.io/en/latest/models.html)), and papers keep their
 publishers' copyright.

@@ -31,6 +31,15 @@ jobs:
       - run: uv lock --check
       - run: uv sync --locked --python ${{ matrix.python }}
       - run: uv run --no-sync poe check
+      # Upload once; the report is the same on every cell. Tokenless uploads
+      # work for public repositories; CODECOV_TOKEN avoids rate limits.
+      - name: Upload coverage to Codecov
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.12'
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          files: coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
       - run: uv build
       - name: Check wheel outside the checkout
         shell: bash

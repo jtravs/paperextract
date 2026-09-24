@@ -1,0 +1,50 @@
+# Publishes to PyPI through trusted publishing (OIDC): no token is stored.
+# Triggered by publishing a GitHub Release whose tag is v<version>, such as
+# v0.1.0. The package version comes from that tag through hatch-vcs.
+# One-time setup: see docs/dev/releasing.md.
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write # exchanged with PyPI for a short-lived upload token
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: "0.12.6"
+      - run: uv python install 3.12
+      - run: uv lock --check
+      - run: uv build
+      # A tag that is not a clean release version would publish a version
+      # under the wrong name, so check what was built.
+      - name: Check the built version matches the tag
+        run: |
+          expected="${GITHUB_REF_NAME#v}"
+          for file in dist/*; do
+            case "$file" in
+              *"paperextract-$expected-"*|*"paperextract-$expected.tar.gz") ;;
+              *) echo "$file does not carry version $expected" >&2; exit 1 ;;
+            esac
+          done
+      - name: Check the wheel outside the checkout
+        run: |
+          uv venv --python 3.12 "$RUNNER_TEMP/wheel"
+          uv pip install --python "$RUNNER_TEMP/wheel/bin/python" dist/*.whl
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/wheel/bin/paperextract" --help > /dev/null
+      - name: Publish to PyPI
+        run: uv publish --trusted-publishing always
