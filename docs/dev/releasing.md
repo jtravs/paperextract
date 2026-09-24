@@ -22,10 +22,11 @@ version string to edit.
    choose *Add project*, select `jtravs/paperextract`, and keep the name
    `paperextract`. The build follows `.readthedocs.yaml`; each push to `main`
    rebuilds `latest`, and each tag builds a version.
-4. **Codecov.** Sign in at <https://codecov.io> with GitHub and enable the
-   repository. Uploads from the `Check` workflow work without a token for a
-   public repository; adding the repository's upload token as the Actions
-   secret `CODECOV_TOKEN` avoids rate limits.
+4. **Codecov.** Sign in at <https://codecov.io> with GitHub and add the
+   repository. Copy its upload token into the repository's Actions secrets
+   as `CODECOV_TOKEN` (*Settings → Secrets and variables → Actions*). Until
+   then Codecov refuses the `Check` workflow's upload ("Token required"); the
+   workflow still passes, and the coverage badge shows "unknown".
 5. **Optional: Zenodo DOI.** At <https://zenodo.org>, *GitHub* settings,
    switch the repository on; each GitHub Release then gets an archived,
    citable DOI. `CITATION.cff` supplies the metadata.
