@@ -1,0 +1,149 @@
+[project]
+name = "paperextract"
+description = "Local-first, auditable extraction of scientific papers for durable knowledge corpora"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "John C. Travers", email = "jtravs@gmail.com" }]
+requires-python = ">=3.12"
+dynamic = ["version"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "pypdfium2>=5.13.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/jtravs/paperextract"
+Source = "https://github.com/jtravs/paperextract"
+Issues = "https://github.com/jtravs/paperextract/issues"
+Changelog = "https://github.com/jtravs/paperextract/blob/main/CHANGELOG.md"
+
+[project.scripts]
+paperextract = "paperextract.cli:main_entry"
+
+[project.optional-dependencies]
+anthropic = [
+    "anthropic>=1.8",
+]
+
+[dependency-groups]
+dev = [
+    "anthropic>=1.8",
+    "basedpyright==1.39.10",
+    "codespell>=2.4",
+    "myst-parser>=4",
+    "numpydoc>=1.9",
+    "poethepoet>=0.37",
+    "pydata-sphinx-theme>=0.16",
+    "pytest>=8.4",
+    "pytest-cov>=6",
+    "pytest-randomly>=3.16",
+    "pytest-socket>=0.7",
+    "ruff>=0.16.6",
+    "sphinx>=8",
+]
+
+[build-system]
+requires = ["hatchling>=1.27", "hatch-vcs>=0.4"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.version.raw-options]
+fallback_version = "0.0.0"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/paperextract"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "docs", "dev/Plan.md", "dev/Brief.md", "dev/Status.md", "dev/Corpus.md", "dev/Trials.md", "workers/README.md", "workers/models.json", "workers/*/pyproject.toml", "workers/*/uv.lock", "workers/*/*.py", "skills", "AGENTS.md", "CHANGELOG.md", "README.md", "LICENSE", "NOTICE", "pyproject.toml", "uv.lock"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+src = ["src", "tests"]
+extend-exclude = ["docs/_build", "dist", "data", "literature", "incoming"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "N", "D", "ANN", "UP", "B", "SIM", "C4", "PTH", "T20", "TID", "RET", "ARG", "PGH", "PL", "RUF"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.pylint]
+max-args = 6
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["D", "PLR2004"]
+"docs/conf.py" = ["D"]
+
+[tool.basedpyright]
+include = ["src", "tests", "docs/conf.py"]
+typeCheckingMode = "strict"
+pythonVersion = "3.12"
+failOnWarnings = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "src"]
+addopts = "-ra --strict-markers --strict-config --doctest-modules --disable-socket -m 'not backend and not gpu and not network and not benchmark'"
+filterwarnings = ["error"]
+xfail_strict = true
+markers = [
+    "backend: requires a separately installed extraction backend or model cache",
+    "gpu: requires a real accelerator",
+    "network: explicit live-service qualification, never in the offline gate",
+    "benchmark: scientific corpus evaluation or resource measurement",
+]
+
+[tool.coverage.run]
+source = ["paperextract"]
+branch = true
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true
+exclude_also = ["if TYPE_CHECKING:", "@overload"]
+
+[tool.numpydoc_validation]
+checks = ["all", "ES01", "SA01", "EX01", "GL01", "GL02"]
+exclude = ['\.__init__$']
+
+[tool.codespell]
+# Keep supplied source material and generated artifacts out of prose checks.
+skip = "uv.lock,dev/Brief.md,LICENSE,./.git,./.venv,./.pytest_cache,./.ruff_cache,./dist,./docs/_build,./data,./incoming,./literature,./model-cache,./benchmark-results"
+quiet-level = 3
+
+[tool.poe.executor]
+# uv run already selects the environment; subtasks must not resolve it again.
+type = "simple"
+
+[tool.poe.tasks]
+lint-fix = "ruff check --fix ."
+fmt = "ruff format ."
+lint = "ruff check ."
+format-check = "ruff format --check ."
+types = "basedpyright"
+docstrings = "python -m numpydoc lint src/paperextract/**/*.py"
+spell = "codespell"
+test = "pytest --cov=paperextract --cov-report=term-missing --cov-report=xml"
+docs = "sphinx-build -b html -W -n --keep-going docs docs/_build/html"
+
+[tool.poe.tasks.fix]
+sequence = ["lint-fix", "fmt"]
+help = "Apply lint fixes, then format; inspect the resulting diff."
+
+[tool.poe.tasks.check]
+sequence = ["lint", "format-check", "types", "docstrings", "spell", "test", "docs"]
+help = "Run the same non-mutating, offline quality gate locally and in CI."

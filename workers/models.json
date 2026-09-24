@@ -1,0 +1,855 @@
+{
+  "schema": "paperextract.model-manifest",
+  "schema_version": 2,
+  "note": "Pinned model snapshots and binaries for the backend workers. No weights are distributed with paperextract; each model has its own license.",
+  "sets": {
+    "mineru": {
+      "description": "MinerU with ONNX small models and the llama.cpp VLM (the default; CPU on Linux)",
+      "models": [
+        "mineru-onnx",
+        "mineru-vlm-gguf"
+      ],
+      "binaries": false
+    },
+    "mineru-cuda": {
+      "description": "MinerU with torch small models and the vLLM VLM on a CUDA GPU",
+      "models": [
+        "mineru-torch",
+        "mineru-vlm"
+      ],
+      "binaries": false
+    },
+    "docling": {
+      "description": "Docling layout, table and formula models",
+      "models": [
+        "docling-layout-heron",
+        "docling-models",
+        "codeformula-v2"
+      ],
+      "binaries": false
+    },
+    "marker": {
+      "description": "Marker's Surya models and the pinned llama.cpp server",
+      "models": [
+        "surya-ocr-gguf",
+        "surya-layout",
+        "surya-ocr-error"
+      ],
+      "binaries": true
+    },
+    "describe": {
+      "description": "Qwen3.8-27B for figure descriptions (about 56 GB)",
+      "models": [
+        "qwen3.8-27b"
+      ],
+      "binaries": false
+    }
+  },
+  "models": [
+    {
+      "name": "docling-layout-heron",
+      "backend": "docling",
+      "directory": "docling-project--docling-layout-heron",
+      "source": {
+        "kind": "huggingface",
+        "repository": "docling-project/docling-layout-heron",
+        "revision": "8f39ad3c0b4c58e9c2d2c84a38465abf757272d8"
+      },
+      "url": "https://huggingface.co/docling-project/docling-layout-heron/resolve/8f39ad3c0b4c58e9c2d2c84a38465abf757272d8",
+      "complete_marker": null,
+      "license": "Apache-2.0",
+      "license_status": "model_card_declared",
+      "files": [
+        {
+          "path": ".gitattributes",
+          "bytes": 1519,
+          "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+        },
+        {
+          "path": "README.md",
+          "bytes": 3219,
+          "sha256": "175700839bc7808eac6af1d0c23e4f483606ab2276fe01122f4093e61a1a65b6"
+        },
+        {
+          "path": "config.json",
+          "bytes": 3268,
+          "sha256": "fdea30805ce2f5666b147fca941dcdd27ad468e27d6ed21902207d3da056a97d"
+        },
+        {
+          "path": "docling_heron_400.png",
+          "bytes": 96925,
+          "sha256": "e7f78610372b32a7938e480d2c7fa1c3037ee170bd82282a5bd026232f6e6f9e"
+        },
+        {
+          "path": "model.safetensors",
+          "bytes": 171658996,
+          "sha256": "00333a43451945aaf89db8ca9c0a17e75d1537c17db60fdb91aa95f4c7929e0c"
+        },
+        {
+          "path": "preprocessor_config.json",
+          "bytes": 444,
+          "sha256": "cd38cd59999e7a95d68e487fbe5132df3d4e5c32a0836add57e6126ba0c4eaf1"
+        }
+      ]
+    },
+    {
+      "name": "docling-models",
+      "backend": "docling",
+      "directory": "docling-project--docling-models",
+      "source": {
+        "kind": "huggingface",
+        "repository": "docling-project/docling-models",
+        "revision": "fc0f2d45e2218ea24bce5045f58a389aed16dc23"
+      },
+      "url": "https://huggingface.co/docling-project/docling-models/resolve/fc0f2d45e2218ea24bce5045f58a389aed16dc23",
+      "complete_marker": null,
+      "license": "CDLA-Permissive-2.0 and Apache-2.0",
+      "license_status": "model_card_declared",
+      "files": [
+        {
+          "path": "README.md",
+          "bytes": 3413,
+          "sha256": "d17f233378eff1240b623b36da76ee8b40afcca05d505949713bf03f7e00822a"
+        },
+        {
+          "path": "model_artifacts/tableformer/accurate/tableformer_accurate.safetensors",
+          "bytes": 212758388,
+          "sha256": "2a7d6c924b3cd12fb99a09280ca9c33a89c5d60b93253617d2e088c1a40374d9"
+        },
+        {
+          "path": "model_artifacts/tableformer/accurate/tm_config.json",
+          "bytes": 7060,
+          "sha256": "984e122ceb8ccf84d84c9d2882f6f2302a44b4f1e577babd6289892c36f3cffd"
+        },
+        {
+          "path": "model_artifacts/tableformer/fast/tableformer_fast.safetensors",
+          "bytes": 145453276,
+          "sha256": "3119563aab5a7c96fda4d621119b63fd8806272b86c30936d15507616422f718"
+        },
+        {
+          "path": "model_artifacts/tableformer/fast/tm_config.json",
+          "bytes": 7060,
+          "sha256": "dca6762508dddfae6d57d6cb4ef822c6000119dff0f3b6489db7413118c2622a"
+        }
+      ]
+    },
+    {
+      "name": "codeformula-v2",
+      "backend": "docling",
+      "directory": "docling-project--CodeFormulaV2",
+      "source": {
+        "kind": "huggingface",
+        "repository": "docling-project/CodeFormulaV2",
+        "revision": "ecedbe111d15c2dc60bfd4a823cbe80127b58af4"
+      },
+      "url": "https://huggingface.co/docling-project/CodeFormulaV2/resolve/ecedbe111d15c2dc60bfd4a823cbe80127b58af4",
+      "complete_marker": null,
+      "license": "CDLA-Permissive-2.0",
+      "license_status": "model_card_declared",
+      "files": [
+        {
+          "path": ".gitattributes",
+          "bytes": 1519,
+          "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+        },
+        {
+          "path": "README.md",
+          "bytes": 1511,
+          "sha256": "684604c08aa8cc32b3d65049bc9794b57f3fc510953148ad3ba61d35f60bef9a"
+        },
+        {
+          "path": "added_tokens.json",
+          "bytes": 975,
+          "sha256": "002686b2efb9535c359458cd1121de8e1b58e67426a46e2bd4425843766a3a5e"
+        },
+        {
+          "path": "chat_template.json",
+          "bytes": 422,
+          "sha256": "c9d21553af689882ac89ad8e8412164662d1605f6595119664e85626df7be421"
+        },
+        {
+          "path": "config.json",
+          "bytes": 2638,
+          "sha256": "98f55cfe07dd168f9fab1f1eec35f754b23631ea1a9a7c9759b1b7cb41ab76b1"
+        },
+        {
+          "path": "generation_config.json",
+          "bytes": 169,
+          "sha256": "b17f1890b2b2baf172761c9c4d6eb956482ffa05964f357e67544ec998c9851f"
+        },
+        {
+          "path": "model.safetensors",
+          "bytes": 630993616,
+          "sha256": "4b04e77af34c4e682a7ab1617628340d658f3c3dcd12456dd2a7fff805cf79d2"
+        },
+        {
+          "path": "preprocessor_config.json",
+          "bytes": 486,
+          "sha256": "6cb6e36d6fcb88ca1502c4a26750715dc3e7dedddc9a8f17b27d8d167d1457e7"
+        },
+        {
+          "path": "processor_config.json",
+          "bytes": 68,
+          "sha256": "e7bff42da73ae9eec9042ef20e066e11f1ee20f025358ff79131e3c0fb549b46"
+        },
+        {
+          "path": "special_tokens_map.json",
+          "bytes": 1071,
+          "sha256": "1b17e900a73384d256db6f1a7591fd0d95c09e6aede680022b047386b97afcba"
+        },
+        {
+          "path": "tokenizer.json",
+          "bytes": 7160031,
+          "sha256": "5ec5d3780a2e01b140cf34f023eb600263855a99aacdc3eb0f2600d7b1b4ac96"
+        },
+        {
+          "path": "tokenizer_config.json",
+          "bytes": 24952,
+          "sha256": "37a0e94be9c9ab5197b2188e61cf764bbc015f45261013881fe37bd2fe8599e6"
+        },
+        {
+          "path": "vocab.json",
+          "bytes": 1612747,
+          "sha256": "8922f7e91084b9862d270c16ce1027071214aa252a1567a4b410f952101005fc"
+        }
+      ]
+    },
+    {
+      "name": "mineru-onnx",
+      "backend": "mineru",
+      "directory": "MinerU-4_models_onnx",
+      "source": {
+        "kind": "huggingface",
+        "repository": "opendatalab/MinerU-4_models_onnx",
+        "revision": "358310b4f64b95f9fefc372ad899356e4111f376"
+      },
+      "url": "https://huggingface.co/opendatalab/MinerU-4_models_onnx/resolve/358310b4f64b95f9fefc372ad899356e4111f376",
+      "complete_marker": null,
+      "license": "Apache-2.0 (not declared by the repository; its PaddlePaddle and MinerU sources are Apache-2.0)",
+      "license_status": "components_declared",
+      "files": [
+        {
+          "path": ".gitattributes",
+          "bytes": 1519,
+          "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+        },
+        {
+          "path": "Layout/PP-DocLayoutV2/inference.onnx",
+          "bytes": 213963712,
+          "sha256": "cd540dc296ff3115fe78efa65b68501e6a8dc74b198acc9834a725ffaa095aac"
+        },
+        {
+          "path": "Layout/PP-DocLayoutV2/inference.yml",
+          "bytes": 1482,
+          "sha256": "93100e0fb2cd76b9d246a853deea85e191d8333b2cfca7be76e82e4c4ebfa819"
+        },
+        {
+          "path": "MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M.onnx",
+          "bytes": 591263297,
+          "sha256": "20a32595c2b30282dcd069e6295e9fad96115697beb66acb9b681b814006d193"
+        },
+        {
+          "path": "MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M_inference.yml",
+          "bytes": 2244564,
+          "sha256": "87b5f3d7f2b2fe553627d77b37f496608ca150ebd0ef62d362591edca47b5538"
+        },
+        {
+          "path": "OCR/paddleocr/ch_PP-OCRv6_small_rec_infer.onnx",
+          "bytes": 21159378,
+          "sha256": "5435fd747c9e0efe15a96d0b378d5bd157e9492ed8fd80edf08f30d02fa24634"
+        },
+        {
+          "path": "OCR/paddleocr/ch_PP-OCRv6_small_rec_inference.yml",
+          "bytes": 150752,
+          "sha256": "c0541b06832948d7d3052e9ac6b572c6063d79ecd800493f4ec14d1b901c16d7"
+        },
+        {
+          "path": "OCR/paddleocr/ch_PP-OCRv6_tiny_det_infer.onnx",
+          "bytes": 1780590,
+          "sha256": "193bab7a04fca699a6c82e6abb5b81bdb28177f0abd4062552b04908dafb19f8"
+        },
+        {
+          "path": "OCR/paddleocr/ch_PP-OCRv6_tiny_det_inference.yml",
+          "bytes": 1068,
+          "sha256": "a1fa68ab31e29252936328e728633180908f997023d9eacb81f175e326676554"
+        },
+        {
+          "path": "OCR/paddleocr/seal_PP-OCRv4_det_infer.onnx",
+          "bytes": 4769171,
+          "sha256": "3e190df84542c2756975febe8f73603b587a23c7f7badfdd3fc8a986540d5bc0"
+        },
+        {
+          "path": "OCR/paddleocr/seal_PP-OCRv4_det_inference.yml",
+          "bytes": 711,
+          "sha256": "e5b8dd5a727602bdd526d9db152cc767bc761198c453460df7c8f7ae59d2ea3c"
+        },
+        {
+          "path": "README.md",
+          "bytes": 1298,
+          "sha256": "bb03afa9a76c3ccec9ecf0c92e99129eca3e0049f0c9269e8ec63446768e2449"
+        },
+        {
+          "path": "Table/PP-LCNet_x1_0_table_cls.onnx",
+          "bytes": 6776877,
+          "sha256": "c84bf1d79c1c74d534b5b12adb14dd12151c42f7ae3e4be4f1042b830f80b949"
+        },
+        {
+          "path": "Table/slanet-plus.onnx",
+          "bytes": 7758305,
+          "sha256": "d57a942af6a2f57d6a4a0372573c696a2379bf5857c45e2ac69993f3b334514b"
+        },
+        {
+          "path": "Table/unet.onnx",
+          "bytes": 8335007,
+          "sha256": "0ea48d3a17e35ef5c2e498a5e799566073234d39b1079ca21d9f4fafe73c6d20"
+        },
+        {
+          "path": "manifest.json",
+          "bytes": 12920,
+          "sha256": "d1610c0de099706ad09a41121e3e495cb0c5acb220609963d53905b4e40623d0"
+        }
+      ]
+    },
+    {
+      "name": "mineru-vlm-gguf",
+      "backend": "mineru",
+      "directory": "MinerU2.5-Pro-2605-1.2B-GGUF",
+      "source": {
+        "kind": "huggingface",
+        "repository": "jinzhenj/MinerU2.5-Pro-2605-1.2B-GGUF",
+        "revision": "9185688a0495e1577d521a757c7c0b62dd38ca48"
+      },
+      "url": "https://huggingface.co/jinzhenj/MinerU2.5-Pro-2605-1.2B-GGUF/resolve/9185688a0495e1577d521a757c7c0b62dd38ca48",
+      "complete_marker": ".mineru_complete",
+      "license": "Apache-2.0 (not declared by the repository; a quantization of opendatalab/MinerU2.5-Pro-2605-1.2B, Apache-2.0)",
+      "license_status": "base_model_declared",
+      "files": [
+        {
+          "path": ".gitattributes",
+          "bytes": 2075,
+          "sha256": "247a3cfc672484dd40bdf07af0f83ee7a4457e9a995dadb47eedc36c630103b6"
+        },
+        {
+          "path": "MinerU2.5-Pro-2605-1.2B-Q8_0.gguf",
+          "bytes": 531066496,
+          "sha256": "3f3523429c880d675c0330cb3de78240452bc40a961d037e24f91ab8488f03e7"
+        },
+        {
+          "path": "mmproj-MinerU2.5-Pro-2605-1.2B-Q8_0.gguf",
+          "bytes": 709409600,
+          "sha256": "b6c08ab50352677f7396af45ee60682f353f55488e26911d8154bfc37514d3f8"
+        }
+      ]
+    },
+    {
+      "name": "surya-ocr-gguf",
+      "backend": "marker",
+      "directory": "surya-ocr-2-gguf",
+      "source": {
+        "kind": "huggingface",
+        "repository": "datalab-to/surya-ocr-2-gguf",
+        "revision": "6a3a4c30e5e74446d4f8b6afd05b2f2da970f470"
+      },
+      "url": "https://huggingface.co/datalab-to/surya-ocr-2-gguf/resolve/6a3a4c30e5e74446d4f8b6afd05b2f2da970f470",
+      "complete_marker": null,
+      "license": "AI Pubs OpenRAIL-M, modified (use restrictions; share-alike includes outputs)",
+      "license_status": "license_text_reviewed",
+      "files": [
+        {
+          "path": "LICENSE",
+          "bytes": 14744,
+          "sha256": "b6be9042dce439368b606444256cd97624a97c67dfae33957b87c3a0b461ae03"
+        },
+        {
+          "path": "README.md",
+          "bytes": 22524,
+          "sha256": "7b43065e8610d9d80c8f4ae222a775b4e945ba93b10c57cb2dd165f36dc0b775"
+        },
+        {
+          "path": "surya-2-mmproj.gguf",
+          "bytes": 204986688,
+          "sha256": "98c0563673b1657ff6d021d1e5f04af06cbf61bb40c63ac613e8bb71b42fb2c0"
+        },
+        {
+          "path": "surya-2.gguf",
+          "bytes": 1266400864,
+          "sha256": "1f18abe17b1ed8b4e47ee9b1ad0e274c93daf5efbb6b29a04ff1712e37051e05"
+        }
+      ]
+    },
+    {
+      "name": "surya-layout",
+      "backend": "marker",
+      "directory": "surya_layout2",
+      "source": {
+        "kind": "huggingface",
+        "repository": "datalab-to/surya_layout2",
+        "revision": "0aee81d5fd9275c0582e545bf3a56944b1e75679"
+      },
+      "url": "https://huggingface.co/datalab-to/surya_layout2/resolve/0aee81d5fd9275c0582e545bf3a56944b1e75679",
+      "complete_marker": null,
+      "license": "AI Pubs OpenRAIL-M, modified (use restrictions; share-alike includes outputs)",
+      "license_status": "license_text_reviewed",
+      "files": [
+        {
+          "path": ".gitattributes",
+          "bytes": 1519,
+          "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+        },
+        {
+          "path": "LICENSE",
+          "bytes": 14744,
+          "sha256": "b6be9042dce439368b606444256cd97624a97c67dfae33957b87c3a0b461ae03"
+        },
+        {
+          "path": "README.md",
+          "bytes": 1447,
+          "sha256": "13e6e87fa26a13e5c043fb8c7fa0300287d42ac7b5bb5a16d77107aaca69f3e9"
+        },
+        {
+          "path": "config.json",
+          "bytes": 1796,
+          "sha256": "bd2db9bcc338841fc4496b10a69f07ccc544b0c80e94d94482295197b23d5605"
+        },
+        {
+          "path": "order/config.json",
+          "bytes": 434,
+          "sha256": "83e687c922ce1915adb212af882f54ba52dca17c5d556526af9d57c41b6e0124"
+        },
+        {
+          "path": "order/order_ar.pt",
+          "bytes": 7072639,
+          "sha256": "f381c38548015cbbe962611cbd2c80c59e88c3c25543ac20df9db16f84923ad8"
+        },
+        {
+          "path": "rfdetr_layout.pth",
+          "bytes": 134915547,
+          "sha256": "e01b79f858778cdad8a1384e644ac2b35f9c095fbfd102a34942e23f2f179fe7"
+        }
+      ]
+    },
+    {
+      "name": "mineru-torch",
+      "backend": "mineru",
+      "directory": "MinerU-4_models_torch",
+      "source": {
+        "kind": "huggingface",
+        "repository": "opendatalab/MinerU-4_models_torch",
+        "revision": "2b3afb86f4d23fa623f6b2f4b2279ed4ef93a89d"
+      },
+      "url": "https://huggingface.co/opendatalab/MinerU-4_models_torch/resolve/2b3afb86f4d23fa623f6b2f4b2279ed4ef93a89d",
+      "complete_marker": ".mineru_complete",
+      "license": "Apache-2.0",
+      "license_status": "model_card_declared",
+      "files": [
+        {
+          "path": ".gitattributes",
+          "bytes": 1519,
+          "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+        },
+        {
+          "path": "Layout/PP-DocLayoutV2/config.json",
+          "bytes": 3787,
+          "sha256": "18a696b54c64c4fa582afcd3a41407c4b65a99dc7ab187ad2fed8af8e4128ad8"
+        },
+        {
+          "path": "Layout/PP-DocLayoutV2/inference.yml",
+          "bytes": 1482,
+          "sha256": "93100e0fb2cd76b9d246a853deea85e191d8333b2cfca7be76e82e4c4ebfa819"
+        },
+        {
+          "path": "Layout/PP-DocLayoutV2/model.safetensors",
+          "bytes": 214798436,
+          "sha256": "e60f3725aeedc88fd319416ef166bda79171a41516a301c27cab9132dc2739d2"
+        },
+        {
+          "path": "Layout/PP-DocLayoutV2/preprocessor_config.json",
+          "bytes": 575,
+          "sha256": "56281a70c931a291dcaf653605fb4df713fd823f65e939aecd6005c26346a103"
+        },
+        {
+          "path": "MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M.pth",
+          "bytes": 617465525,
+          "sha256": "bd9d40fd9c7759805e93cb54f14f5e91448a80b14aadc2bfb25c4c948b2974e8"
+        },
+        {
+          "path": "MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M_inference.yml",
+          "bytes": 2243888,
+          "sha256": "e57ba132b657d08d52d6c19bee94f1eefe12190fddc23e9b1f6a54b8f31e051f"
+        },
+        {
+          "path": "OCR/paddleocr/ch_PP-OCRv6_small_rec_infer.safetensors",
+          "bytes": 21204736,
+          "sha256": "f65a332afe5aa663f0b9d5706f4ae8457b5b4058a842d5c1eb22df505c27d642"
+        },
+        {
+          "path": "OCR/paddleocr/ch_PP-OCRv6_tiny_det_infer.safetensors",
+          "bytes": 1786412,
+          "sha256": "cae3c88d2a9902fd0293e6b17990428f54bfa7ec98f800a4368e95423a754d16"
+        },
+        {
+          "path": "OCR/paddleocr/seal_PP-OCRv4_det_infer.pth",
+          "bytes": 14506268,
+          "sha256": "a7777ca66448ab90948ce5a3257e4c959d6eacf0489fbadd5133dbe8f89662ae"
+        },
+        {
+          "path": "README.md",
+          "bytes": 28,
+          "sha256": "98b45ea81164d1e1a1dd82255207053b15cd6c69d922a1c5cf3387ce604d4b74"
+        },
+        {
+          "path": "Table/PP-LCNet_x1_0_table_cls.onnx",
+          "bytes": 6776877,
+          "sha256": "c84bf1d79c1c74d534b5b12adb14dd12151c42f7ae3e4be4f1042b830f80b949"
+        },
+        {
+          "path": "Table/slanet-plus.onnx",
+          "bytes": 7758305,
+          "sha256": "d57a942af6a2f57d6a4a0372573c696a2379bf5857c45e2ac69993f3b334514b"
+        },
+        {
+          "path": "Table/unet.onnx",
+          "bytes": 8335007,
+          "sha256": "0ea48d3a17e35ef5c2e498a5e799566073234d39b1079ca21d9f4fafe73c6d20"
+        }
+      ]
+    },
+    {
+      "name": "mineru-vlm",
+      "backend": "mineru",
+      "directory": "MinerU2.5-Pro-2605-1.2B",
+      "source": {
+        "kind": "huggingface",
+        "repository": "opendatalab/MinerU2.5-Pro-2605-1.2B",
+        "revision": "bff20d4ae2bf202df9f45284b4d43681555a97ed"
+      },
+      "url": "https://huggingface.co/opendatalab/MinerU2.5-Pro-2605-1.2B/resolve/bff20d4ae2bf202df9f45284b4d43681555a97ed",
+      "complete_marker": ".mineru_complete",
+      "license": "Apache-2.0",
+      "license_status": "model_card_declared",
+      "files": [
+        {
+          "path": ".gitattributes",
+          "bytes": 1570,
+          "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930"
+        },
+        {
+          "path": "README.md",
+          "bytes": 15571,
+          "sha256": "8f829b69be518375b02023f795b3898adec98f5ac37208239884ad88e9a21cb7"
+        },
+        {
+          "path": "added_tokens.json",
+          "bytes": 800,
+          "sha256": "14155f41a9e51bee8ee7e5ff1b458418928d9ea86822ea5e98ae7bbdf1912ec8"
+        },
+        {
+          "path": "chat_template.jinja",
+          "bytes": 1017,
+          "sha256": "a0bc6f6fc7a29a80017a433e8f03a1cc1236e838a944a2d034295a60c4f2fddb"
+        },
+        {
+          "path": "config.json",
+          "bytes": 2840,
+          "sha256": "22097df08750242647a513043636a8dff16820a09757e9271e220bdea378df28"
+        },
+        {
+          "path": "generation_config.json",
+          "bytes": 215,
+          "sha256": "405a603af8aed51b82ef71a5e16e7c053d11576fdc2db3c168d32bac2fd75f0d"
+        },
+        {
+          "path": "merges.txt",
+          "bytes": 1671853,
+          "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+        },
+        {
+          "path": "model.safetensors",
+          "bytes": 2312126640,
+          "sha256": "abf8681ca63b8dec7b67de257af47b821f179442f72998d0696ae2ed9232a5f0"
+        },
+        {
+          "path": "preprocessor_config.json",
+          "bytes": 316,
+          "sha256": "7070ae84a684ce2eb8d239c2cb38ff848085075784b213ea28a5ef5b3cdb445f"
+        },
+        {
+          "path": "special_tokens_map.json",
+          "bytes": 919,
+          "sha256": "badbadb9452d98337219d280879a65eafe224d661a0216114c7cbd3e40ff4984"
+        },
+        {
+          "path": "tokenizer.json",
+          "bytes": 11423550,
+          "sha256": "dceac5fc54a795ee7570d17902b47bd05412dc2afa62bdf325c3f97fcb5b87fe"
+        },
+        {
+          "path": "tokenizer_config.json",
+          "bytes": 6596,
+          "sha256": "d762430b9c668b5c3ad95e26626e3982d5b2a59c18ff214d621d1de4318ff376"
+        },
+        {
+          "path": "vocab.json",
+          "bytes": 2776833,
+          "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+        }
+      ]
+    },
+    {
+      "name": "qwen3.8-27b",
+      "backend": "describe",
+      "directory": "Qwen--Qwen3.8-27B",
+      "source": {
+        "kind": "huggingface",
+        "repository": "Qwen/Qwen3.8-27B",
+        "revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0"
+      },
+      "url": "https://huggingface.co/Qwen/Qwen3.8-27B/resolve/1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+      "complete_marker": null,
+      "license": "Apache-2.0",
+      "license_status": "license_text_reviewed",
+      "files": [
+        {
+          "path": ".gitattributes",
+          "bytes": 1570,
+          "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930"
+        },
+        {
+          "path": "LICENSE",
+          "bytes": 11544,
+          "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a"
+        },
+        {
+          "path": "README.md",
+          "bytes": 65012,
+          "sha256": "57e4bdb258ee1a7d2635c5174ebd4e56abe392505cdb5f8bbb356b0dc4293641"
+        },
+        {
+          "path": "chat_template.jinja",
+          "bytes": 8952,
+          "sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041"
+        },
+        {
+          "path": "config.json",
+          "bytes": 4312,
+          "sha256": "191e0af232104ed8b65258cf3fb2b842e288008baca7633c11b82a1ac7203aab"
+        },
+        {
+          "path": "crc32.txt",
+          "bytes": 238,
+          "sha256": "b42dd291f5f98b05807e458f5b47849969a9b3326acbf0c97d28b05826740b83"
+        },
+        {
+          "path": "generation_config.json",
+          "bytes": 202,
+          "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e"
+        },
+        {
+          "path": "merges.txt",
+          "bytes": 3353259,
+          "sha256": "a9d356d7bdf1ef4949e3e748e95b8e10ad9d4e2e838eddc38a0a7b6b94d1db8d"
+        },
+        {
+          "path": "model-00001-of-00018.safetensors",
+          "bytes": 3966730552,
+          "sha256": "ba0ce20aae489ad196733da5064bcdf159a1fe84f53336648196e1ebb7751b1c"
+        },
+        {
+          "path": "model-00002-of-00018.safetensors",
+          "bytes": 3043080328,
+          "sha256": "06a148c01bfbe3faa14a5f184a7ff29a706f7ae1c8b2705d2058e26d17a001fb"
+        },
+        {
+          "path": "model-00003-of-00018.safetensors",
+          "bytes": 2542796952,
+          "sha256": "2e1bf62cbcd406eaa64b60d10353e1f0ef4039d0976e56f05cabe953454f9968"
+        },
+        {
+          "path": "model-00004-of-00018.safetensors",
+          "bytes": 3988973152,
+          "sha256": "511e34063187882659753c4d93f3859f93c019fd438d8813071921c81d9a3f1a"
+        },
+        {
+          "path": "model-00005-of-00018.safetensors",
+          "bytes": 2099339864,
+          "sha256": "635cb53446dc74f219740fc59e18b774f877b803b9722e289ca62575a6efa701"
+        },
+        {
+          "path": "model-00006-of-00018.safetensors",
+          "bytes": 3979553696,
+          "sha256": "0bc5214fac607f0e6cc92eec3789d4b8559410ef9fce66621ba8158e8410dae0"
+        },
+        {
+          "path": "model-00007-of-00018.safetensors",
+          "bytes": 2108759344,
+          "sha256": "80b0c49033e9a0d5762562aa12f4acdb7f54da586f3d0110f28c48d91cf07892"
+        },
+        {
+          "path": "model-00008-of-00018.safetensors",
+          "bytes": 3979553696,
+          "sha256": "7192c5b66185d3592927daabee1cc19e6f6e0ce75988ee20e824b624765fda79"
+        },
+        {
+          "path": "model-00009-of-00018.safetensors",
+          "bytes": 2108759344,
+          "sha256": "af3c48cc37af44f3db6ae0579baf019180d48d9c527caa0a1f03ff85813a56d8"
+        },
+        {
+          "path": "model-00010-of-00018.safetensors",
+          "bytes": 3979553696,
+          "sha256": "163490a76f3bea3a40855b7efc04ce6d27afaf1a34f0bbde495b9491f76457c9"
+        },
+        {
+          "path": "model-00011-of-00018.safetensors",
+          "bytes": 2108759344,
+          "sha256": "5f3ae1b948aeee39da77aec558e8236cd65fe4d7cb7686a76bb007acc563c6d8"
+        },
+        {
+          "path": "model-00012-of-00018.safetensors",
+          "bytes": 3979553696,
+          "sha256": "a3de1c7114677a8f5ac5c4892c90e8238ea5c1e2038c80e757dfc87c3902ca55"
+        },
+        {
+          "path": "model-00013-of-00018.safetensors",
+          "bytes": 2108759344,
+          "sha256": "06ab79a41f74c9c5cb734816feb0c7fc364104b227165ee7391231e1155aa02a"
+        },
+        {
+          "path": "model-00014-of-00018.safetensors",
+          "bytes": 3979553696,
+          "sha256": "4138ed94603065ba884bbcadedb04d7718bb40117e85e6f5c6fc5b9c05b7a85b"
+        },
+        {
+          "path": "model-00015-of-00018.safetensors",
+          "bytes": 2108759344,
+          "sha256": "69224e27b9de4e7dbf6fc936c6eaae08447bda3b80a6c31a871ab451173afd22"
+        },
+        {
+          "path": "model-00016-of-00018.safetensors",
+          "bytes": 3979564040,
+          "sha256": "73cb9a1089fb6155cb648609478d6633be8a5c7d9ca5a05bc8925ce8a553cefe"
+        },
+        {
+          "path": "model-00017-of-00018.safetensors",
+          "bytes": 2108759344,
+          "sha256": "beb51f01056142ac4984bd800507b0dd0fd18de57f8e9ef6ea41d1a3598983a8"
+        },
+        {
+          "path": "model-00018-of-00018.safetensors",
+          "bytes": 3392197344,
+          "sha256": "1d3479509e21494658f9b64d317f5ea8e55c4025d28c702d6c4d0b356ce8ea06"
+        },
+        {
+          "path": "model.safetensors.index.json",
+          "bytes": 112216,
+          "sha256": "77042094076611b69791a610065f28b7013b8c621795fa86ddccc8bac7d1b9df"
+        },
+        {
+          "path": "preprocessor_config.json",
+          "bytes": 390,
+          "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516"
+        },
+        {
+          "path": "tokenizer.json",
+          "bytes": 12809320,
+          "sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3"
+        },
+        {
+          "path": "tokenizer_config.json",
+          "bytes": 17928,
+          "sha256": "b11349aafa7cdc6a320767cf7ceb29ed82f7eda5d65e8e0819e76f0ce947bf27"
+        },
+        {
+          "path": "video_preprocessor_config.json",
+          "bytes": 385,
+          "sha256": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13"
+        },
+        {
+          "path": "vocab.json",
+          "bytes": 6722759,
+          "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+        }
+      ]
+    },
+    {
+      "name": "surya-ocr-error",
+      "backend": "marker",
+      "directory": "cache/ocr_error_detection/2025_02_18",
+      "source": {
+        "kind": "url",
+        "repository": "datalab-to",
+        "revision": "2025_02_18"
+      },
+      "url": "https://models.datalab.to/ocr_error_detection/2025_02_18",
+      "complete_marker": null,
+      "license": "AI Pubs OpenRAIL-M, modified (as the other Surya models; not shipped with the files)",
+      "license_status": "publisher_declared",
+      "files": [
+        {
+          "path": ".gitattributes",
+          "bytes": 1519,
+          "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+        },
+        {
+          "path": "README.md",
+          "bytes": 32,
+          "sha256": "a9d7ccd967379ca368a6495f523a63d1d582513406d2da37899f8bf51815db6b"
+        },
+        {
+          "path": "config.json",
+          "bytes": 647,
+          "sha256": "e11e04c98a43e1ed1eff099b4d6cb6dffbeb24fd226f709365defcb0f9e9ef83"
+        },
+        {
+          "path": "manifest.json",
+          "bytes": 161,
+          "sha256": "51408a4e2a69aa6ca91de4e91e953244b619ecf8bc28badfc3c30d653d643505"
+        },
+        {
+          "path": "model.safetensors",
+          "bytes": 270664948,
+          "sha256": "42cd5698d62dcdd408628fe6d67c3e1981fc90523ca286f358f1dea8e212de3e"
+        },
+        {
+          "path": "special_tokens_map.json",
+          "bytes": 695,
+          "sha256": "5d5b662e421ea9fac075174bb0688ee0d9431699900b90662acd44b2a350503a"
+        },
+        {
+          "path": "tokenizer.json",
+          "bytes": 2919362,
+          "sha256": "bf1b59b7b11c95f194f51708d918eea378e09d05f84c0e1656dc5180e8117088"
+        },
+        {
+          "path": "tokenizer_config.json",
+          "bytes": 1198,
+          "sha256": "228e2c7cc6d20d298f7a3d69b89103f6dcb0b533c0b1146a6e6b6e7bb511ae35"
+        },
+        {
+          "path": "vocab.txt",
+          "bytes": 995526,
+          "sha256": "fe0fda7c425b48c516fc8f160d594c8022a0808447475c1a7c6d6479763f310c"
+        }
+      ]
+    }
+  ],
+  "binaries": [
+    {
+      "name": "llama.cpp b10964",
+      "platform": "darwin-arm64",
+      "url": "https://github.com/ggml-org/llama.cpp/releases/download/b10964/llama-b10964-bin-macos-arm64.tar.gz",
+      "sha256": "033c845c1df9bf945ff37bb193238b40910b2244be3e1e637b2ceb5878f1a6f5",
+      "directory": "llama.cpp/b10964",
+      "license": "MIT"
+    },
+    {
+      "name": "llama.cpp b10964",
+      "platform": "linux-x86_64",
+      "url": "https://github.com/ggml-org/llama.cpp/releases/download/b10964/llama-b10964-bin-ubuntu-x64.tar.gz",
+      "sha256": "9abf88aea48a55d0f80edb1ee20220b186848cca0b4e919d71518cfd7ca67443",
+      "directory": "llama.cpp/b10964",
+      "license": "MIT"
+    }
+  ],
+  "license_review": "2026-09-24: licences read from model cards and shipped LICENSE files; see docs/models.md. Not legal advice."
+}

@@ -1,0 +1,20 @@
+[project]
+name = "paperextract-trial-mineru"
+version = "0.0.0"
+requires-python = "==3.12.*"
+dependencies = [
+    "mineru==4.0.5",
+]
+
+[project.optional-dependencies]
+# Linux GPU hosts: torch small models and the vLLM engine for the VLM.
+cuda = [
+    "mineru[full]==4.0.5; sys_platform == 'linux'",
+]
+
+[tool.uv]
+package = false
+environments = [
+    "sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+]
