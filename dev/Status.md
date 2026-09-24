@@ -199,6 +199,13 @@ and qualified feature.
   commits with site details stay private. The first GitHub CI run passed on
   all four cells (Linux and macOS, Python 3.12 and 3.14), including the
   wheel check outside the checkout.
+- Release setup (24 September 2026): PyPI trusted publishing from the
+  `Release` workflow (pending publisher added by John; GitHub environment
+  `pypi` limited to `v*` tags), Read the Docs building from
+  `.readthedocs.yaml` (first build passed), Codecov with the repository
+  token (100% coverage), README badges, `CITATION.cff`, and
+  `docs/dev/releasing.md`. Zenodo skipped by John. The changelog is ready
+  for 0.1.0.
 
 ## Current checkpoint: full materials run (24 September 2026, complete)
 

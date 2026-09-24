@@ -1,11 +1,13 @@
 # Changelog
 
 Notable changes are recorded here following Keep a Changelog. The package
-version is derived from Git; no release has been made.
+version is derived from Git tags.
 
 ## [Unreleased]
 
-First development series. Everything below is new unless it says otherwise.
+## [0.1.0] - 2026-09-24
+
+First release. Everything below is new.
 
 ### Added
 
@@ -105,3 +107,6 @@ First development series. Everything below is new unless it says otherwise.
   Roman table numbers and continued captions, page footnotes, panel-crop
   links, running headers read as headings, split reference entries, lost drop
   capitals and glyphs without a Unicode mapping.
+
+[Unreleased]: https://github.com/jtravs/paperextract/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/jtravs/paperextract/releases/tag/v0.1.0
