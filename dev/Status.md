@@ -204,8 +204,12 @@ and qualified feature.
   `pypi` limited to `v*` tags), Read the Docs building from
   `.readthedocs.yaml` (first build passed), Codecov with the repository
   token (100% coverage), README badges, `CITATION.cff`, and
-  `docs/dev/releasing.md`. Zenodo skipped by John. The changelog is ready
-  for 0.1.0.
+  `docs/dev/releasing.md`. Zenodo skipped by John.
+- **0.1.0 released** on 24 September 2026 at John's request: GitHub Release
+  `v0.1.0` on the commit whose CI passed; the `Release` workflow published
+  `paperextract-0.1.0` (wheel and source archive) to PyPI by trusted
+  publishing. A clean install from PyPI imports, reports version 0.1.0 and
+  searches an existing library.
 
 ## Current checkpoint: full materials run (24 September 2026, complete)
 
