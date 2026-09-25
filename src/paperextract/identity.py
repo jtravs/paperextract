@@ -725,11 +725,12 @@ def title_candidates(document: Document) -> tuple[str, ...]:
     tuple of str
         The plausible PDF information title, then the level-1 and then the
         level-2 headings of the first two processed pages, distinct and at
-        most four; standard
-        section names such as "Introduction" are left out. A running
-        header or a journal name set as a heading is among them as often as
-        the title, so each is only a candidate that a registry record must
-        match.
+        most four; standard section names such as "Introduction" are left
+        out. Without any candidate, the first two short paragraphs of the
+        first page that carry no DOI or link stand in, as some layouts set
+        the title as plain text. A
+        running header or a journal name is among them as often as the
+        title, so each is only a candidate that a registry record must match.
     """
     found: list[str] = []
     for observation in document.metadata:
@@ -754,8 +755,46 @@ def title_candidates(document: Document) -> tuple[str, ...]:
                 and not _SECTION_HEADING.match(text)
             ):
                 found.append(text)
+    if not found:
+        found.extend(_short_paragraphs(document, min(pages)))
     distinct = list(dict.fromkeys(found))
     return tuple(distinct[:_MAX_TITLES])
+
+
+_TITLE_PARAGRAPHS = 2
+_LINK = re.compile(r"10\.\d{4,9}/|https?://|www\.", re.IGNORECASE)
+_MAX_TITLE_CHARACTERS = 250
+
+
+def _short_paragraphs(document: Document, page: int) -> list[str]:
+    """Take the first short paragraphs of a page as title candidates.
+
+    Parameters
+    ----------
+    document : Document
+        Canonical document.
+    page : int
+        Page number, the first processed page.
+
+    Returns
+    -------
+    list of str
+        Text of up to two paragraphs of at most 250 characters from the top
+        of the page, such as a title set as plain text and its author line.
+    """
+    texts: list[str] = []
+    for block in document.blocks:
+        if isinstance(block, Paragraph) and block.span.page == page:
+            text = plain_text(block.runs).strip()
+            if (
+                0 < len(text) <= _MAX_TITLE_CHARACTERS
+                and plausible_title(text)
+                and not _LINK.search(text)
+            ):
+                texts.append(text)
+            if len(texts) == _TITLE_PARAGRAPHS:
+                break
+    return texts
 
 
 def _leading_pages(document: Document) -> frozenset[int]:
@@ -909,6 +948,9 @@ _ROYAL_FILE = re.compile(r"\b((?:rspa|rspb|rsta|rstb|rsif|rsos)\.\d{4}\.\d{4})\b
 _ACS_FILE = re.compile(r"^([a-z]{2}\d{6,7}[a-z]?)$", re.IGNORECASE)
 _ELSEVIER_FILE = re.compile(r"\bS(\d{4})(\d{3}[\dX])(\d{2})(\d{5})([\dX])\b")
 _ARXIV_FILE = re.compile(r"^(\d{4}\.\d{4,5})(v\d+)?$")
+# The Royal Society of Chemistry names older articles by their DOI suffix: a
+# journal code, the year, the volume and the first page, as in tf9686401776.
+_RSC_FILE = re.compile(r"^([a-z]{2}\d{10})$", re.IGNORECASE)
 # Springer names book downloads by ISBN and registers 10.1007/<ISBN>.
 _SPRINGER_BOOK_FILE = re.compile(r"^(97[89]-\d{1,5}-\d{1,7}-\d{1,7}-[\dX])$")
 _ELSEVIER_OLD_STYLE = 60
@@ -928,7 +970,8 @@ def filename_candidates(name: str) -> tuple[str, ...]:
         DOIs the name encodes by a publisher's convention: APS
         (``PhysRevA.13.1422``), Optica (``josa-61-1-89``), Springer Nature
         (``s41598-018-34641-y``), the Royal Society (``rspa.1920.0020``),
-        ACS (``jp980221f``), an Elsevier PII of an article registered before
+        ACS (``jp980221f``), the Royal Society of Chemistry
+        (``tf9686401776``), an Elsevier PII of an article registered before
         2000 (``1-s2.0-S0092640X83710132-main``), arXiv (``2206.01062v2``)
         and Springer books named by ISBN (``978-3-030-84632-9``).
         A name is supplied by a person or a download service, so each DOI is
@@ -955,6 +998,8 @@ def filename_candidates(name: str) -> tuple[str, ...]:
     base = re.sub(r"[-_ ]\d$", "", stem)
     if (acs := _ACS_FILE.match(base)) is not None:
         found.append(f"10.1021/{acs[1]}")
+    if (rsc := _RSC_FILE.match(base)) is not None:
+        found.append(f"10.1039/{rsc[1]}")
     for match in _ELSEVIER_FILE.finditer(stem):
         if int(match[3]) >= _ELSEVIER_OLD_STYLE:
             found.append(

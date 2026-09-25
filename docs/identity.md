@@ -44,6 +44,7 @@ convention, and yields a weak candidate, tried before the page-text scans:
 | Springer Nature | `s41598-018-34641-y.pdf` | `10.1038/s41598-018-34641-y` |
 | Royal Society | `rspa.1920.0020.pdf` | `10.1098/rspa.1920.0020` |
 | ACS | `jp980221f.pdf` | `10.1021/jp980221f` |
+| Royal Society of Chemistry, older articles | `tf9686401776.pdf` | `10.1039/tf9686401776` |
 | Elsevier, before 2000 | `1-s2.0-S0092640X83710132-main.pdf` | `10.1016/0092-640X(83)71013-2` |
 | arXiv | `2206.01062v2.pdf` | `10.48550/arxiv.2206.01062` |
 | Springer books | `978-3-030-84632-9.pdf` (the ISBN) | `10.1007/978-3-030-84632-9` |
@@ -108,7 +109,9 @@ title, unless it names an identifier, an authoring file or a typesetting
 template (such as `PII: …`, `Microsoft Word - …`, `acs_JX_jp-2011-094438 1..7`,
 `vyk90e3.tmp` or `Using JCP format`), then up to three level-1 headings of the
 first two processed pages, then their level-2 headings; standard section names
-such as "Introduction" are left out. A running header or a journal name set as a heading
+such as "Introduction" are left out. When there is no candidate at all, the
+first two short paragraphs of the first page that carry no DOI or link stand in,
+for layouts that set the title as plain text. A running header or a journal name set as a heading
 is often among them, which is harmless: a candidate counts only when a registry
 title matches it. DOI candidates whose record matches the first title candidate
 are tried first, and a record that matches only a later candidate is refused

@@ -674,6 +674,7 @@ def test_clean_title_removes_markup_but_not_words() -> None:
         ("s41598-018-34641-y.pdf", ("10.1038/s41598-018-34641-y",)),
         ("rspa.1920.0020.pdf", ("10.1098/rspa.1920.0020",)),
         ("jp980221f.pdf", ("10.1021/jp980221f",)),
+        ("tf9686401776.pdf", ("10.1039/tf9686401776",)),
         ("jp2094438-2.pdf", ("10.1021/jp2094438",)),
         (
             "1-s2.0-S0092640X83710132-main.pdf",
@@ -751,9 +752,30 @@ def test_title_candidates_skip_leftovers_and_later_pages() -> None:
     )
     assert title_candidates(second) == ("Polarization of laser light",)
     third = hinted_document(headings=((1, 3, "Only a third-level heading"),))
-    assert title_candidates(third) == ()
-    sections = hinted_document(
-        headings=((1, 2, "1. Introduction"), (2, 2, "Results and Discussion"))
+    # Without a candidate heading, the short paragraphs on top stand in.
+    assert title_candidates(third) == ("S. Augst and D. Meyerhofer", "Rochester, 1991")
+    plain = replace(
+        hinted_document(),
+        blocks=(
+            Paragraph("p0", "body", runs("x" * 300), span(1)),
+            Paragraph("p1", "body", runs("High-field quantum calculation"), span(1)),
+            Paragraph("p2", "body", runs("P. Bejot and O. Faucher"), span(1)),
+            Paragraph("p3", "body", runs("Dijon, France"), span(1)),
+            Paragraph("p4", "body", runs("On page two"), span(2)),
+        ),
+    )
+    assert title_candidates(plain) == (
+        "High-field quantum calculation",
+        "P. Bejot and O. Faucher",
+    )
+    sections = replace(
+        hinted_document(
+            headings=((1, 2, "1. Introduction"), (2, 2, "Results and Discussion"))
+        ),
+        blocks=(
+            Heading("h1", 2, runs("1. Introduction"), span(1)),
+            Heading("h2", 2, runs("Results and Discussion"), span(2)),
+        ),
     )
     assert title_candidates(sections) == ()
 
@@ -1079,7 +1101,13 @@ def test_a_bibtex_entry_asserts_an_identity_no_registry_holds() -> None:
     assert statuses["title"] == ("ASSERTED", "user")
     assert statuses["doi"] == ("UNVERIFIED", None)
     assert Identity.from_json(identity.to_json()) == identity
-    bare = identity_from_bibtex(REPORT, hinted_document(body="undated"))
+    bare = identity_from_bibtex(
+        REPORT,
+        replace(
+            hinted_document(),
+            blocks=(PageFurniture("hdr", "header", runs("undated"), span(1)),),
+        ),
+    )
     assert [(c.name, c.outcome) for c in bare.checks][:2] == [
         ("title", "not_checked"),
         ("year", "warn"),

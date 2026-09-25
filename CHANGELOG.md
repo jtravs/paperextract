@@ -11,7 +11,12 @@ version is derived from Git tags.
   batch shard that received no papers, when other directories given have
   runs, instead of refusing the whole command.
 - Springer books downloaded under their ISBN, such as `978-3-030-84632-9.pdf`,
-  give the weak DOI candidate `10.1007/<ISBN>`.
+  give the weak DOI candidate `10.1007/<ISBN>`, and older Royal Society of
+  Chemistry articles named by their DOI suffix, such as `tf9686401776.pdf`,
+  give `10.1039/<name>`.
+- A paper whose first pages have no title candidate at all uses its first two
+  short paragraphs without a DOI or link as candidates, for layouts that set
+  the title as plain text.
 
 ### Changed
 
