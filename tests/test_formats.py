@@ -167,6 +167,9 @@ def test_integrity_problems_mark_a_paper_damaged(tmp_path: Path) -> None:
     (directory / "broken.json").write_text("{")
     (directory / "notes" / "mine.txt").parent.mkdir()
     (directory / "notes" / "mine.txt").write_text("my notes")
+    # Metadata that file managers write is not a problem.
+    for name in (".DS_Store", "notes/._mine.txt", "Thumbs.db", "desktop.ini"):
+        (directory / name).write_bytes(b"\0")
     check = check_paper(directory, tmp_path / "library")
     assert check.state == "damaged"
     assert check.problems == (

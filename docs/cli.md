@@ -254,7 +254,9 @@ corrections and export run again, the rebuilt `paper.md` can differ from the
 old one, for example in corrected text or new findings. A paper is refused
 when a record has an unknown version (`unsupported`) or when a file is
 missing, changed since publication or not listed in the manifest
-(`damaged`), because a rebuild would replace such files. Kept evidence in
+(`damaged`), because a rebuild would replace such files. Files that file
+managers write into the folders they show (`.DS_Store`, `._*`, `Thumbs.db`,
+`desktop.ini`, `.directory`) are ignored. Kept evidence in
 `original/` and `diagnostics/` is checked for integrity only; it is never
 rewritten. Afterwards the catalog and index are rebuilt, unless a paper has
 an unknown version.

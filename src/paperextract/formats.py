@@ -32,6 +32,7 @@ __all__ = [
     "record_state",
     "require_readable",
     "require_readable_paper",
+    "system_file",
 ]
 
 # Each earlier version listed here is read by the current readers and
@@ -397,11 +398,39 @@ def _integrity(paper: Path, entries: list[dict[str, object]]) -> list[str]:
         for relative in sorted(
             item.relative_to(paper).as_posix()
             for item in paper.rglob("*")
-            if item.is_file()
+            if item.is_file() and not system_file(item.name)
         )
         if relative not in listed
     )
     return problems
+
+
+# Files that file managers write into folders they display: Finder's
+# .DS_Store and AppleDouble "._" files, Windows' Thumbs.db and desktop.ini,
+# KDE's .directory. They are not part of a paper and never listed.
+_SYSTEM_FILES = frozenset({".DS_Store", "Thumbs.db", "desktop.ini", ".directory"})
+
+
+def system_file(name: str) -> bool:
+    """Tell whether a file name is metadata a file manager wrote.
+
+    Parameters
+    ----------
+    name : str
+        File name without its directory.
+
+    Returns
+    -------
+    bool
+        True for ``.DS_Store``, AppleDouble ``._*`` files, ``Thumbs.db``,
+        ``desktop.ini`` and ``.directory``, which the integrity check ignores.
+
+    Examples
+    --------
+    >>> system_file(".DS_Store"), system_file("._paper.md"), system_file("paper.md")
+    (True, True, False)
+    """
+    return name in _SYSTEM_FILES or name.startswith("._")
 
 
 def check_paper(paper: Path, library: Path) -> PaperCheck:

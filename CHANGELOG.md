@@ -39,6 +39,9 @@ version is derived from Git tags.
 
 ### Changed
 
+- The integrity check of `migrate` ignores metadata files that file managers
+  write into folders, such as Finder's `.DS_Store`, so opening a paper in
+  Finder no longer marks it damaged.
 - A registry author delivered as one string of initials and a surname, such as
   "D V Willetts", is split into given and family names, so the paper is named
   `Willetts_…` and cited correctly; the delivered string is kept.
