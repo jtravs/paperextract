@@ -30,6 +30,7 @@ from paperextract.registry import (
     parse_crossref,
     parse_datacite,
     search_bibliographic,
+    split_name,
 )
 
 CROSSREF_BODY = {
@@ -528,3 +529,69 @@ def test_mathml_elements_stay_separate_words_in_plain_titles() -> None:
     url = crossref_url("10.1000/example.1")
     record = parse_crossref(response(url, 200, {"message": work}))
     assert record.title == "Susceptibility of H2 and D2"
+
+
+@pytest.mark.parametrize(
+    ("name", "parts"),
+    [
+        ("D V Willetts", ("D V", "Willetts")),
+        ("D.V. Willetts", ("D.V.", "Willetts")),
+        ("J.-P. Wolf", ("J.-P.", "Wolf")),
+        ("JP McDonald", ("JP", "McDonald")),
+        ("Willetts", None),
+        ("P Th van Duijnen", None),
+        ("D V WILLETTS", None),
+        ("A B C D E Smith", None),
+    ],
+)
+def test_whole_names_split_only_into_initials_and_one_surname(
+    name: str, parts: tuple[str, str] | None
+) -> None:
+    assert split_name(name) == parts
+
+
+def test_crossref_whole_names_and_translation_links_are_read() -> None:
+    message: dict[str, object] = {
+        **cast("dict[str, object]", CROSSREF_BODY["message"]),
+        "author": [
+            {"family": "D V Willetts", "sequence": "first"},
+            {"given": "M. R.", "family": "Harris"},
+            {"family": "Collaboration"},
+            {"family": "M R Harris", "name": "M R Harris"},
+        ],
+        "relation": {
+            "is-translation-of": [
+                {"id-type": "doi", "id": "10.3367/UFNr.0154.198802a.0177"},
+                {"id-type": "uri", "id": "https://example.org"},
+                {"id-type": "doi", "id": "not a doi"},
+            ]
+        },
+    }
+    record = parse_crossref(
+        response(crossref_url("10.1000/example.1"), 200, {"message": message})
+    )
+    assert [(a.given, a.family, a.literal) for a in record.authors] == [
+        ("D V", "Willetts", "D V Willetts"),
+        ("M. R.", "Harris", None),
+        (None, "Collaboration", None),
+        (None, "M R Harris", "M R Harris"),
+    ]
+    assert record.relations == (
+        ("is-translation-of", "10.3367/ufnr.0154.198802a.0177"),
+    )
+    assert record.to_dict()["relations"] == [
+        ["is-translation-of", "10.3367/ufnr.0154.198802a.0177"]
+    ]
+    plain = parse_crossref(
+        response(
+            crossref_url("10.1000/example.1"),
+            200,
+            {
+                "message": {
+                    **cast("dict[str, object]", CROSSREF_BODY["message"]),
+                    "relation": [],
+                }
+            },
+        )
+    )
+    assert plain.relations == ()

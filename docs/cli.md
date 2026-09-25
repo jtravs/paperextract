@@ -16,7 +16,7 @@ paperextract publish staged/1 staged/2       # publish staged runs in one step
 paperextract publish literature/.paperextract/runs/RUN --refresh-identity
 paperextract models status --verify          # pinned models present and intact?
 paperextract models fetch mineru docling
-paperextract extract paper.pdf --supplement paper_SI.pdf
+paperextract extract paper.pdf --supplement paper_SI.pdf   # also for a published paper
 paperextract extract paper.pdf --table-check    # cross-check tables with Docling
 paperextract extract paper.pdf --backend docling
 paperextract compare paper.pdf --backends mineru,docling,marker
@@ -29,12 +29,13 @@ paperextract index rebuild
 paperextract organize --layout by-year --dry-run
 paperextract migrate --dry-run               # which papers are in older formats
 paperextract reprocess Unverified_1c17a06cda95 --refresh-identity
+paperextract reprocess Unverified_1c17a06cda95 --doi 10.1103/PhysRevA.13.1422
 paperextract extract -- ./status             # a file whose name is a command
 ```
 
 | Command | Purpose |
 | --- | --- |
-| `extract PDF [--supplement PDF]... [--html PAGE]...` | Extract one paper with its supplements, published in one paper directory, with saved article pages preserved and compared. Several positional paths are refused; use `--supplement` or `batch`. |
+| `extract PDF [--supplement PDF]... [--html PAGE]...` | Extract one paper with its supplements, published in one paper directory, with saved article pages preserved and compared. When the paper is already in the library, its supplements are extracted and added to it, which republishes the paper from its kept output. Several positional paths are refused; use `--supplement` or `batch`. |
 | `batch PATH...` | Extract every top-level PDF of the given directories and every given file, as separate papers. Subdirectories are not searched. |
 | `dedup PATH...` | Report duplicates against each other and the library. Nothing is copied, extracted or changed. |
 | `publish RUN...` | Publish kept or staged run directories, or directories of them, one after another: after a failure was fixed, into a second library, or after `batch --runs-to`. |
@@ -43,7 +44,7 @@ paperextract extract -- ./status             # a file whose name is a command
 | `search QUERY [LIBRARY]... [--limit N]` | Full-text search over titles, authors, abstracts and paper text, ranked, with a snippet. |
 | `migrate [--dry-run]` | Check every paper's record versions and files against its manifest, rebuild outdated papers in the current formats from their kept output, and rebuild the catalog and index. |
 | `index rebuild` | Recompute the catalog from the paper directories and rebuild the search index and derived catalogs. |
-| `reprocess PAPER... \| --all` | Rebuild published papers from the output they keep, with the current normalization, corrections and export, and replace them; `--refresh-identity` resolves identity again and may rename a paper. The extraction backend does not run. |
+| `reprocess PAPER... \| --all` | Rebuild published papers from the output they keep, with the current normalization, corrections and export, and replace them; `--refresh-identity` resolves identity again and may rename a paper. For one named paper, `--doi DOI` or `--bibtex FILE` asserts its identity; see [bibliographic identity](identity.md). The extraction backend does not run. |
 
 The extraction commands need a source checkout with the worker environment
 of the chosen backend and its models; see the worker README for setup. The
@@ -60,7 +61,7 @@ automatic actions, following the design's duplicate tiers:
 | Identical bytes already in the library | Not extracted | `skipped` |
 | Different bytes, identical text on every page | Not extracted; preserved in the equivalent paper as `original/source_NN/` with role `equivalent_copy` (a library paper is republished without extraction) | `attached` (`held` if that paper failed) |
 | Same first DOI candidate, different text | Both are extracted; listed by `dedup` for review | `shared DOI` in `dedup` |
-| A file named as a supplement (`SI`, `supp`, `suppl`, `supplementary`, `ESM`, `supporting`) | Published with the paper that shares its DOI, or with the one paper whose file name clearly shares the longest start; otherwise held | `supplement` lines; `held` when unpaired or when its paper is already published |
+| A file named as a supplement (`SI`, `supp`, `suppl`, `sm`, `supplementary`, `ESM`, `supporting`) | Published with the paper that shares its DOI, or with the one paper whose file name clearly shares the longest start; otherwise held | `supplement` lines; `held` when unpaired or when its paper is already published |
 
 Text equivalence requires at least 200 characters of text, so short covers and
 scans without a text layer never match. The copy's bytes then count as part

@@ -59,7 +59,7 @@ you will parse the output. Progress goes to stderr, results to stdout.
 | File | Use |
 | --- | --- |
 | `paper.md` | Full text with YAML front matter, headings, inline and display math as LaTeX, tables, figure captions and links to assets. Start here. |
-| `citation.bib`, `metadata.json` | Validated bibliographic identity; `bibliographic_status` says whether it is `VALIDATED`, `VALIDATED_WITH_WARNINGS` or `UNVERIFIED`. Unverified papers have no `citation.bib`; their observed title, authors and DOI candidates are under `observed` in the `paper.md` front matter. |
+| `citation.bib`, `metadata.json` | Validated bibliographic identity; `bibliographic_status` says whether it is `VALIDATED`, `VALIDATED_WITH_WARNINGS`, `ASSERTED` (the user supplied the identity, for a work no registry holds; not validated) or `UNVERIFIED`. Unverified papers have no `citation.bib`; their observed title, authors and DOI candidates are under `observed` in the `paper.md` front matter. |
 | `tables/<id>.json`, `.csv`, `.html` | Exact table cells. Take numbers from here, not from the Markdown rendering. |
 | `figures/<id>.png` | Complete figure crops, to look at when a caption is not enough. |
 | `descriptions/<id>.json` | Machine-generated figure descriptions. |
@@ -119,7 +119,9 @@ mineru,docling,marker` when the user wants to see how the backends differ on
 one PDF (minutes per backend; publishes nothing). `--offline` avoids registry lookups, so
 papers are published `UNVERIFIED` even when they print a DOI;
 `paperextract reprocess PAPER --refresh-identity` (online) validates them
-later without extracting again, and may rename them.
+later without extracting again, and may rename them. When the user knows what
+an unverified paper is, `reprocess PAPER --doi DOI` or `--bibtex FILE` records
+that assertion.
 For large or repeated jobs write a manifest (`dedup --manifest-out`, then
 `batch --manifest FILE`). Figure descriptions are a separate step,
 `paperextract describe --all`, that needs a model server; never use

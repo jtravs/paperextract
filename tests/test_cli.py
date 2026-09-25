@@ -573,7 +573,7 @@ def test_batch_pairs_supplements_and_holds_orphans(
     assert code == EXIT_OK
     assert out.count("skipped\t") == 2
     assert "held\tsoliton_paper_supplement2.pdf\tUnverified_" in out
-    assert "adding supplements to a published paper is not implemented" in out
+    assert "paperextract extract PAPER --supplement FILE" in out
     code, out, _err = cli("dedup", str(incoming))
     assert code == EXIT_OK
     assert "supplement?\torphan_supp.pdf\tno matching paper; held" in out
@@ -1566,3 +1566,124 @@ def test_a_staged_batch_leaves_the_library_alone_until_publish(
     assert code == EXIT_USAGE
     assert "No completed extraction" in err
     assert paperextract.cli._completed_runs(cli.tmp_path / "absent") == ({}, [])  # pyright: ignore[reportPrivateUsage]
+
+
+def test_extract_adds_supplements_to_a_published_paper(
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+    native_worker: Callable[[Path, str], Path],
+    pdf_builder: Callable[..., bytes],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    cli = Cli(tmp_path, capsys, native_worker)
+    pdf = make_pdf(tmp_path / "in", "paper.pdf", pdf_builder)
+    first = make_pdf(tmp_path / "in", "extra.pdf", pdf_builder, marker=" SI")
+    second = make_pdf(tmp_path / "in", "more.pdf", pdf_builder, marker=" SI 2")
+    assert cli("extract", str(pdf), "--no-registry")[0] == EXIT_OK
+    (row,) = read_catalog(cli.library)
+    name = str(row["directory"])
+    code, document = cli.json("extract", str(pdf), "--supplement", str(first))
+    assert code == EXIT_OK
+    (item,) = items(document)
+    assert item["status"] == "republished"
+    assert item["message"] == "added 1 supplement(s)"
+    assert (cli.library / name / "supplement_01" / "supplement.md").is_file()
+    code, _out, _err = cli("extract", str(pdf), "--supplement", str(second))
+    assert code == EXIT_OK
+    assert (cli.library / name / "supplement_02" / "supplement.md").is_file()
+    (row,) = read_catalog(cli.library)
+    assert len(row["source_sha256"]) == 3  # type: ignore[arg-type]
+    failing = Cli(tmp_path, capsys, native_worker, "failed")
+    third = make_pdf(tmp_path / "in", "third.pdf", pdf_builder, marker=" SI 3")
+    code, out, _err = failing("extract", str(pdf), "--supplement", str(third))
+    assert code == EXIT_FAILURE
+    assert "supplement\tValueError: third.pdf: boom" in out
+    assert not (cli.library / name / "supplement_03").exists()
+
+
+def test_reprocess_asserts_a_doi_or_a_bibtex_identity(
+    cli: Cli,
+    pdf_builder: Callable[..., bytes],
+    monkeypatch: pytest.MonkeyPatch,
+    synthetic_lookup: Callable[[str], object],
+) -> None:
+    pdf = make_pdf(cli.tmp_path / "in", "paper.pdf", pdf_builder)
+    assert cli("extract", str(pdf), "--no-registry")[0] == EXIT_OK
+    (row,) = read_catalog(cli.library)
+    name = str(row["directory"])
+
+    def lookup(_config: object) -> Callable[[str], object]:
+        return synthetic_lookup
+
+    monkeypatch.setattr(paperextract.cli, "_lookup", lookup)
+    code, out, _err = cli("reprocess", name, "--doi", "doi:10.1000/X")
+    assert code == EXIT_OK
+    assert "\tAuthor_2020_SyntheticPaper\tVALIDATED_WITH_WARNINGS\t" in out
+    paper = cli.library / "Author_2020_SyntheticPaper"
+    extraction = json.loads((paper / "extraction.json").read_text())
+    assert extraction["assertions"] == {"doi": "doi:10.1000/X"}
+    entry = cli.tmp_path / "report.bib"
+    entry.write_text(
+        "@techreport{r, author = {Pitchford, L. C.}, title = {A synthetic report},"
+        " institution = {JILA}, year = {1981}}"
+    )
+    code, out, _err = cli("reprocess", str(paper), "--bibtex", str(entry))
+    assert code == EXIT_OK
+    assert "\tPitchford_1981_SyntheticReport\tASSERTED\t" in out
+    asserted = cli.library / "Pitchford_1981_SyntheticReport"
+    citation = (asserted / "citation.bib").read_text()
+    assert citation.startswith("@techreport{pitchford1981synthetic,")
+    assert "institution = {JILA}" in citation
+    metadata = json.loads((asserted / "metadata.json").read_text())
+    assert metadata["bibliography_validation"]["status"] == "ASSERTED"
+    (row,) = read_catalog(cli.library)
+    assert row["bibliographic_status"] == "ASSERTED"
+    assert "pitchford1981synthetic" in (cli.library / "library.bib").read_text()
+
+
+@pytest.mark.parametrize(
+    ("argv", "bib", "message"),
+    [
+        (["--all", "--doi", "10.1000/x"], None, "apply to exactly one named paper"),
+        (["PAPER", "--doi", "10.1/x", "--bibtex", "BIB"], "", "not both"),
+        (["PAPER", "--doi", "nonsense"], None, "is not a DOI"),
+        (["PAPER", "--bibtex", "missing.bib"], None, "Not found"),
+        (
+            ["PAPER", "--bibtex", "BIB"],
+            "@misc{a, title={T}} @misc{b, title={U}}",
+            "exactly one",
+        ),
+        (["PAPER", "--bibtex", "BIB"], "@misc{a, title = {T}}", "lacks author, year"),
+        (
+            ["PAPER", "--bibtex", "BIB"],
+            "@misc{a, author={A}, title={T}, year={1}, doi={10.1/x}}",
+            "assert it with --doi",
+        ),
+        (
+            ["PAPER", "--bibtex", "BIB"],
+            "@misc{a, author={A}, title={T}, year={n.d.}}",
+            "the year is not a number",
+        ),
+    ],
+)
+def test_reprocess_assertion_usage_errors(
+    cli: Cli,
+    pdf_builder: Callable[..., bytes],
+    argv: list[str],
+    bib: str | None,
+    message: str,
+) -> None:
+    pdf = make_pdf(cli.tmp_path / "in", "paper.pdf", pdf_builder)
+    assert cli("extract", str(pdf), "--no-registry")[0] == EXIT_OK
+    (row,) = read_catalog(cli.library)
+    entry = cli.tmp_path / "entry.bib"
+    if bib is not None:
+        entry.write_text(bib)
+    values = [
+        str(row["directory"]) if a == "PAPER" else str(entry) if a == "BIB" else a
+        for a in argv
+    ]
+    code, _out, err = cli("reprocess", *values)
+    assert code == EXIT_USAGE
+    assert message in err

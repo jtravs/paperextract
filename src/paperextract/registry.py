@@ -49,6 +49,7 @@ __all__ = [
     "parse_crossref",
     "parse_datacite",
     "search_bibliographic",
+    "split_name",
 ]
 
 Provider = Literal["crossref", "datacite"]
@@ -436,7 +437,9 @@ class Author:
     family : str or None
         Family name.
     literal : str or None
-        Unparsed or collective name when parts are unavailable.
+        Unparsed or collective name when parts are unavailable, or the name
+        as delivered when it arrived as one string that was split into
+        ``given`` and ``family``.
     orcid : str or None
         ORCID URL or identifier as supplied.
     sequence : str or None
@@ -512,6 +515,9 @@ class RegistryRecord:
         License URLs.
     abstract : str or None
         Plain abstract when delivered.
+    relations : tuple of tuple of str
+        Registered relations as ``(type, doi)`` pairs, such as
+        ``("is-translation-of", "10.3367/ufnr.0154.198802a.0177")``.
     source_url : str
         Query URL.
     retrieved_utc : str
@@ -546,6 +552,7 @@ class RegistryRecord:
     retrieved_utc: str
     body_sha256: str
     cached: bool
+    relations: tuple[tuple[str, str], ...] = ()
 
     @property
     def year(self) -> int | None:
@@ -587,6 +594,7 @@ class RegistryRecord:
             "issn": list(self.issn),
             "license_urls": list(self.license_urls),
             "abstract": self.abstract,
+            "relations": [list(pair) for pair in self.relations],
             "source_url": self.source_url,
             "retrieved_utc": self.retrieved_utc,
             "body_sha256": self.body_sha256,
@@ -762,6 +770,80 @@ def _strings(value: object) -> tuple[str, ...]:
     )
 
 
+# Initials such as "D V", "D.V." or "J.-P." followed by one capitalized
+# surname, as some older records deliver a whole name in one field.
+_INITIALS_THEN_SURNAME = re.compile(
+    r"^(?P<given>(?:[A-Z]\.?(?:-[A-Z]\.?)?[\s.]*){1,4}?)\s*"
+    r"(?P<family>[A-Z][a-z][A-Za-z'\u2019-]*)$"
+)
+
+
+def split_name(name: str) -> tuple[str, str] | None:
+    """Split a one-string name into given initials and a family name.
+
+    Parameters
+    ----------
+    name : str
+        Name as a registry delivered it in a single field.
+
+    Returns
+    -------
+    tuple of str or None
+        ``(given, family)`` when the name is only initials followed by one
+        capitalized surname; None for anything less clear, which is kept
+        as delivered rather than guessed.
+
+    Examples
+    --------
+    >>> split_name("D V Willetts")
+    ('D V', 'Willetts')
+    >>> split_name("J.-P. Wolf")
+    ('J.-P.', 'Wolf')
+    >>> split_name("P Th van Duijnen") is None
+    True
+    """
+    match = _INITIALS_THEN_SURNAME.match(" ".join(name.split()))
+    if match is None or not match.group("given").strip():
+        return None
+    return match.group("given").strip(), match.group("family")
+
+
+def _author(
+    given: str | None,
+    family: str | None,
+    literal: str | None,
+    orcid: str | None,
+    sequence: str | None,
+) -> Author:
+    """Build an author, splitting a whole name delivered in one field.
+
+    Parameters
+    ----------
+    given : str or None
+        Given names as delivered.
+    family : str or None
+        Family name as delivered.
+    literal : str or None
+        Unparsed name as delivered.
+    orcid : str or None
+        ORCID as delivered.
+    sequence : str or None
+        Ordering hint.
+
+    Returns
+    -------
+    Author
+        The author; a whole name delivered as the family name with no given
+        names, that :func:`split_name` recognizes, gets given and family
+        parts and keeps the delivered string as ``literal``. Collective
+        names in ``literal`` are never split.
+    """
+    parts = split_name(family) if given is None and family is not None else None
+    if parts is not None and literal is None:
+        return Author(parts[0], parts[1], family, orcid, sequence)
+    return Author(given, family, literal, orcid, sequence)
+
+
 def _crossref_authors(value: object) -> tuple[Author, ...]:
     """Read Crossref authors.
 
@@ -779,7 +861,7 @@ def _crossref_authors(value: object) -> tuple[Author, ...]:
     for item in _sequence(value):
         entry = mapping(item)
         authors.append(
-            Author(
+            _author(
                 given=_plain(entry.get("given")),
                 family=_plain(entry.get("family")),
                 literal=_plain(entry.get("name")),
@@ -788,6 +870,32 @@ def _crossref_authors(value: object) -> tuple[Author, ...]:
             )
         )
     return tuple(authors)
+
+
+def _crossref_relations(value: object) -> tuple[tuple[str, str], ...]:
+    """Read the DOI relations of a Crossref work.
+
+    Parameters
+    ----------
+    value : object
+        Crossref ``relation`` object.
+
+    Returns
+    -------
+    tuple of tuple of str
+        ``(type, doi)`` pairs in delivered order, DOIs normalized; other
+        identifier types are skipped.
+    """
+    if not isinstance(value, dict):
+        return ()
+    pairs: list[tuple[str, str]] = []
+    for kind, targets in cast("dict[str, object]", value).items():
+        for target in _sequence(targets):
+            entry = mapping(target)
+            doi = normalize_doi(str(entry.get("id", "")))
+            if entry.get("id-type") == "doi" and doi is not None:
+                pairs.append((kind, doi))
+    return tuple(pairs)
 
 
 def _sequence(value: object) -> list[object]:
@@ -886,6 +994,7 @@ def _crossref_work(
         retrieved_utc=response.retrieved_utc,
         body_sha256=hashlib.sha256(response.body).hexdigest(),
         cached=response.cached,
+        relations=_crossref_relations(message.get("relation")),
     )
 
 
@@ -911,7 +1020,7 @@ def _datacite_authors(value: object) -> tuple[Author, ...]:
             if str(record.get("nameIdentifierScheme", "")).upper() == "ORCID":
                 orcid = _plain(record.get("nameIdentifier"))
         authors.append(
-            Author(
+            _author(
                 given=_plain(entry.get("givenName")),
                 family=_plain(entry.get("familyName")),
                 literal=_plain(entry.get("name")),
@@ -1057,7 +1166,9 @@ def lookup_doi(doi: str, client: RegistryClient) -> RegistryRecord | RegistryFai
     )
 
 
-SEARCH_ROWS = 5
+# Ten hits: a generic title such as "The Refractive Index of Air" ranks the
+# right work below the first five unless the query also names author and year.
+SEARCH_ROWS = 10
 
 
 def crossref_search_url(query: str, rows: int = SEARCH_ROWS) -> str:

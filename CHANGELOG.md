@@ -11,6 +11,37 @@ version is derived from Git tags.
   frozen output under `examples/geib-2019-copra/`, followed from PDF to
   library in the new *Worked example* page of the manual. The paper keeps its
   publisher's non-commercial licence and is not part of the package.
+- Identity from more evidence. DOIs encoded in publishers' file names (APS,
+  Optica, Springer Nature, Royal Society, ACS, older Elsevier, arXiv) are weak
+  candidates, accepted with an `identifier` warning. Up to four title
+  candidates (the PDF title and the first pages' level-1 headings) are compared
+  with each record, and typesetting leftovers such as `acs_JX_… 1..7` or
+  `Using JCP format` are no longer taken as titles.
+- Titles are compared without HTML, TeX, lost-glyph placeholders and footnote
+  markers, and agree with a warning apart from a lost Greek letter, typical
+  reading errors (0 for O, 1 for l, a stray footnote digit) or an appended
+  journal name.
+- Bibliographic search asks with each title candidate, then with the author
+  line, running headers and file name added, ten results per query; checks
+  author and year on the first two pages; sets aside supplementary components
+  and uncited conference versions; and identifies a translated article as its
+  English translation, recording the original.
+- Supplementary material is no longer identified as its article: it stays
+  unverified with the article recorded (`supplement_of`). Science's `_sm` file
+  names are recognized as supplements.
+- `extract PAPER --supplement FILE` adds supplements to a paper already in the
+  library, republishing it from its kept output.
+- `reprocess PAPER --doi DOI` asserts a paper's DOI, and `--bibtex FILE`
+  asserts the identity of a work no registry holds, such as a report or
+  thesis, with the new status `ASSERTED`: named and cited like a validated
+  paper, never reported as validated. Assertions are kept with the paper.
+- Registry records keep their DOI relations, such as `is-translation-of`.
+
+### Changed
+
+- A registry author delivered as one string of initials and a surname, such as
+  "D V Willetts", is split into given and family names, so the paper is named
+  `Willetts_…` and cited correctly; the delivered string is kept.
 
 ### Removed
 

@@ -670,7 +670,8 @@ def dedup_report(
     }
 
 
-_SUPPLEMENT_TOKENS = frozenset({"supp", "suppl", "si", "esm", "supporting"})
+# "sm" is how Science names supplementary material, as in "abb5375_sm.pdf".
+_SUPPLEMENT_TOKENS = frozenset({"supp", "suppl", "si", "sm", "esm", "supporting"})
 _TOKEN = re.compile(r"[^a-z0-9]+")
 # A shared file-name start shorter than this is not evidence of a pairing.
 MIN_PAIRING_PREFIX = 10
@@ -717,8 +718,8 @@ def looks_like_supplement(path: Path) -> bool:
     Returns
     -------
     bool
-        True when a name token is ``supp``, ``suppl``, ``si``, ``esm`` or
-        ``supporting``, or starts with ``supplement``.
+        True when a name token is ``supp``, ``suppl``, ``si``, ``sm``,
+        ``esm`` or ``supporting``, or starts with ``supplement``.
 
     Examples
     --------

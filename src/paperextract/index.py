@@ -19,6 +19,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Literal, cast
 
+from paperextract.bibread import read_entries
 from paperextract.catalog import CATALOG_FILENAME, read_catalog
 from paperextract.export import DESCRIPTION_BEGIN, DESCRIPTION_END
 from paperextract.fields import items, mapping
@@ -71,6 +72,15 @@ _CSL_TYPES = {
     "book-chapter": "chapter",
     "posted-content": "article",
     "book": "book",
+    "bibtex:article": "article-journal",
+    "bibtex:techreport": "report",
+    "bibtex:report": "report",
+    "bibtex:phdthesis": "thesis",
+    "bibtex:mastersthesis": "thesis",
+    "bibtex:thesis": "thesis",
+    "bibtex:book": "book",
+    "bibtex:inproceedings": "paper-conference",
+    "bibtex:incollection": "chapter",
 }
 Status = Literal["present", "related", "candidate", "absent"]
 
@@ -300,7 +310,11 @@ def _csl_item(paper: Path, row: Mapping[str, object]) -> dict[str, object] | Non
     dict of str to object or None
         Item, or None when the identity is not validated.
     """
-    if row.get("bibliographic_status") not in ("VALIDATED", "VALIDATED_WITH_WARNINGS"):
+    if row.get("bibliographic_status") not in (
+        "VALIDATED",
+        "VALIDATED_WITH_WARNINGS",
+        "ASSERTED",
+    ):
         return None
     fields = mapping(
         mapping(json.loads((paper / "metadata.json").read_text()))["fields"]
@@ -628,49 +642,6 @@ def query_from_file(path: Path) -> Query:
     )
 
 
-def _bibtex_entries(text: str) -> list[dict[str, str]]:
-    """Read the fields of every entry in a BibTeX file, tolerantly.
-
-    Parameters
-    ----------
-    text : str
-        File content.
-
-    Returns
-    -------
-    list of dict
-        Lower-case field names to values with outer braces or quotes removed.
-    """
-    entries: list[dict[str, str]] = []
-    for start in (m.end() for m in re.finditer(r"@\w+\s*\{[^,]*,", text)):
-        depth, position = 1, start
-        while position < len(text) and depth:
-            depth += {"{": 1, "}": -1}.get(text[position], 0)
-            position += 1
-        body = text[start : position - 1]
-        fields: dict[str, str] = {}
-        for match in re.finditer(r"(\w+)\s*=\s*", body):
-            index = match.end()
-            if index >= len(body):
-                continue
-            if body[index] == "{":
-                level, end = 1, index + 1
-                while end < len(body) and level:
-                    level += {"{": 1, "}": -1}.get(body[end], 0)
-                    end += 1
-                value = body[index + 1 : end - 1]
-            elif body[index] == '"':
-                end = body.find('"', index + 1)
-                value = body[index + 1 : end if end > 0 else len(body)]
-            else:
-                value = re.split(r"[,\s]", body[index:], maxsplit=1)[0]
-            fields.setdefault(
-                match.group(1).lower(), re.sub(r"[{}]", "", value).strip()
-            )
-        entries.append(fields)
-    return entries
-
-
 def queries_from_bibtex(text: str) -> list[Query]:
     """Turn every BibTeX entry into a query.
 
@@ -685,7 +656,7 @@ def queries_from_bibtex(text: str) -> list[Query]:
         One query per entry with DOI, title, first author and year.
     """
     queries: list[Query] = []
-    for number, fields in enumerate(_bibtex_entries(text), 1):
+    for number, (_, fields) in enumerate(read_entries(text), 1):
         author = fields.get("author", "").split(" and ")[0]
         family = author.split(",")[0] if "," in author else (author.split() or [""])[-1]
         year = fields.get("year", "")

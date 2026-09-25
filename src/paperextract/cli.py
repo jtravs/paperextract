@@ -32,6 +32,7 @@ from paperextract.acquire import (
     arxiv_request,
     urllib_fetch,
 )
+from paperextract.bibread import read_entries
 from paperextract.capture import capture_kind, read_page_html
 from paperextract.catalog import (
     CATALOG_FILENAME,
@@ -117,6 +118,7 @@ from paperextract.pipeline import (
     extract_pdf,
     read_hints,
     rebuild_document,
+    supplement_directory,
     write_hints,
 )
 from paperextract.protocol import Backend, MineruProfile
@@ -756,6 +758,18 @@ def build_parser() -> argparse.ArgumentParser:
         choices=VERSIONS,
         help="assert the paper's version (one named paper only)",
     )
+    reprocess.add_argument(
+        "--doi",
+        help="assert the paper's DOI and resolve identity with it (one named "
+        "paper only)",
+    )
+    reprocess.add_argument(
+        "--bibtex",
+        type=Path,
+        metavar="FILE",
+        help="assert the identity of a work no registry holds, such as a report "
+        "or thesis, with one BibTeX entry (one named paper only)",
+    )
     describe = commands.add_parser(
         "describe",
         help="add machine-generated figure descriptions to published papers",
@@ -1331,8 +1345,8 @@ def _extract_plan(
                 items.append(
                     _supplement_item(
                         group,
-                        "supplement of a paper already in the library; adding "
-                        "supplements to a published paper is not implemented",
+                        "supplement of a paper already in the library; add it "
+                        "with `paperextract extract PAPER --supplement FILE`",
                         paper.known_as,
                     )
                 )
@@ -1666,15 +1680,102 @@ def _command_extract(args: argparse.Namespace, config: Configuration) -> int:
         raise ConfigurationError(f"{rejected[0].path}: {rejected[0].reason}")
     if any(group.sha256 in {g.sha256 for g in plan.groups} for group in extras.groups):
         raise ConfigurationError("A supplement has the same bytes as the paper")
-    pairing = SupplementPairing(
-        pairs={group.sha256: extras.groups for group in plan.groups},
-        unpaired=(),
-        reasons={},
-    )
-    items = _run_plan(plan, texts, context, pairing)
+    known = plan.groups[0].known_as if len(plan.groups) == 1 else None
+    if known is not None and extras.groups:
+        # The paper is already published: add the supplements to it.
+        items = [
+            _attach_supplements(
+                config.library / known,
+                [group.primary.path for group in extras.groups],
+                context.settings,
+                config,
+            )
+        ]
+    else:
+        pairing = SupplementPairing(
+            pairs={group.sha256: extras.groups for group in plan.groups},
+            unpaired=(),
+            reasons={},
+        )
+        items = _run_plan(plan, texts, context, pairing)
     _refresh(config, items)
     _emit("extract", config, items, as_json=args.json)
     return exit_code(items, strict=args.strict)
+
+
+def _attach_supplements(
+    paper: Path,
+    supplements: Sequence[Path],
+    settings: ExtractionSettings,
+    config: Configuration,
+) -> ItemResult:
+    """Extract supplements and republish a published paper with them.
+
+    Parameters
+    ----------
+    paper : Path
+        Published paper directory.
+    supplements : Sequence of Path
+        Supplementary PDFs to add, after any the paper already has.
+    settings : ExtractionSettings
+        Worker settings for the supplements.
+    config : Configuration
+        Resolved configuration.
+
+    Returns
+    -------
+    ItemResult
+        Republished item, or a failed one that leaves the published paper
+        unchanged and keeps the run directory. The paper is rebuilt from its
+        kept output as by ``reprocess``, keeping its identity and figure
+        descriptions; only the supplements are extracted.
+    """
+    now = dt.datetime.now(dt.UTC)
+    stamp = f"{now:%Y%m%dT%H%M%SZ}-attach-{secrets.token_hex(3)}"
+    run = config.library / INTERNAL_DIRECTORY / RUNS_DIRECTORY / stamp
+    try:
+        run.mkdir(parents=True)
+        stage_from_paper(paper, run)
+        rebuild_document(run)
+        existing = sorted((run / SUPPLEMENTS_DIRECTORY).glob("*"))
+        for directory in existing:
+            rebuild_document(directory)
+        for number, pdf in enumerate(supplements, len(existing) + 1):
+            logger.info("Extracting supplement %s", pdf.name)
+            directory = supplement_directory(run, number)
+            directory.mkdir(parents=True)
+            outcome = extract_pdf(
+                pdf, directory, settings, request_id=f"{stamp}-s{number:02d}"
+            )
+            if outcome.document is None:
+                failure = outcome.result.failure
+                raise ValueError(
+                    f"{pdf.name}: "
+                    + ("worker failed" if failure is None else failure.message)
+                )
+        published = publish(run, config.library, replace=_relative(paper, config))
+    except (WorkerError, ValueError, OSError) as exc:
+        return ItemResult(
+            path=str(paper),
+            status="failed",
+            stage="supplement",
+            message=f"{type(exc).__name__}: {exc}",
+            run=str(run),
+        )
+    shutil.rmtree(run)
+    document = Document.from_json((published.directory / DOCUMENT_FILENAME).read_text())
+    metadata = json.loads((published.directory / "metadata.json").read_text())
+    return ItemResult(
+        path=str(paper),
+        status="republished",
+        sha256=document.source_sha256,
+        directory=published.name,
+        identity=str(metadata["bibliographic_status"]),
+        processing=processing_status(document),
+        findings=len(document.findings),
+        supplements=tuple(str(pdf) for pdf in supplements),
+        message=f"added {len(supplements)} supplement(s)",
+    )
 
 
 def _context(args: argparse.Namespace, config: Configuration) -> _Context:
@@ -2934,12 +3035,28 @@ def _command_reprocess(args: argparse.Namespace, config: Configuration) -> int:
     """
     papers = _papers(args, config, "reprocess")
     captures: list[Path] = args.html
-    if (captures or args.document_version) and (args.all or len(papers) != 1):
+    if (captures or args.document_version or args.doi or args.bibtex) and (
+        args.all or len(papers) != 1
+    ):
         raise ConfigurationError(
-            "--html and --document-version apply to exactly one named paper"
+            "--html, --document-version, --doi and --bibtex apply to exactly one "
+            "named paper"
         )
+    if args.doi and args.bibtex:
+        raise ConfigurationError("Give --doi or --bibtex, not both")
     _check_captures(captures)
-    lookup = _lookup(config) if args.refresh_identity else None
+    hints: dict[str, str] = {}
+    if args.document_version:
+        hints["version"] = args.document_version
+    if args.doi:
+        if normalize_doi(args.doi) is None:
+            raise ConfigurationError(f"--doi {args.doi!r} is not a DOI")
+        hints["doi"] = args.doi
+    if args.bibtex:
+        hints["bibtex"] = _asserted_bibtex(args.bibtex)
+    # An asserted identity only takes effect when identity is resolved again.
+    refresh = args.refresh_identity or bool(args.doi or args.bibtex)
+    lookup = _lookup(config) if refresh else None
     items: list[ItemResult] = []
     for number, paper in enumerate(papers, 1):
         logger.info("[%d/%d] %s", number, len(papers), paper.name)
@@ -2948,18 +3065,48 @@ def _command_reprocess(args: argparse.Namespace, config: Configuration) -> int:
                 paper,
                 config,
                 lookup,
-                refresh=args.refresh_identity,
-                additions=Additions(
-                    captures=tuple(captures),
-                    hints={"version": args.document_version}
-                    if args.document_version
-                    else {},
-                ),
+                refresh=refresh,
+                additions=Additions(captures=tuple(captures), hints=hints),
             )
         )
     _refresh(config, items)
     _emit("reprocess", config, items, as_json=args.json)
     return exit_code(items, strict=args.strict)
+
+
+def _asserted_bibtex(path: Path) -> str:
+    """Read and check the BibTeX entry a user asserts for a paper.
+
+    Parameters
+    ----------
+    path : Path
+        File with exactly one entry.
+
+    Returns
+    -------
+    str
+        The file's text.
+
+    Raises
+    ------
+    ConfigurationError
+        The file is missing or its entry is unusable.
+    """
+    if not path.is_file():
+        raise ConfigurationError(f"Not found: {path}")
+    text = path.read_text(encoding="utf-8")
+    entries = read_entries(text)
+    if len(entries) != 1:
+        raise ConfigurationError(f"{path} must hold exactly one BibTeX entry")
+    fields = entries[0][1]
+    missing = [name for name in ("author", "title", "year") if not fields.get(name)]
+    if missing:
+        raise ConfigurationError(f"{path} lacks {', '.join(missing)}")
+    if fields.get("doi"):
+        raise ConfigurationError(f"{path} has a DOI; assert it with --doi instead")
+    if not fields["year"].isdigit():
+        raise ConfigurationError(f"{path}: the year is not a number")
+    return text
 
 
 def _relative(paper: Path, config: Configuration) -> str:

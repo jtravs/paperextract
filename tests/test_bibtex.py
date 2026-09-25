@@ -8,7 +8,8 @@ from paperextract.bibtex import (
     parse_bibtex,
     validate_bibtex,
 )
-from paperextract.identity import Field, Identity, Observed
+from paperextract.document import Document
+from paperextract.identity import Field, Identity, Observed, identity_from_bibtex
 
 
 def make_identity(status: str = "VALIDATED", **overrides: object) -> Identity:
@@ -179,3 +180,35 @@ def test_entry_skips_absent_fields_and_odd_authors() -> None:
     assert fields["title"] == "Double  space  {ABC} test"
     assert "volume" not in fields and "doi" not in fields and "url" not in fields
     assert validate_bibtex(entry, identity) == ()
+
+
+def asserted(entry: str) -> Identity:
+    document = Document("f" * 64, "mineru", "4.0.5", "s", "1", (), (), (), ())
+    return identity_from_bibtex(entry, document)
+
+
+def test_asserted_reports_and_theses_keep_their_entry_type() -> None:
+    report = asserted(
+        "@techreport{x, author = {Phelps, A. V.}, title = {Cross sections},"
+        " institution = {JILA}, number = {26}, year = {1985},"
+        " url = {https://example.org/r}}"
+    )
+    entry = bibtex_entry(report)
+    assert entry is not None
+    entry_type, key, fields = parse_bibtex(entry)
+    assert (entry_type, key) == ("techreport", "phelps1985cross")
+    assert fields["institution"] == "JILA"
+    assert "publisher" not in fields
+    assert fields["url"] == "https://example.org/r"
+    assert "doi" not in fields
+    assert validate_bibtex(entry, report) == ()
+    thesis = asserted(
+        "@phdthesis{x, author = {Anna Wiesner}, title = {Ozone},"
+        " school = {Uppsala University}, publisher = {Acta}, year = {2003}}"
+    )
+    fields = parse_bibtex(bibtex_entry(thesis) or "")[2]
+    assert fields["school"] == "Uppsala University"
+    assert fields["publisher"] == "Acta"
+    booklet = asserted("@booklet{x, author = {A}, title = {T}, year = {2000}}")
+    assert booklet.field("article_type") == "bibtex:booklet"
+    assert parse_bibtex(bibtex_entry(booklet) or "")[0] == "booklet"

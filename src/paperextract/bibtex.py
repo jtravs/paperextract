@@ -49,6 +49,15 @@ _TYPES: Mapping[str, str] = {
     "Dataset": "misc",
     "Software": "misc",
 }
+# Where the container goes for each entry type; anything else is a booktitle.
+_CONTAINER_FIELDS: Mapping[str, str] = {
+    "article": "journal",
+    "techreport": "institution",
+    "report": "institution",
+    "phdthesis": "school",
+    "mastersthesis": "school",
+    "thesis": "school",
+}
 _ENTRY = re.compile(r"@(\w+)\{([^,]+),(.*)\}\s*$", re.S)
 _FIELD = re.compile(r"\s*(\w+)\s*=\s*\{((?:[^{}]|\{[^{}]*\})*)\}\s*,?", re.S)
 _MIN_ACRONYM = 2
@@ -167,6 +176,58 @@ def _author_text(authors: list[dict[str, object]]) -> str:
     return " and ".join(parts)
 
 
+def _entry_type(article_type: str) -> str:
+    """Choose the BibTeX entry type for a registry or asserted type.
+
+    Parameters
+    ----------
+    article_type : str
+        Registry type such as ``journal-article``, or ``bibtex:techreport``
+        for an identity the user asserted.
+
+    Returns
+    -------
+    str
+        BibTeX entry type; an asserted identity keeps the type the user gave.
+    """
+    if article_type.startswith("bibtex:"):
+        return article_type.removeprefix("bibtex:")
+    return _TYPES.get(article_type, "misc")
+
+
+def _publisher_and_url(
+    identity: Identity, entry_type: str, container: str
+) -> list[tuple[str, str]]:
+    """Render the publisher and, for an asserted identity, the URL fields.
+
+    Parameters
+    ----------
+    identity : Identity
+        Bibliographic identity.
+    entry_type : str
+        BibTeX entry type.
+    container : str
+        Field that holds the container, such as ``institution``.
+
+    Returns
+    -------
+    list of tuple of str
+        Field names and values; the publisher is left out of articles and
+        when it only repeats the institution or school.
+    """
+    fields: list[tuple[str, str]] = []
+    publisher = identity.field("publisher")
+    repeated = container in ("institution", "school") and publisher == identity.field(
+        "journal"
+    )
+    if isinstance(publisher, str) and entry_type != "article" and not repeated:
+        fields.append(("publisher", _escape(publisher)))
+    url = identity.field("url")
+    if identity.status == "ASSERTED" and isinstance(url, str):
+        fields.append(("url", url))
+    return fields
+
+
 def bibtex_entry(identity: Identity) -> str | None:
     """Render the BibTeX entry for a validated identity.
 
@@ -178,7 +239,8 @@ def bibtex_entry(identity: Identity) -> str | None:
     Returns
     -------
     str or None
-        Entry text, or None when the identity is not validated.
+        Entry text, or None when the identity is neither validated nor
+        asserted by the user.
 
     Notes
     -----
@@ -187,10 +249,11 @@ def bibtex_entry(identity: Identity) -> str | None:
     never confused. Titles keep acronyms and inner capitals in braces. Nothing
     is inferred: absent registry fields are simply omitted.
     """
-    if not identity.validated():
+    if not identity.named():
         return None
     article_type = str(identity.field("article_type") or "")
-    entry_type = _TYPES.get(article_type, "misc")
+    entry_type = _entry_type(article_type)
+    container = _CONTAINER_FIELDS.get(entry_type, "booktitle")
     fields: list[tuple[str, str]] = []
     authors = cast("list[dict[str, object]] | None", identity.field("authors")) or []
     if authors:
@@ -200,9 +263,7 @@ def bibtex_entry(identity: Identity) -> str | None:
         fields.append(("title", _protect(_escape(title))))
     journal = identity.field("journal")
     if isinstance(journal, str):
-        fields.append(
-            ("journal" if entry_type == "article" else "booktitle", _escape(journal))
-        )
+        fields.append((container, _escape(journal)))
     year = identity.field("year")
     if isinstance(year, int):
         fields.append(("year", str(year)))
@@ -218,9 +279,7 @@ def bibtex_entry(identity: Identity) -> str | None:
     article_number = identity.field("article_number")
     if isinstance(article_number, str):
         fields.append(("eid", _escape(article_number)))
-    publisher = identity.field("publisher")
-    if isinstance(publisher, str) and entry_type != "article":
-        fields.append(("publisher", _escape(publisher)))
+    fields.extend(_publisher_and_url(identity, entry_type, container))
     if identity.doi is not None:
         fields.append(("doi", identity.doi))
         fields.append(("url", f"https://doi.org/{identity.doi}"))

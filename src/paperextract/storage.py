@@ -67,6 +67,7 @@ from paperextract.html_check import check_html
 from paperextract.identity import (
     Identity,
     arxiv_identifier,
+    identity_from_bibtex,
     observe,
     resolve_identity,
 )
@@ -231,7 +232,7 @@ def paper_directory_name(
         digest characters when another source already uses that name;
         otherwise ``Unverified_`` plus the first twelve digest characters.
     """
-    if not identity.validated():
+    if not identity.named():
         return f"Unverified_{source_sha256[:12]}"
     authors = identity.field("authors")
     first: Mapping[str, object] = {}
@@ -1426,7 +1427,11 @@ def _assemble(build: _Build, name: str, generation: str) -> tuple[str, ...]:
         problems = validate_bibtex(entry, identity)
         _write(build.root / "citation.bib", entry)
         bibliography = {
-            "status": "VALIDATED" if not problems else "VALIDATED_WITH_WARNINGS",
+            "status": "ASSERTED"
+            if identity.status == "ASSERTED"
+            else "VALIDATED"
+            if not problems
+            else "VALIDATED_WITH_WARNINGS",
             "problems": list(problems),
             "citation": "citation.bib",
         }
@@ -1502,12 +1507,26 @@ def resolve_and_write_identity(
     -------
     Identity
         The identity written to ``identity.json`` in the staging directory.
+        The source's original file name is a weak DOI candidate and search
+        hint; a DOI the user asserted (the ``doi`` assertion) is tried first,
+        and a BibTeX entry the user asserted (``bibtex``) replaces the
+        registry for a work that has none.
     """
     document = Document.from_json((staging / DOCUMENT_FILENAME).read_text())
     source_record = mapping(json.loads((staging / SOURCE_RECORD_FILENAME).read_text()))
-    identity = resolve_identity(
-        document, mapping(source_record["fingerprint"]), lookup, search
-    )
+    name = PurePosixPath(string(source_record["original_name"])).name
+    hints = read_hints(staging)
+    if "bibtex" in hints:
+        identity = identity_from_bibtex(hints["bibtex"], document)
+    else:
+        identity = resolve_identity(
+            document,
+            mapping(source_record["fingerprint"]),
+            lookup,
+            search,
+            file_names=(name,) if name else (),
+            asserted_doi=hints.get("doi"),
+        )
     (staging / IDENTITY_FILENAME).write_text(identity.to_json())
     return identity
 
@@ -1627,7 +1646,7 @@ def plan_organize(library: Path, layout: str) -> list[Move]:
         shard = shard_for(
             layout,
             validated=row.get("bibliographic_status")
-            in ("VALIDATED", "VALIDATED_WITH_WARNINGS"),
+            in ("VALIDATED", "VALIDATED_WITH_WARNINGS", "ASSERTED"),
             year=row.get("year"),
             family=row.get("first_author_family"),
         )
@@ -1815,7 +1834,7 @@ def publish(
     name = paper_directory_name(staged.identity, staged.document.source_sha256, taken)
     shard = shard_for(
         str(corpus.get("layout", "flat")),
-        validated=staged.identity.validated(),
+        validated=staged.identity.named(),
         year=staged.identity.field("year"),
         family=first_author_family(staged.identity),
     )

@@ -81,6 +81,7 @@ _MAX_HEADING_LEVEL = 6
 _IDENTITY_OUTCOMES: Mapping[str, str] = {
     "VALIDATED": "pass",
     "VALIDATED_WITH_WARNINGS": "review",
+    "ASSERTED": "review",
     "CONFLICT": "fail",
     "UNVERIFIED": "not_checked",
 }
@@ -990,8 +991,15 @@ def review_markdown(document: Document) -> str:
 
 # PDF information titles that name an identifier or the authoring file rather
 # than the article, as in "PII: 0022-4073(81)90057-1" or "Microsoft Word - x".
+# Identifiers, authoring files and typesetting or template leftovers seen in
+# PDF information titles, such as "acs_JX_jp-2011-094438 1..7",
+# "rsc_cp_b701020f 2044..2064", "vyk90e3.tmp" and "Using JCP format".
 _IMPLAUSIBLE_TITLE = re.compile(
-    r"^\s*(?:PII\b|doi\b|Microsoft Word\b|untitled\b)|\.(?:pdf|docx?|tex|dvi|ps)\s*$",
+    r"^\s*(?:PII\b|doi\b|Microsoft Word\b|untitled\b|mhtml:|file:|"
+    r"(?:acs|rsc|aip|iop|els|wiley)_\w+|using\s+\S+(?:\s+\S+)?\s+(?:format|style)|"
+    r"using\s+standard\b)"
+    r"|\.(?:pdf|docx?|tex|dvi|ps|tmp|indd|qxd)\s*$"
+    r"|\b\d+\.\.\d+\s*$",
     re.IGNORECASE,
 )
 _MIN_TITLE_LETTERS = 3
