@@ -106,9 +106,12 @@ compared with every registry record, most likely first: the PDF information
 title, unless it names an identifier, an authoring file or a typesetting
 template (such as `PII: …`, `Microsoft Word - …`, `acs_JX_jp-2011-094438 1..7`,
 `vyk90e3.tmp` or `Using JCP format`), then up to three level-1 headings of the
-first two processed pages. A running header or a journal name set as a heading
+first two processed pages, or their level-2 headings when those pages have no
+level-1 heading; standard section names such as "Introduction" are left out. A running header or a journal name set as a heading
 is often among them, which is harmless: a candidate counts only when a registry
-title matches it.
+title matches it. A record that matches only a later candidate, not the first,
+is refused when no observed author agrees, because a page carrying two short
+letters shows both titles.
 
 Titles are compared after removing markup that is not words: HTML tags and
 entities (`N<sub>2</sub>`), TeX (`H_{2}`, `\mathbf{N}`), placeholders for

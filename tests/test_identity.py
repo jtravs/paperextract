@@ -742,6 +742,45 @@ def test_title_candidates_skip_leftovers_and_later_pages() -> None:
     )
     assert len(title_candidates(many)) == 4
     assert title_candidates(hinted_document(info_title="Real title")) == ("Real title",)
+    second = hinted_document(
+        headings=((1, 2, "Polarization of laser light"), (1, 3, "Deeper heading"))
+    )
+    assert title_candidates(second) == ("Polarization of laser light",)
+    third = hinted_document(headings=((1, 3, "Only a third-level heading"),))
+    assert title_candidates(third) == ()
+    sections = hinted_document(
+        headings=((1, 2, "1. Introduction"), (2, 2, "Results and Discussion"))
+    )
+    assert title_candidates(sections) == ()
+
+
+def test_a_neighbouring_letter_on_the_page_is_not_taken_for_this_one() -> None:
+    document = hinted_document(
+        headings=(
+            (1, 2, "The Spin of Hydrogen Isotope"),
+            (1, 2, "The Production of X-Rays by Fast Mercury Ions"),
+        ),
+    )
+    document = replace(
+        document, metadata=(MetadataObservation("author", "G. N. Lewis", "pdf"),)
+    )
+    other = make_record(
+        doi="10.1103/physrev.43.837",
+        title="The Production of X-Rays by Fast Mercury Ions",
+        authors=(("J. M.", "Cork", None),),
+        year=1933,
+    )
+    this = make_record(
+        doi="10.1103/physrev.43.837.2",
+        title="The Spin of Hydrogen Isotope",
+        authors=(("G. N.", "Lewis", None),),
+        year=1933,
+    )
+    lookup = lookup_with(**{key(other.doi): other, key(this.doi): this})
+    fingerprint = {"doi_candidates": [other.doi, this.doi]}
+    identity = resolve_identity(document, fingerprint, lookup)
+    assert identity.doi == this.doi
+    assert "matches only a secondary heading" in str(identity.alternatives[0])
 
 
 def test_a_later_heading_confirms_a_doi_despite_a_running_header_title() -> None:

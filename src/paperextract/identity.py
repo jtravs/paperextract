@@ -701,6 +701,15 @@ def _observed_title(document: Document) -> str | None:
 
 _MAX_TITLES = 4
 _TITLE_PAGES = 2
+_TITLE_LEVELS = 2
+# Standard section names are never a title.
+_SECTION_HEADING = re.compile(
+    r"^\s*(?:[IVX]+\.?|\d+\.?)?\s*(?:abstract|introduction|background|theory|"
+    r"methods?|experimental(?:\s+(?:section|details|methods))?|experiments?|"
+    r"results(?:\s+and\s+discussion)?|discussion|conclusions?|summary|"
+    r"acknowledge?ments?|references|appendix)\s*$",
+    re.IGNORECASE,
+)
 
 
 def title_candidates(document: Document) -> tuple[str, ...]:
@@ -715,7 +724,9 @@ def title_candidates(document: Document) -> tuple[str, ...]:
     -------
     tuple of str
         The plausible PDF information title, then the level-1 headings of
-        the first two processed pages, distinct and at most four. A running
+        the first two processed pages, or their level-2 headings when those
+        pages have no level-1 heading, distinct and at most four; standard
+        section names such as "Introduction" are left out. A running
         header or a journal name set as a heading is among them as often as
         the title, so each is only a candidate that a registry record must
         match.
@@ -726,10 +737,18 @@ def title_candidates(document: Document) -> tuple[str, ...]:
             found.append(observation.value)
             break
     pages = _leading_pages(document)
-    for block in document.blocks:
-        if isinstance(block, Heading) and block.level == 1 and block.span.page in pages:
+    headings = [
+        block
+        for block in document.blocks
+        if isinstance(block, Heading) and block.span.page in pages
+    ]
+    # Some layouts set the title as a level-2 heading when the page has no
+    # level-1 heading at all.
+    level = min((h.level for h in headings), default=1)
+    for block in headings:
+        if block.level == max(level, 1) and block.level <= _TITLE_LEVELS:
             text = _heading_text(block).strip()
-            if text and plausible_title(text):
+            if text and plausible_title(text) and not _SECTION_HEADING.match(text):
                 found.append(text)
     distinct = list(dict.fromkeys(found))
     return tuple(distinct[:_MAX_TITLES])
@@ -1151,6 +1170,7 @@ def compare_record(
                 f"among {len(families)} registry author(s)",
             )
         )
+    checks[0] = _secondary_title_guard(checks[0], checks[1], registry, candidates)
     year = registry.year
     if year is None or not observed.years:
         checks.append(Check("year", "not_checked", "No registry year or PDF date hint"))
@@ -1165,6 +1185,45 @@ def compare_record(
             )
         )
     return tuple(checks)
+
+
+def _secondary_title_guard(
+    title: Check, authors: Check, registry: RegistryRecord, candidates: Sequence[str]
+) -> Check:
+    """Refuse a title that only a secondary candidate matches without authors.
+
+    Parameters
+    ----------
+    title : Check
+        Title check.
+    authors : Check
+        Author check.
+    registry : RegistryRecord
+        Registry record.
+    candidates : Sequence of str
+        Title candidates, the main one first.
+
+    Returns
+    -------
+    Check
+        The title check, turned into a failure when the record agrees only
+        with a later candidate and no observed author agrees with it: a page
+        that carries two letters shows both titles, and the other letter's
+        DOI must not be accepted for this one.
+    """
+    if (
+        title.outcome == "fail"
+        or registry.title is None
+        or authors.outcome != "fail"
+        or title_agreement(candidates[0], registry.title) != "different"
+    ):
+        return title
+    return Check(
+        "title",
+        "fail",
+        f"Registry title {registry.title!r} matches only a secondary heading, and "
+        "no observed author agrees",
+    )
 
 
 def _overlap(left: Sequence[str], right: Sequence[str]) -> float:

@@ -5,6 +5,14 @@ version is derived from Git tags.
 
 ## [Unreleased]
 
+### Changed
+
+- Title candidates fall back to level-2 headings when the first pages have
+  no level-1 heading, as in some *J. Chem. Phys.* layouts, and never include
+  standard section names such as "Introduction". A record that matches only
+  a secondary heading is refused when no author agrees, so the other letter
+  on a shared page is not taken for this one.
+
 ## [0.2.0] - 2026-09-25
 
 ### Added
