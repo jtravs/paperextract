@@ -5,6 +5,8 @@ version is derived from Git tags.
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-09-25
+
 ### Added
 
 - A worked example: the Geib et al. (2019) COPRA paper from *Optica* with its
@@ -50,6 +52,9 @@ version is derived from Git tags.
 - A registry author delivered as one string of initials and a surname, such as
   "D V Willetts", is split into given and family names, so the paper is named
   `Willetts_…` and cited correctly; the delivered string is kept.
+- Compatibility: a paper whose identity was asserted with `--bibtex` records
+  the status `ASSERTED`, which 0.1.0 does not know; read such libraries with
+  0.2.0 or later.
 
 ### Removed
 
