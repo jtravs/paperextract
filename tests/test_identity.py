@@ -681,6 +681,9 @@ def test_clean_title_removes_markup_but_not_words() -> None:
         ),
         ("1-s2.0-S0009261408009834-main.pdf", ()),
         ("2206.01062v2.pdf", ("10.48550/arxiv.2206.01062",)),
+        ("978-3-030-84632-9.pdf", ("10.1007/978-3-030-84632-9",)),
+        ("978-3-030-84632-9-2.pdf", ("10.1007/978-3-030-84632-9",)),
+        ("978-3-030-84632.pdf", ()),
         ("D_V_Willetts_1982_J._Phys._D%3A_Appl._Phys._15_51.pdf", ()),
     ],
 )
@@ -736,6 +739,7 @@ def test_title_candidates_skip_leftovers_and_later_pages() -> None:
     assert title_candidates(document) == (
         "The Journal of Physical Chemistry A",
         "Molecular and atomic polarizabilities",
+        "Section heading",
     )
     many = hinted_document(
         headings=tuple((1, 1, f"Heading number {n}") for n in "abcde")
@@ -780,7 +784,23 @@ def test_a_neighbouring_letter_on_the_page_is_not_taken_for_this_one() -> None:
     fingerprint = {"doi_candidates": [other.doi, this.doi]}
     identity = resolve_identity(document, fingerprint, lookup)
     assert identity.doi == this.doi
-    assert "matches only a secondary heading" in str(identity.alternatives[0])
+    alone = resolve_identity(document, {"doi_candidates": [other.doi]}, lookup)
+    assert alone.status == "UNVERIFIED"
+    assert "matches only a secondary heading" in str(alone.alternatives[0])
+    corroborated = compare_record(
+        other,
+        Observed("The Spin of Hydrogen Isotope", (), ()),
+        ("The Production of X-Rays by Fast Mercury Ions",),
+        "J. M. Cork, Berkeley",
+    )
+    assert corroborated[0].outcome == "pass"
+    unprinted = compare_record(
+        other,
+        Observed("The Spin of Hydrogen Isotope", (), ()),
+        ("The Production of X-Rays by Fast Mercury Ions",),
+        "G. N. Lewis, Berkeley",
+    )
+    assert unprinted[0].outcome == "fail"
 
 
 def test_a_later_heading_confirms_a_doi_despite_a_running_header_title() -> None:
@@ -788,6 +808,7 @@ def test_a_later_heading_confirms_a_doi_despite_a_running_header_title() -> None
         info_title="PHYSICAL REVIEW A, 66, 033402 (2002)",
         headings=((1, 1, "Theory of molecular tunneling ionization"),),
         header=f"doi:{DOI}",
+        authors="J. C. Travers and C. Brahms",
     )
     record = make_record(title="Theory of molecular tunneling ionization")
     identity = resolve_identity(document, {}, lookup_with(**{key(DOI): record}))

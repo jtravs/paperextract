@@ -2277,13 +2277,14 @@ def _command_publish(args: argparse.Namespace, config: Configuration) -> int:
     """
     runs: list[Path] = []
     items: list[ItemResult] = []
+    empty: list[Path] = []
     for given in (path.resolve() for path in args.runs):
         if (given / DOCUMENT_FILENAME).is_file():
             runs.append(given)
             continue
         completed, incomplete = _completed_runs(given)
         if not completed and not incomplete:
-            raise ConfigurationError(f"No completed extraction in {given}")
+            empty.append(given)
         runs.extend(completed.values())
         items.extend(
             ItemResult(
@@ -2294,6 +2295,12 @@ def _command_publish(args: argparse.Namespace, config: Configuration) -> int:
             )
             for run in incomplete
         )
+    # A shard of a batch can receive no papers; only when nothing given has
+    # a run is that a mistake.
+    if empty and not runs and not items:
+        raise ConfigurationError(f"No completed extraction in {empty[0]}")
+    for directory in empty:
+        logger.info("Nothing to publish in %s", directory)
     lookup = _lookup(config)
     for number, run in enumerate(runs, 1):
         logger.info("[%d/%d] %s", number, len(runs), run.name)

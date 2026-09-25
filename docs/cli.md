@@ -38,7 +38,7 @@ paperextract extract -- ./status             # a file whose name is a command
 | `extract PDF [--supplement PDF]... [--html PAGE]...` | Extract one paper with its supplements, published in one paper directory, with saved article pages preserved and compared. When the paper is already in the library, its supplements are extracted and added to it, which republishes the paper from its kept output. Several positional paths are refused; use `--supplement` or `batch`. |
 | `batch PATH...` | Extract every top-level PDF of the given directories and every given file, as separate papers. Subdirectories are not searched. |
 | `dedup PATH...` | Report duplicates against each other and the library. Nothing is copied, extracted or changed. |
-| `publish RUN...` | Publish kept or staged run directories, or directories of them, one after another: after a failure was fixed, into a second library, or after `batch --runs-to`. |
+| `publish RUN...` | Publish kept or staged run directories, or directories of them, one after another: after a failure was fixed, into a second library, or after `batch --runs-to`. A directory that holds no runs, such as a shard that received no papers, is skipped when others given have runs. |
 | `models status [SET...]` / `models fetch SET...` | Check or download the pinned model snapshots and binaries the workers need; see the worker README. |
 | `lookup [LIBRARY]... --file PDF \| --doi DOI \| --bibtex FILE \| --title T [--author A] [--year Y]` | Report whether papers are already in one or more libraries: `present`, `related`, `candidate` or `absent`, with the evidence. |
 | `search QUERY [LIBRARY]... [--limit N]` | Full-text search over titles, authors, abstracts and paper text, ranked, with a snippet. |

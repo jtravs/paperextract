@@ -1562,6 +1562,12 @@ def test_a_staged_batch_leaves_the_library_alone_until_publish(
     assert (cli.library / CATALOG_FILENAME).read_bytes() == catalog
     code, out, _err = cli("publish", str(runs[0]), "--no-registry")
     assert code == EXIT_CONFLICT
+    # A shard that received no papers is skipped beside ones that have runs.
+    shard = cli.tmp_path / "empty-shard"
+    (shard / "batches").mkdir(parents=True)
+    code, out, err = cli("publish", str(runs[0]), str(shard), "--no-registry")
+    assert code == EXIT_CONFLICT
+    assert f"Nothing to publish in {shard.resolve()}" in err
     code, _out, err = cli("publish", str(cli.tmp_path / "in"), "--no-registry")
     assert code == EXIT_USAGE
     assert "No completed extraction" in err

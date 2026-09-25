@@ -723,9 +723,9 @@ def title_candidates(document: Document) -> tuple[str, ...]:
     Returns
     -------
     tuple of str
-        The plausible PDF information title, then the level-1 headings of
-        the first two processed pages, or their level-2 headings when those
-        pages have no level-1 heading, distinct and at most four; standard
+        The plausible PDF information title, then the level-1 and then the
+        level-2 headings of the first two processed pages, distinct and at
+        most four; standard
         section names such as "Introduction" are left out. A running
         header or a journal name set as a heading is among them as often as
         the title, so each is only a candidate that a registry record must
@@ -742,13 +742,17 @@ def title_candidates(document: Document) -> tuple[str, ...]:
         for block in document.blocks
         if isinstance(block, Heading) and block.span.page in pages
     ]
-    # Some layouts set the title as a level-2 heading when the page has no
-    # level-1 heading at all.
-    level = min((h.level for h in headings), default=1)
-    for block in headings:
-        if block.level == max(level, 1) and block.level <= _TITLE_LEVELS:
+    # Some layouts set the title as a level-2 heading, below a level-1 series
+    # or journal name or with no level-1 heading at all.
+    for level in range(1, _TITLE_LEVELS + 1):
+        for block in headings:
             text = _heading_text(block).strip()
-            if text and plausible_title(text) and not _SECTION_HEADING.match(text):
+            if (
+                block.level == level
+                and text
+                and plausible_title(text)
+                and not _SECTION_HEADING.match(text)
+            ):
                 found.append(text)
     distinct = list(dict.fromkeys(found))
     return tuple(distinct[:_MAX_TITLES])
@@ -905,6 +909,8 @@ _ROYAL_FILE = re.compile(r"\b((?:rspa|rspb|rsta|rstb|rsif|rsos)\.\d{4}\.\d{4})\b
 _ACS_FILE = re.compile(r"^([a-z]{2}\d{6,7}[a-z]?)$", re.IGNORECASE)
 _ELSEVIER_FILE = re.compile(r"\bS(\d{4})(\d{3}[\dX])(\d{2})(\d{5})([\dX])\b")
 _ARXIV_FILE = re.compile(r"^(\d{4}\.\d{4,5})(v\d+)?$")
+# Springer names book downloads by ISBN and registers 10.1007/<ISBN>.
+_SPRINGER_BOOK_FILE = re.compile(r"^(97[89]-\d{1,5}-\d{1,7}-\d{1,7}-[\dX])$")
 _ELSEVIER_OLD_STYLE = 60
 
 
@@ -923,7 +929,8 @@ def filename_candidates(name: str) -> tuple[str, ...]:
         (``PhysRevA.13.1422``), Optica (``josa-61-1-89``), Springer Nature
         (``s41598-018-34641-y``), the Royal Society (``rspa.1920.0020``),
         ACS (``jp980221f``), an Elsevier PII of an article registered before
-        2000 (``1-s2.0-S0092640X83710132-main``) and arXiv (``2206.01062v2``).
+        2000 (``1-s2.0-S0092640X83710132-main``), arXiv (``2206.01062v2``)
+        and Springer books named by ISBN (``978-3-030-84632-9``).
         A name is supplied by a person or a download service, so each DOI is
         a weak candidate that the registry record must confirm against the
         article.
@@ -955,6 +962,11 @@ def filename_candidates(name: str) -> tuple[str, ...]:
             )
     if (arxiv := _ARXIV_FILE.match(base)) is not None:
         found.append(arxiv_doi(arxiv[1]))
+    # An ISBN ends in a one-digit check group, so try it before trimming a
+    # copy suffix such as "-2".
+    book = _SPRINGER_BOOK_FILE.match(stem) or _SPRINGER_BOOK_FILE.match(base)
+    if book is not None:
+        found.append(f"10.1007/{book[1]}")
     normalized = (normalize_doi(doi) for doi in found)
     return tuple(dict.fromkeys(doi for doi in normalized if doi is not None))
 
@@ -1117,7 +1129,10 @@ def _title_check(registry_title: str, titles: Sequence[str]) -> Check:
 
 
 def compare_record(
-    registry: RegistryRecord, observed: Observed, titles: Sequence[str] = ()
+    registry: RegistryRecord,
+    observed: Observed,
+    titles: Sequence[str] = (),
+    page_text: str | None = None,
 ) -> tuple[Check, ...]:
     """Compare a registry record with article-local observations.
 
@@ -1130,6 +1145,9 @@ def compare_record(
     titles : Sequence of str
         Further title candidates, such as other headings of the first pages,
         tried after the observed title.
+    page_text : str or None
+        Text of the first pages, where a record that matches only a
+        secondary title must find its first author printed.
 
     Returns
     -------
@@ -1170,7 +1188,10 @@ def compare_record(
                 f"among {len(families)} registry author(s)",
             )
         )
-    checks[0] = _secondary_title_guard(checks[0], checks[1], registry, candidates)
+    if candidates:
+        checks[0] = _secondary_title_guard(
+            checks[0], checks[1], registry, candidates, page_text
+        )
     year = registry.year
     if year is None or not observed.years:
         checks.append(Check("year", "not_checked", "No registry year or PDF date hint"))
@@ -1188,7 +1209,11 @@ def compare_record(
 
 
 def _secondary_title_guard(
-    title: Check, authors: Check, registry: RegistryRecord, candidates: Sequence[str]
+    title: Check,
+    authors: Check,
+    registry: RegistryRecord,
+    candidates: Sequence[str],
+    page_text: str | None,
 ) -> Check:
     """Refuse a title that only a secondary candidate matches without authors.
 
@@ -1197,32 +1222,43 @@ def _secondary_title_guard(
     title : Check
         Title check.
     authors : Check
-        Author check.
+        Author check against the PDF's author metadata.
     registry : RegistryRecord
         Registry record.
     candidates : Sequence of str
         Title candidates, the main one first.
+    page_text : str or None
+        Text of the first pages, or None to judge by the author check.
 
     Returns
     -------
     Check
         The title check, turned into a failure when the record agrees only
-        with a later candidate and no observed author agrees with it: a page
-        that carries two letters shows both titles, and the other letter's
-        DOI must not be accepted for this one.
+        with a later candidate and its authors are not corroborated: its
+        first author is not printed on the first pages, or, without page
+        text, no observed author agrees. A page that carries two letters
+        shows both titles, and the other letter's DOI must not be accepted
+        for this one.
     """
     if (
         title.outcome == "fail"
         or registry.title is None
-        or authors.outcome != "fail"
         or title_agreement(candidates[0], registry.title) != "different"
     ):
+        return title
+    if page_text is None:
+        corroborated = authors.outcome != "fail"
+    else:
+        first = registry.authors[0] if registry.authors else None
+        family = _family_key((first.family or first.literal or "") if first else "")
+        corroborated = bool(family) and f" {family} " in f" {title_key(page_text)} "
+    if corroborated:
         return title
     return Check(
         "title",
         "fail",
         f"Registry title {registry.title!r} matches only a secondary heading, and "
-        "no observed author agrees",
+        "no author corroborates it",
     )
 
 
@@ -2144,6 +2180,60 @@ def _as_supplement(identity: Identity) -> Identity:
     )
 
 
+def _main_title_first(
+    candidates: Sequence[Candidate], lookup: Lookup, observed: Observed
+) -> list[Candidate]:
+    """Put the candidates whose record matches the main title first.
+
+    Parameters
+    ----------
+    candidates : Sequence of Candidate
+        DOI candidates, strongest first.
+    lookup : Callable
+        Registry lookup; responses are cached, so looking up twice is cheap.
+    observed : Observed
+        Article observations with the main title candidate.
+
+    Returns
+    -------
+    list of Candidate
+        The same candidates, those whose registered title agrees with the
+        main title first, in their original order otherwise. When a page
+        carries two letters, the one whose title leads is this document.
+    """
+    leading = [c for c in candidates if _matches_main_title(c, lookup, observed)]
+    return [*leading, *(c for c in candidates if c not in leading)]
+
+
+def _matches_main_title(
+    candidate: Candidate, lookup: Lookup, observed: Observed
+) -> bool:
+    """Tell whether a candidate's registered title agrees with the main title.
+
+    Parameters
+    ----------
+    candidate : Candidate
+        DOI candidate.
+    lookup : Callable
+        Registry lookup.
+    observed : Observed
+        Article observations.
+
+    Returns
+    -------
+    bool
+        True when the record exists and its title is the same as, or nearly
+        the same as, the main title candidate.
+    """
+    result = lookup(candidate.value)
+    return (
+        observed.title is not None
+        and isinstance(result, RegistryRecord)
+        and result.title is not None
+        and title_agreement(observed.title, result.title) != "different"
+    )
+
+
 def _resolve(  # noqa: PLR0913 - the evidence gathered by resolve_identity
     document: Document,
     lookup: Lookup,
@@ -2181,7 +2271,8 @@ def _resolve(  # noqa: PLR0913 - the evidence gathered by resolve_identity
     alternatives: list[dict[str, object]] = []
     conflict: str | None = None
     unavailable: str | None = None
-    for candidate in candidates[:_MAX_CANDIDATES]:
+    page_text = _leading_text(document)
+    for candidate in _main_title_first(candidates[:_MAX_CANDIDATES], lookup, observed):
         result = lookup(candidate.value)
         if isinstance(result, RegistryFailure):
             alternatives.append(
@@ -2194,7 +2285,7 @@ def _resolve(  # noqa: PLR0913 - the evidence gathered by resolve_identity
             if result.kind == "unavailable":
                 unavailable = result.message
             continue
-        checks = compare_record(result, observed, titles)
+        checks = compare_record(result, observed, titles, page_text)
         status, reason = _decide(candidate, checks)
         if status is None:
             alternatives.append(

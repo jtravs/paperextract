@@ -5,13 +5,22 @@ version is derived from Git tags.
 
 ## [Unreleased]
 
+### Added
+
+- `publish` skips a directory of staged runs that holds none, such as a
+  batch shard that received no papers, when other directories given have
+  runs, instead of refusing the whole command.
+- Springer books downloaded under their ISBN, such as `978-3-030-84632-9.pdf`,
+  give the weak DOI candidate `10.1007/<ISBN>`.
+
 ### Changed
 
-- Title candidates fall back to level-2 headings when the first pages have
-  no level-1 heading, as in some *J. Chem. Phys.* layouts, and never include
-  standard section names such as "Introduction". A record that matches only
-  a secondary heading is refused when no author agrees, so the other letter
-  on a shared page is not taken for this one.
+- Title candidates include level-2 headings after level-1 ones, as some
+  *J. Chem. Phys.* layouts and Springer books set the title there, and never
+  standard section names such as "Introduction". DOI candidates whose record
+  matches the main title are tried first, and a record that matches only a
+  secondary heading is refused unless its first author is printed on the first
+  pages, so the other letter on a shared page is not taken for this one.
 
 ## [0.2.0] - 2026-09-25
 
