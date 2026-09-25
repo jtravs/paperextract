@@ -13,7 +13,6 @@ import hashlib
 import json
 import secrets
 import shutil
-import unicodedata
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from importlib import metadata
@@ -71,6 +70,7 @@ from paperextract.identity import (
     observe,
     resolve_identity,
 )
+from paperextract.names import ascii_fold
 from paperextract.pdf import UnreadablePdfError, render_region_png
 from paperextract.pipeline import (
     DOCUMENT_FILENAME,
@@ -205,8 +205,7 @@ def _name_part(text: str) -> str:
     str
         Filesystem-safe fragment, possibly empty.
     """
-    decomposed = unicodedata.normalize("NFKD", text)
-    folded = "".join(ch for ch in decomposed if ch.isascii() and ch.isalnum())
+    folded = "".join(ch for ch in ascii_fold(text) if ch.isalnum())
     return folded[:1].upper() + folded[1:] if folded else ""
 
 

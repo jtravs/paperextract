@@ -39,6 +39,11 @@ version is derived from Git tags.
 
 ### Changed
 
+- Directory names, citation keys and author shards transliterate letters that
+  Unicode does not decompose, such as ł, ø, æ, œ, ß, đ, þ and the dotless ı, so
+  Pawłowski gives `Pawlowski_…` rather than `Pawowski_…`. Stored metadata keeps
+  the original spelling; `paperextract reprocess PAPER` renames an affected
+  paper.
 - The integrity check of `migrate` ignores metadata files that file managers
   write into folders, such as Finder's `.DS_Store`, so opening a paper in
   Finder no longer marks it damaged.

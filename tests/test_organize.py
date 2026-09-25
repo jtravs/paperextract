@@ -56,6 +56,7 @@ def publish_two(
 
 def test_shards_come_from_validated_fields() -> None:
     assert shard_for("flat", validated=True, year=2020, family="A") == ""
+    assert shard_for("by-initial", validated=True, year=None, family="Łukasz") == "L"
     assert shard_for("by-initial", validated=True, year=None, family="123") == (
         "Unverified"
     )

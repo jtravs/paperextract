@@ -3,11 +3,11 @@
 from __future__ import annotations
 
 import re
-import unicodedata
 from collections.abc import Mapping
 from typing import cast
 
 from paperextract.identity import Identity
+from paperextract.names import ascii_fold
 
 __all__ = ["bibtex_entry", "citation_key", "parse_bibtex", "validate_bibtex"]
 
@@ -74,10 +74,10 @@ def _ascii(text: str) -> str:
     Returns
     -------
     str
-        Lower-case ASCII letters and digits only.
+        Lower-case ASCII letters and digits only, with letters such as ł
+        and ß transliterated by :func:`paperextract.names.ascii_fold`.
     """
-    decomposed = unicodedata.normalize("NFKD", text)
-    return "".join(ch for ch in decomposed if ch.isascii() and ch.isalnum()).lower()
+    return "".join(ch for ch in ascii_fold(text) if ch.isalnum()).lower()
 
 
 def _escape(text: str) -> str:

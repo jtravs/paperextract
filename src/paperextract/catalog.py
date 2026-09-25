@@ -8,7 +8,6 @@ be rebuilt from the directories, which remain the source of truth.
 from __future__ import annotations
 
 import json
-import unicodedata
 from collections.abc import Iterable, Mapping, Sequence
 from pathlib import Path
 from typing import cast
@@ -16,6 +15,7 @@ from typing import cast
 from paperextract.fields import integer, items, mapping, record
 from paperextract.formats import require_readable
 from paperextract.identity import title_key
+from paperextract.names import ascii_fold
 
 __all__ = [
     "CATALOG_FILENAME",
@@ -83,8 +83,7 @@ def shard_for(layout: str, *, validated: bool, year: object, family: object) -> 
     if layout == "by-year":
         return str(year) if validated and isinstance(year, int) else UNVERIFIED_SHARD
     if validated and isinstance(family, str):
-        folded = unicodedata.normalize("NFKD", family)
-        initial = next((c for c in folded if c.isascii() and c.isalpha()), None)
+        initial = next((c for c in ascii_fold(family) if c.isalpha()), None)
         if initial is not None:
             return initial.upper()
     return UNVERIFIED_SHARD

@@ -11,6 +11,7 @@ from pathlib import Path
 
 import pytest
 
+from paperextract.bibtex import citation_key
 from paperextract.catalog import catalog_row
 from paperextract.formats import UnsupportedFormatError, check_paper
 from paperextract.identity import Field, Identity, Observed, title_key
@@ -323,6 +324,27 @@ def test_library_records_are_validated(tmp_path: Path) -> None:
 )
 def test_title_keys_are_conservative_lookup_keys(title: str, key: str) -> None:
     assert title_key(title) == key
+
+
+def test_directory_names_transliterate_letters_nfkd_cannot_fold() -> None:
+    identity = replace(
+        Identity.unverified("no lookup"),
+        status="VALIDATED",
+        fields=(
+            Field(
+                "authors",
+                [{"given": "M.", "family": "Pawłowski", "literal": None}],
+                "VALIDATED",
+                "crossref",
+            ),
+            Field("year", 2005, "VALIDATED", "crossref"),
+            Field("title", "Cauchy moments of Ne and Groß", "VALIDATED", "crossref"),
+        ),
+    )
+    assert paper_directory_name(identity, "0" * 64) == (
+        "Pawlowski_2005_CauchyMomentsNe"
+    )
+    assert citation_key(identity) == "pawlowski2005cauchy"
 
 
 def test_unverified_directory_names_come_from_the_digest() -> None:

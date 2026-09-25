@@ -240,7 +240,8 @@ initials followed by one capitalized surname is split into given names and famil
 name, and the delivered string is kept as `literal`. Anything less clear is kept
 as delivered. The paper directory is named `Family_Year_FirstWords` from the
 first author, the year and the first three
-significant title words, folded to ASCII, with a six-character digest suffix when
+significant title words, folded to ASCII (letters such as ł, ø and ß are
+transliterated), with a six-character digest suffix when
 another source already uses that name in the library. `citation.bib` is written
 and parsed back to confirm its key, required fields, DOI and year. The front
 matter of `paper.md` and the catalog row carry the same values.
