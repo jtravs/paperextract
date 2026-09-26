@@ -622,8 +622,52 @@ def math_as_text(latex: str) -> str:
     --------
     >>> math_as_text(r"\mathrm{H}_{2}")
     'H2'
+    >>> math_as_text(r"\alpha(\omega,T,\varrho)") == "\N{GREEK SMALL LETTER ALPHA}(" \
+    ...     "\N{GREEK SMALL LETTER OMEGA},T,\N{GREEK SMALL LETTER RHO})"
+    True
     """
-    return _LATEX_MARKUP.sub("", _LATEX_COMMAND.sub("", latex)).replace(" ", "")
+    greek = _TEX_GREEK.sub(lambda m: _GREEK[m.group(1)], latex)
+    return _LATEX_MARKUP.sub("", _LATEX_COMMAND.sub("", greek)).replace(" ", "")
+
+
+_GREEK_LETTERS = [
+    "alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota",
+    "kappa", "lambda", "mu", "nu", "xi", "pi", "rho", "sigma", "tau", "upsilon",
+    "phi", "chi", "psi", "omega",
+]  # fmt: skip
+
+
+def _greek(name: str, case: str) -> str:
+    """Give the Greek letter a TeX name stands for.
+
+    Parameters
+    ----------
+    name : str
+        Lower-case TeX name such as ``alpha``.
+    case : str
+        ``SMALL`` or ``CAPITAL``.
+
+    Returns
+    -------
+    str
+        The letter; Unicode spells lambda "LAMDA".
+    """
+    spelled = "LAMDA" if name == "lambda" else name.upper()
+    return unicodedata.lookup(f"GREEK {case} LETTER {spelled}")
+
+
+_GREEK = {
+    **{name: _greek(name, "SMALL") for name in _GREEK_LETTERS},
+    **{name.capitalize(): _greek(name, "CAPITAL") for name in _GREEK_LETTERS},
+    **{
+        f"var{name}": _greek(name, "SMALL")
+        for name in ("epsilon", "theta", "pi", "rho", "sigma", "phi")
+    },
+}
+_GREEK_NAMES = "|".join(sorted(_GREEK, key=len, reverse=True))
+# A Greek letter as TeX, "\alpha", or as PDF titles spell it, "[alpha]".
+_TEX_GREEK = re.compile(rf"\\({_GREEK_NAMES})(?![A-Za-z])")
+_BRACKET_GREEK = re.compile(rf"\[({_GREEK_NAMES})\]")
 
 
 _HTML_TAG = re.compile(r"</?[A-Za-z][^>]*>")
@@ -652,8 +696,13 @@ def clean_title(title: str) -> str:
     --------
     >>> clean_title("Refractive index of N<sub>2</sub>, H_{2} and O[?]*")
     'Refractive index of N2, H2 and O'
+    >>> alpha = "\N{GREEK SMALL LETTER ALPHA}"
+    >>> clean_title("Polarizability [alpha]") == f"Polarizability {alpha}"
+    True
     """
     text = html.unescape(_HTML_TAG.sub("", title))
+    text = _BRACKET_GREEK.sub(lambda m: _GREEK[m.group(1)], text)
+    text = _TEX_GREEK.sub(lambda m: _GREEK[m.group(1)], text)
     if any(sign in text for sign in _TEX_SIGNS):
         text = _LATEX_MARKUP.sub("", _LATEX_COMMAND.sub("", text))
     text = _TRAILING_MARKERS.sub("", _LOST_GLYPH.sub(" ", text))
@@ -951,6 +1000,10 @@ _ARXIV_FILE = re.compile(r"^(\d{4}\.\d{4,5})(v\d+)?$")
 # The Royal Society of Chemistry names older articles by their DOI suffix: a
 # journal code, the year, the volume and the first page, as in tf9686401776.
 _RSC_FILE = re.compile(r"^([a-z]{2}\d{10})$", re.IGNORECASE)
+# Wiley names articles by their DOI suffix, a journal code and digits, as in
+# bbpc.19920960517; Springer's older articles are bf followed by eight digits.
+_WILEY_FILE = re.compile(r"^([a-z]{2,8}\.\d{8,13})$", re.IGNORECASE)
+_SPRINGER_OLD_FILE = re.compile(r"^(bf\d{8})$", re.IGNORECASE)
 # Springer names book downloads by ISBN and registers 10.1007/<ISBN>.
 _SPRINGER_BOOK_FILE = re.compile(r"^(97[89]-\d{1,5}-\d{1,7}-\d{1,7}-[\dX])$")
 _ELSEVIER_OLD_STYLE = 60
@@ -971,7 +1024,8 @@ def filename_candidates(name: str) -> tuple[str, ...]:
         (``PhysRevA.13.1422``), Optica (``josa-61-1-89``), Springer Nature
         (``s41598-018-34641-y``), the Royal Society (``rspa.1920.0020``),
         ACS (``jp980221f``), the Royal Society of Chemistry
-        (``tf9686401776``), an Elsevier PII of an article registered before
+        (``tf9686401776``), Wiley (``bbpc.19920960517``), older Springer
+        articles (``bf00504004``), an Elsevier PII of an article registered before
         2000 (``1-s2.0-S0092640X83710132-main``), arXiv (``2206.01062v2``)
         and Springer books named by ISBN (``978-3-030-84632-9``).
         A name is supplied by a person or a download service, so each DOI is
@@ -1000,6 +1054,10 @@ def filename_candidates(name: str) -> tuple[str, ...]:
         found.append(f"10.1021/{acs[1]}")
     if (rsc := _RSC_FILE.match(base)) is not None:
         found.append(f"10.1039/{rsc[1]}")
+    if (wiley := _WILEY_FILE.match(base)) is not None:
+        found.append(f"10.1002/{wiley[1]}")
+    if (old := _SPRINGER_OLD_FILE.match(base)) is not None:
+        found.append(f"10.1007/{old[1]}")
     for match in _ELSEVIER_FILE.finditer(stem):
         if int(match[3]) >= _ELSEVIER_OLD_STYLE:
             found.append(
@@ -1273,11 +1331,16 @@ def _printed(family: str, page_text: str) -> bool:
     --------
     >>> _printed("mao", "s.s. mao1, f. quere2"), _printed("mao", "Maori")
     (True, False)
+    >>> _printed("h usler", "H. Häusler and K. Kerl")
+    True
     """
     if not family:
         return False
     key = title_key(page_text)
-    return re.search(rf"(?:^| ){re.escape(family)}\d*(?: |$)", key) is not None
+    # A space inside a family key is a word break or a glyph the registry
+    # lost ("H\ufffdusler"), so it may stand for one printed letter.
+    body = r"\s?\w?\s?".join(re.escape(part) for part in family.split())
+    return re.search(rf"(?:^| ){body}\d*(?: |$)", key) is not None
 
 
 def _secondary_title_guard(
@@ -1884,10 +1947,47 @@ def _cites(hit: RegistryRecord, hint_tokens: frozenset[str]) -> bool:
     )
 
 
+_Hits = list[tuple[RegistryRecord, tuple[Check, ...]]]
+
+
+def _narrow(
+    remaining: _Hits, tokens: frozenset[str], detail: str
+) -> tuple[_Hits, list[dict[str, object]]]:
+    """Keep the hits whose volume and first page the given words cite.
+
+    Parameters
+    ----------
+    remaining : list of tuple
+        Agreeing hits with their checks.
+    tokens : frozenset of str
+        Words that may cite a volume and page.
+    detail : str
+        Reason recorded for each hit set aside.
+
+    Returns
+    -------
+    tuple
+        The cited hits, or all of them when none is cited or only one is
+        left, and the set-aside ones as alternatives.
+    """
+    if len(remaining) <= 1:
+        return remaining, []
+    cited = {hit.doi for hit, _ in remaining if _cites(hit, tokens)}
+    if not cited:
+        return remaining, []
+    aside: list[dict[str, object]] = [
+        {"doi": hit.doi, "outcome": "search_not_cited", "detail": detail}
+        for hit, _ in remaining
+        if hit.doi not in cited
+    ]
+    return [pair for pair in remaining if pair[0].doi in cited], aside
+
+
 def _choose(
     accepted: Sequence[tuple[RegistryRecord, tuple[Check, ...]]],
     hint_tokens: frozenset[str],
-) -> tuple[list[tuple[RegistryRecord, tuple[Check, ...]]], list[dict[str, object]]]:
+    file_tokens: frozenset[str] = frozenset(),
+) -> tuple[_Hits, list[dict[str, object]]]:
     """Narrow the search hits that agree with the article.
 
     Parameters
@@ -1896,6 +1996,8 @@ def _choose(
         Agreeing hits with their checks, distinct by DOI.
     hint_tokens : frozenset of str
         Words of the first pages' text and the file names.
+    file_tokens : frozenset of str
+        Numbers in the file names alone.
 
     Returns
     -------
@@ -1905,7 +2007,8 @@ def _choose(
         is set aside in favour of its registered translation, so an English
         translation is the identity and the original a recorded
         alternative; among several left, those whose volume and first page
-        the article or its file name cites are kept, when there are any.
+        the article or its file name cites are kept, when there are any,
+        and then, when the pages cite several, those the file name cites.
     """
     remaining = [pair for pair in accepted if pair[0].type != "component"]
     aside: list[dict[str, object]] = [
@@ -1931,19 +2034,16 @@ def _choose(
             if hit.doi in originals
         )
         remaining = [pair for pair in remaining if pair[0].doi not in originals]
-    if len(remaining) > 1:
-        cited = {hit.doi for hit, _ in remaining if _cites(hit, hint_tokens)}
-        if cited:
-            aside.extend(
-                {
-                    "doi": hit.doi,
-                    "outcome": "search_not_cited",
-                    "detail": "the article does not print this volume and page",
-                }
-                for hit, _ in remaining
-                if hit.doi not in cited
-            )
-            remaining = [pair for pair in remaining if pair[0].doi in cited]
+    remaining, set_aside = _narrow(
+        remaining, hint_tokens, "the article does not print this volume and page"
+    )
+    aside.extend(set_aside)
+    # A page may cite another version of itself, "also published in J. Opt.
+    # Soc. Am. 44, 677"; the file name then tells which one this is.
+    remaining, set_aside = _narrow(
+        remaining, file_tokens, "the file name names another volume and page"
+    )
+    aside.extend(set_aside)
     return remaining, aside
 
 
@@ -1973,8 +2073,16 @@ def _search(
         alternatives, and the reason.
     """
     page_text = _leading_text(document)
-    hint_tokens = frozenset(
-        re.split(r"[\s,;:()\[\]_.]+", f"{page_text} {' '.join(file_names)}".lower())
+    # Numbers inside file names count too: "jresv53n3p185" names volume 53
+    # and page 185.
+    file_tokens = frozenset(
+        number.lstrip("0") for name in file_names for number in re.findall(r"\d+", name)
+    )
+    hint_tokens = (
+        frozenset(
+            re.split(r"[\s,;:()\[\]_.]+", f"{page_text} {' '.join(file_names)}".lower())
+        )
+        | file_tokens
     )
     seen: set[str] = set()
     accepted: list[tuple[RegistryRecord, tuple[Check, ...]]] = []
@@ -1999,7 +2107,7 @@ def _search(
                 alternatives.append(
                     {"doi": hit.doi, "outcome": "search_rejected", "detail": failed}
                 )
-        remaining, aside = _choose(accepted, hint_tokens)
+        remaining, aside = _choose(accepted, hint_tokens, file_tokens)
         if len(remaining) == 1:
             hit, checks = remaining[0]
             return (
@@ -2014,7 +2122,7 @@ def _search(
             )
     if failure is not None and not answered:
         return None, (), alternatives, failure
-    remaining, aside = _choose(accepted, hint_tokens)
+    remaining, aside = _choose(accepted, hint_tokens, file_tokens)
     alternatives.extend(aside)
     alternatives.extend(
         {

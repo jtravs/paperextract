@@ -606,6 +606,11 @@ def test_footnote_markers_do_not_join_the_observed_title() -> None:
     ("observed", "registry", "grade"),
     [
         ("Dispersion of Nitrogen*", "Dispersion of Nitrogen", "same"),
+        (
+            "Polarizability [alpha] ([omega], T, [rho]) of small molecules",
+            "Polarizability \u03b1 (\u03c9, T, \u03c1) of small molecules",
+            "same",
+        ),
         ("Index of N<sub>2</sub> and H_{2}", "Index of N2 and H2", "same"),
         (
             "Rayleigh scattering of Lyman light at 1216",
@@ -675,6 +680,8 @@ def test_clean_title_removes_markup_but_not_words() -> None:
         ("rspa.1920.0020.pdf", ("10.1098/rspa.1920.0020",)),
         ("jp980221f.pdf", ("10.1021/jp980221f",)),
         ("tf9686401776.pdf", ("10.1039/tf9686401776",)),
+        ("bbpc.19920960517.pdf", ("10.1002/bbpc.19920960517",)),
+        ("bf00504004.pdf", ("10.1007/bf00504004",)),
         ("jp2094438-2.pdf", ("10.1021/jp2094438",)),
         (
             "1-s2.0-S0092640X83710132-main.pdf",
@@ -970,6 +977,33 @@ def test_components_originals_and_uncited_hits_are_set_aside() -> None:
     chosen = resolve_identity(document, {}, no_lookup, search_all(chapter, cited))
     assert chosen.doi == "10.1/cited"
     assert {a["outcome"] for a in chosen.alternatives} == {"search_not_cited"}
+    # Volume and page may be read out of the file name.
+    named = resolve_identity(
+        hinted_document(
+            headings=((1, 1, "Three-body electron attachment to a molecule"),),
+            authors="N. L. Aleksandrov",
+            body="Received 1988",
+        ),
+        {},
+        no_lookup,
+        search_all(chapter, cited),
+        file_names=("sovphysusp_v31n2p101.pdf",),
+    )
+    assert named.doi == "10.1/cited"
+    # When the page also cites another version, the file name decides.
+    both = resolve_identity(
+        hinted_document(
+            headings=((1, 1, "Three-body electron attachment to a molecule"),),
+            authors="N. L. Aleksandrov",
+            body="Received 1988; also published in Chem. Phys. 5, 7",
+        ),
+        {},
+        no_lookup,
+        search_all(chapter, cited),
+        file_names=("sovphysusp_v31n2p101.pdf",),
+    )
+    assert both.doi == "10.1/cited"
+    assert "file name names another" in str(both.alternatives)
     uncited = hit("10.1/other", volume="9", pages=None, article_number=None)
     still = resolve_identity(document, {}, no_lookup, search_all(chapter, uncited))
     assert still.status == "UNVERIFIED"

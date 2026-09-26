@@ -45,6 +45,8 @@ convention, and yields a weak candidate, tried before the page-text scans:
 | Royal Society | `rspa.1920.0020.pdf` | `10.1098/rspa.1920.0020` |
 | ACS | `jp980221f.pdf` | `10.1021/jp980221f` |
 | Royal Society of Chemistry, older articles | `tf9686401776.pdf` | `10.1039/tf9686401776` |
+| Wiley | `bbpc.19920960517.pdf` | `10.1002/bbpc.19920960517` |
+| Springer, older articles | `bf00504004.pdf` | `10.1007/bf00504004` |
 | Elsevier, before 2000 | `1-s2.0-S0092640X83710132-main.pdf` | `10.1016/0092-640X(83)71013-2` |
 | arXiv | `2206.01062v2.pdf` | `10.48550/arxiv.2206.01062` |
 | Springer books | `978-3-030-84632-9.pdf` (the ISBN) | `10.1007/978-3-030-84632-9` |

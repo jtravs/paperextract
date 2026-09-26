@@ -124,8 +124,9 @@ exclude = ['\.__init__$']
 # Keep supplied source material and generated artifacts out of prose checks.
 skip = "uv.lock,LICENSE,./examples,./.git,./.venv,./.pytest_cache,./.ruff_cache,./dist,./docs/_build,./data,./incoming,./literature,./model-cache,./benchmark-results"
 quiet-level = 3
-# "theses" is the plural of thesis, not a misspelling of "these".
-ignore-words-list = "theses"
+# "theses" is the plural of thesis, not a misspelling of "these"; "lamda" is
+# how Unicode names the Greek letter lambda.
+ignore-words-list = "theses,lamda"
 
 [tool.poe.executor]
 # uv run already selects the environment; subtasks must not resolve it again.

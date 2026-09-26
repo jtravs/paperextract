@@ -13,7 +13,15 @@ version is derived from Git tags.
 - Springer books downloaded under their ISBN, such as `978-3-030-84632-9.pdf`,
   give the weak DOI candidate `10.1007/<ISBN>`, and older Royal Society of
   Chemistry articles named by their DOI suffix, such as `tf9686401776.pdf`,
-  give `10.1039/<name>`.
+  give `10.1039/<name>`; Wiley articles such as `bbpc.19920960517.pdf` give
+  `10.1002/<name>`, and older Springer articles such as `bf00504004.pdf` give
+  `10.1007/<name>`.
+- When a paper's pages cite another version of it, such as "also published in
+  J. Opt. Soc. Am. 44, 677", the volume and page in its file name
+  (`jresv53n3p185.pdf`) decide between the search hits.
+- Titles compare Greek letters written as TeX (`\alpha`) or as PDF titles
+  spell them (`[alpha]`) with the letters themselves, and a registry name with
+  a lost glyph, such as "H\ufffdusler", matches the name printed in full.
 - Placeholder PDF titles such as "Unknown" or "Unbekannt" are not taken as
   titles, and a family name printed with an affiliation digit attached, as in
   "s.s. mao1", counts as printed on the first pages.
