@@ -14,6 +14,9 @@ version is derived from Git tags.
   give the weak DOI candidate `10.1007/<ISBN>`, and older Royal Society of
   Chemistry articles named by their DOI suffix, such as `tf9686401776.pdf`,
   give `10.1039/<name>`.
+- Placeholder PDF titles such as "Unknown" or "Unbekannt" are not taken as
+  titles, and a family name printed with an affiliation digit attached, as in
+  "s.s. mao1", counts as printed on the first pages.
 - A paper whose first pages have no title candidate at all uses its first two
   short paragraphs without a DOI or link as candidates, for layouts that set
   the title as plain text.

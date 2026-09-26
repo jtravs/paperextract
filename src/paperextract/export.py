@@ -995,6 +995,7 @@ def review_markdown(document: Document) -> str:
 # PDF information titles, such as "acs_JX_jp-2011-094438 1..7",
 # "rsc_cp_b701020f 2044..2064", "vyk90e3.tmp" and "Using JCP format".
 _IMPLAUSIBLE_TITLE = re.compile(
+    r"^\s*(?:unknown|unbekannt|inconnu|sin t\u00edtulo|senza titolo|title)\s*$|"
     r"^\s*(?:PII\b|doi\b|Microsoft Word\b|untitled\b|mhtml:|file:|"
     r"(?:acs|rsc|aip|iop|els|wiley)_\w+|using\s+\S+(?:\s+\S+)?\s+(?:format|style)|"
     r"using\s+standard\b)"

@@ -1126,3 +1126,28 @@ def test_a_bibtex_entry_asserts_an_identity_no_registry_holds() -> None:
 def test_unusable_bibtex_entries_are_refused(entry: str, message: str) -> None:
     with pytest.raises(ValueError, match=message):
         identity_from_bibtex(entry, hinted_document())
+
+
+def test_placeholder_titles_and_affiliation_digits_do_not_block_a_doi() -> None:
+    # Regression: a PDF titled "Unbekannt" and authors printed as "s.s. mao1".
+    document = hinted_document(
+        info_title="Unbekannt",
+        headings=((1, 1, "Dynamics of femtosecond laser interactions"),),
+        header=f"doi:{DOI}",
+        authors="s.s. mao1, f. quere2 and x. mao1",
+    )
+    assert title_candidates(document) == ("Dynamics of femtosecond laser interactions",)
+    record = make_record(
+        title="Dynamics of femtosecond laser interactions",
+        authors=(("S. S.", "Mao", None),),
+        year=2004,
+    )
+    identity = resolve_identity(document, {}, lookup_with(**{key(DOI): record}))
+    assert identity.status == "VALIDATED"
+    searched = resolve_identity(
+        replace(document, blocks=document.blocks[1:]),
+        {},
+        no_lookup,
+        search_all(replace(record, issued=(1991,))),
+    )
+    assert searched.doi == DOI

@@ -1253,6 +1253,33 @@ def compare_record(
     return tuple(checks)
 
 
+def _printed(family: str, page_text: str) -> bool:
+    """Tell whether a family name is printed as a word on the first pages.
+
+    Parameters
+    ----------
+    family : str
+        Title key of a family name; empty when unknown.
+    page_text : str
+        Text of the first pages.
+
+    Returns
+    -------
+    bool
+        True when the name appears as a whole word, also with affiliation
+        digits attached, as in "s.s. mao1".
+
+    Examples
+    --------
+    >>> _printed("mao", "s.s. mao1, f. quere2"), _printed("mao", "Maori")
+    (True, False)
+    """
+    if not family:
+        return False
+    key = title_key(page_text)
+    return re.search(rf"(?:^| ){re.escape(family)}\d*(?: |$)", key) is not None
+
+
 def _secondary_title_guard(
     title: Check,
     authors: Check,
@@ -1296,7 +1323,7 @@ def _secondary_title_guard(
     else:
         first = registry.authors[0] if registry.authors else None
         family = _family_key((first.family or first.literal or "") if first else "")
-        corroborated = bool(family) and f" {family} " in f" {title_key(page_text)} "
+        corroborated = _printed(family, page_text)
     if corroborated:
         return title
     return Check(
@@ -1691,12 +1718,12 @@ def _search_checks(
     )
     first = registry.authors[0] if registry.authors else None
     family = _family_key((first.family or first.literal or "") if first else "")
-    page_key = f" {title_key(page_text)} "
+    printed = _printed(family, page_text)
     author_check = Check(
         "authors",
-        "pass" if family and f" {family} " in page_key else "fail",
+        "pass" if printed else "fail",
         f"First registry author {family or 'none'!r} "
-        + ("appears" if family and f" {family} " in page_key else "does not appear")
+        + ("appears" if printed else "does not appear")
         + " on the first pages",
     )
     years = {
