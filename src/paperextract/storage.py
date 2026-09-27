@@ -17,7 +17,6 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from importlib import metadata
 from pathlib import Path, PurePosixPath
-from typing import cast
 
 from paperextract.bibtex import bibtex_entry, validate_bibtex
 from paperextract.capture import read_capture_html, read_capture_record
@@ -67,6 +66,7 @@ from paperextract.identity import (
     Identity,
     arxiv_identifier,
     identity_from_bibtex,
+    lead_people,
     observe,
     resolve_identity,
 )
@@ -233,10 +233,8 @@ def paper_directory_name(
     """
     if not identity.named():
         return f"Unverified_{source_sha256[:12]}"
-    authors = identity.field("authors")
-    first: Mapping[str, object] = {}
-    if isinstance(authors, list) and authors:
-        first = mapping(cast("list[object]", authors)[0])
+    people = lead_people(identity)
+    first: Mapping[str, object] = people[0] if people else {}
     family = (
         _name_part(str(first.get("family") or first.get("literal") or ""))
         or "Anonymous"

@@ -68,6 +68,7 @@ __all__ = [
     "compare_record",
     "filename_candidates",
     "identity_from_bibtex",
+    "lead_people",
     "math_as_text",
     "observe",
     "resolve_identity",
@@ -97,6 +98,7 @@ _YEAR_TOLERANCE = 1
 _FIELD_NAMES = (
     "title",
     "authors",
+    "editors",
     "journal",
     "publisher",
     "doi",
@@ -1266,7 +1268,7 @@ def compare_record(
         checks.append(Check("title", "not_checked", "No observed or registry title"))
     else:
         checks.append(_title_check(registry.title, candidates))
-    families = [_family_key(a.family or a.literal or "") for a in registry.authors]
+    families = [_family_key(a.family or a.literal or "") for a in registry.people]
     if not observed.authors or not any(families):
         checks.append(
             Check("authors", "not_checked", "No observed or registry authors")
@@ -1384,7 +1386,7 @@ def _secondary_title_guard(
     if page_text is None:
         corroborated = authors.outcome != "fail"
     else:
-        first = registry.authors[0] if registry.authors else None
+        first = registry.people[0] if registry.people else None
         family = _family_key((first.family or first.literal or "") if first else "")
         corroborated = _printed(family, page_text)
     if corroborated:
@@ -1434,6 +1436,7 @@ def _fields(registry: RegistryRecord, status: Status) -> tuple[Field, ...]:
     values: dict[str, object] = {
         "title": registry.title,
         "authors": [author.to_dict() for author in registry.authors] or None,
+        "editors": [editor.to_dict() for editor in registry.editors] or None,
         "journal": registry.container_title,
         "publisher": registry.publisher,
         "doi": registry.doi,
@@ -1779,7 +1782,7 @@ def _search_checks(
         f"Observed {titles[0]!r} versus registry {registry.title!r}"
         + ("" if "same" in grades or not agrees else " (agree apart from markup)"),
     )
-    first = registry.authors[0] if registry.authors else None
+    first = registry.people[0] if registry.people else None
     family = _family_key((first.family or first.literal or "") if first else "")
     printed = _printed(family, page_text)
     author_check = Check(
@@ -2556,6 +2559,31 @@ _PUBLISHERS = ("publisher", "institution", "school", "organization")
 _ASSERTED_PROVIDER = "user"
 
 
+def lead_people(identity: Identity) -> list[dict[str, object]]:
+    """Return whom a paper is named and cited by.
+
+    Parameters
+    ----------
+    identity : Identity
+        Bibliographic identity.
+
+    Returns
+    -------
+    list of dict
+        The serialized authors, or the editors when no author is recorded,
+        as for an edited book; empty when neither is known.
+    """
+    for name in ("authors", "editors"):
+        people = identity.field(name)
+        if isinstance(people, list) and people:
+            return [
+                cast("dict[str, object]", item)
+                for item in cast("list[object]", people)
+                if isinstance(item, dict)
+            ]
+    return []
+
+
 def _bibtex_authors(text: str) -> list[dict[str, object]]:
     """Read a BibTeX author list into structured names.
 
@@ -2595,8 +2623,9 @@ def identity_from_bibtex(entry: str, document: Document) -> Identity:
     Parameters
     ----------
     entry : str
-        One BibTeX entry with at least ``author``, ``title`` and ``year``,
-        for a work no registry holds, such as a report or a thesis.
+        One BibTeX entry with at least ``author`` (or ``editor``),
+        ``title`` and ``year``, for a work no registry holds, such as a
+        report or a thesis.
     document : Document
         Canonical document the entry describes.
 
@@ -2617,7 +2646,11 @@ def identity_from_bibtex(entry: str, document: Document) -> Identity:
     if len(entries) != 1:
         raise ValueError("Give exactly one BibTeX entry")
     entry_type, fields = entries[0]
-    missing = [name for name in ("author", "title", "year") if not fields.get(name)]
+    missing = [
+        name
+        for name in ("author", "title", "year")
+        if not fields.get(name) and not (name == "author" and fields.get("editor"))
+    ]
     if missing:
         raise ValueError(f"The BibTeX entry lacks {', '.join(missing)}")
     if fields.get("doi"):
@@ -2627,7 +2660,8 @@ def identity_from_bibtex(entry: str, document: Document) -> Identity:
         raise ValueError(f"The BibTeX year {year!r} is not a number")
     values: dict[str, object] = {
         "title": fields["title"],
-        "authors": _bibtex_authors(fields["author"]),
+        "authors": _bibtex_authors(fields["author"]) if fields.get("author") else None,
+        "editors": _bibtex_authors(fields["editor"]) if fields.get("editor") else None,
         "journal": next((fields[k] for k in _CONTAINERS if fields.get(k)), None),
         "publisher": next((fields[k] for k in _PUBLISHERS if fields.get(k)), None),
         "doi": None,

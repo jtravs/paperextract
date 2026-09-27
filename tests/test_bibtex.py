@@ -212,3 +212,27 @@ def test_asserted_reports_and_theses_keep_their_entry_type() -> None:
     booklet = asserted("@booklet{x, author = {A}, title = {T}, year = {2000}}")
     assert booklet.field("article_type") == "bibtex:booklet"
     assert parse_bibtex(bibtex_entry(booklet) or "")[0] == "booklet"
+
+
+def test_an_edited_book_is_cited_by_its_editors() -> None:
+    book = asserted(
+        "@book{x, editor = {Weber, A.}, title = {Raman Spectroscopy of Gases},"
+        " publisher = {Springer}, year = {1979}}"
+    )
+    entry = bibtex_entry(book)
+    assert entry is not None
+    entry_type, key, fields = parse_bibtex(entry)
+    assert (entry_type, key) == ("book", "weber1979raman")
+    assert fields["editor"] == "Weber, A."
+    assert "author" not in fields
+    assert validate_bibtex(entry, book) == ()
+
+
+def test_registered_books_are_book_entries_with_their_series() -> None:
+    entry = bibtex_entry(
+        make_identity(article_type="edited-book", journal="Topics in Current Physics")
+    )
+    assert entry is not None
+    entry_type, _, fields = parse_bibtex(entry)
+    assert entry_type == "book"
+    assert fields["series"] == "Topics in Current Physics"

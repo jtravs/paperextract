@@ -249,7 +249,8 @@ whole name in the family-name field, such as "D V Willetts"; a name that is only
 initials followed by one capitalized surname is split into given names and family
 name, and the delivered string is kept as `literal`. Anything less clear is kept
 as delivered. The paper directory is named `Family_Year_FirstWords` from the
-first author, the year and the first three
+first author (the first editor for an edited book without registered
+authors), the year and the first three
 significant title words, folded to ASCII (letters such as ł, ø and ß are
 transliterated), with a six-character digest suffix when
 another source already uses that name in the library. `citation.bib` is written

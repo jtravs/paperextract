@@ -518,6 +518,8 @@ class RegistryRecord:
     relations : tuple of tuple of str
         Registered relations as ``(type, doi)`` pairs, such as
         ``("is-translation-of", "10.3367/ufnr.0154.198802a.0177")``.
+    editors : tuple of Author
+        Ordered editors, as for an edited book.
     source_url : str
         Query URL.
     retrieved_utc : str
@@ -553,6 +555,18 @@ class RegistryRecord:
     body_sha256: str
     cached: bool
     relations: tuple[tuple[str, str], ...] = ()
+    editors: tuple[Author, ...] = ()
+
+    @property
+    def people(self) -> tuple[Author, ...]:
+        """Return the authors, or the editors when no author is registered.
+
+        Returns
+        -------
+        tuple of Author
+            Whom an identity check or a directory name goes by.
+        """
+        return self.authors or self.editors
 
     @property
     def year(self) -> int | None:
@@ -595,6 +609,7 @@ class RegistryRecord:
             "license_urls": list(self.license_urls),
             "abstract": self.abstract,
             "relations": [list(pair) for pair in self.relations],
+            "editors": [editor.to_dict() for editor in self.editors],
             "source_url": self.source_url,
             "retrieved_utc": self.retrieved_utc,
             "body_sha256": self.body_sha256,
@@ -995,6 +1010,7 @@ def _crossref_work(
         body_sha256=hashlib.sha256(response.body).hexdigest(),
         cached=response.cached,
         relations=_crossref_relations(message.get("relation")),
+        editors=_crossref_authors(message.get("editor")),
     )
 
 

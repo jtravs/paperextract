@@ -6,7 +6,7 @@ import re
 from collections.abc import Mapping
 from typing import cast
 
-from paperextract.identity import Identity
+from paperextract.identity import Identity, lead_people
 from paperextract.names import ascii_fold
 
 __all__ = ["bibtex_entry", "citation_key", "parse_bibtex", "validate_bibtex"]
@@ -45,6 +45,10 @@ _TYPES: Mapping[str, str] = {
     "journal-article": "article",
     "proceedings-article": "inproceedings",
     "book-chapter": "incollection",
+    "book": "book",
+    "edited-book": "book",
+    "monograph": "book",
+    "reference-book": "book",
     "posted-content": "misc",
     "Dataset": "misc",
     "Software": "misc",
@@ -52,6 +56,7 @@ _TYPES: Mapping[str, str] = {
 # Where the container goes for each entry type; anything else is a booktitle.
 _CONTAINER_FIELDS: Mapping[str, str] = {
     "article": "journal",
+    "book": "series",
     "techreport": "institution",
     "report": "institution",
     "phdthesis": "school",
@@ -136,8 +141,8 @@ def citation_key(identity: Identity) -> str:
         folded to ASCII, for example ``travers2019highenergy``; a missing year
         reads ``nodate``.
     """
-    authors = cast("list[dict[str, object]] | None", identity.field("authors")) or []
-    first = authors[0] if authors else {}
+    people = lead_people(identity)
+    first = people[0] if people else {}
     family = str(first.get("family") or first.get("literal") or "anonymous")
     year = identity.field("year")
     title = str(identity.field("title") or "")
@@ -256,8 +261,11 @@ def bibtex_entry(identity: Identity) -> str | None:
     container = _CONTAINER_FIELDS.get(entry_type, "booktitle")
     fields: list[tuple[str, str]] = []
     authors = cast("list[dict[str, object]] | None", identity.field("authors")) or []
+    editors = cast("list[dict[str, object]] | None", identity.field("editors")) or []
     if authors:
         fields.append(("author", _author_text(authors)))
+    if editors:
+        fields.append(("editor", _author_text(editors)))
     title = identity.field("title")
     if isinstance(title, str):
         fields.append(("title", _protect(_escape(title))))
@@ -354,6 +362,8 @@ def validate_bibtex(entry: str, identity: Identity) -> tuple[str, ...]:
     required = {"author", "title", "year"}
     if entry_type == "article":
         required.add("journal")
+    if "editor" in fields:
+        required.discard("author")  # an edited book is cited by its editors
     missing = sorted(required - set(fields))
     if missing:
         problems.append(f"missing required field(s): {', '.join(missing)}")

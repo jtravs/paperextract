@@ -595,3 +595,17 @@ def test_crossref_whole_names_and_translation_links_are_read() -> None:
         )
     )
     assert plain.relations == ()
+
+
+def test_crossref_editors_are_read_and_stand_in_for_missing_authors() -> None:
+    message: dict[str, object] = {
+        **cast("dict[str, object]", CROSSREF_BODY["message"]),
+        "author": [],
+        "editor": [{"given": "A.", "family": "Weber", "sequence": "first"}],
+    }
+    record = parse_crossref(
+        response(crossref_url("10.1000/example.1"), 200, {"message": message})
+    )
+    assert record.authors == ()
+    assert [(e.given, e.family) for e in record.people] == [("A.", "Weber")]
+    assert record.to_dict()["editors"][0]["family"] == "Weber"  # type: ignore[index]

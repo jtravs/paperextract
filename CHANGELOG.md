@@ -22,6 +22,13 @@ version is derived from Git tags.
 - Titles compare Greek letters written as TeX (`\alpha`) or as PDF titles
   spell them (`[alpha]`) with the letters themselves, and a registry name with
   a lost glyph, such as "H\ufffdusler", matches the name printed in full.
+- Registry records keep their editors, and an edited book with no registered
+  authors, such as a Springer volume, is checked against, named after and cited
+  by its first editor (`Weber_1979_…`, `editor = {…}` in `citation.bib`)
+  instead of `Anonymous`. Metadata gains an `editors` field.
+- Books registered with Crossref (`book`, `edited-book`, `monograph`,
+  `reference-book`) are `@book` entries in `citation.bib`, with their series in
+  `series`.
 - Placeholder PDF titles such as "Unknown" or "Unbekannt" are not taken as
   titles, and a family name printed with an affiliation digit attached, as in
   "s.s. mao1", counts as printed on the first pages.

@@ -22,7 +22,7 @@ from typing import Literal, cast
 
 from paperextract.document import Document, Finding, Heading, PageFurniture, Paragraph
 from paperextract.export import plausible_title
-from paperextract.identity import Identity, title_key
+from paperextract.identity import Identity, lead_people, title_key
 from paperextract.ingest import IntakePlan
 
 __all__ = [
@@ -267,13 +267,8 @@ def first_author_family(identity: Identity) -> str | None:
     str or None
         Family name as registered, or None when unknown.
     """
-    authors = identity.field("authors")
-    if not isinstance(authors, list) or not authors:
-        return None
-    first = cast("list[object]", authors)[0]
-    if not isinstance(first, Mapping):
-        return None
-    family = cast("Mapping[str, object]", first).get("family")
+    people = lead_people(identity)
+    family = people[0].get("family") if people else None
     return family if isinstance(family, str) and family else None
 
 

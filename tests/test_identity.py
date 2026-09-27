@@ -32,6 +32,7 @@ from paperextract.identity import (
     compare_record,
     filename_candidates,
     identity_from_bibtex,
+    lead_people,
     math_as_text,
     observe,
     resolve_identity,
@@ -1185,3 +1186,24 @@ def test_placeholder_titles_and_affiliation_digits_do_not_block_a_doi() -> None:
         search_all(replace(record, issued=(1991,))),
     )
     assert searched.doi == DOI
+
+
+def test_an_edited_book_is_checked_named_and_cited_by_its_editors() -> None:
+    document = hinted_document(
+        headings=((1, 1, "Raman Spectroscopy of Gases and Liquids"),),
+        authors="Editor: A. Weber",
+        body="Springer 1979",
+    )
+    book = make_record(
+        doi="10.1007/978-3-642-81279-8",
+        title="Raman Spectroscopy of Gases and Liquids",
+        authors=(),
+        year=1979,
+        type="book",
+        editors=(Author("A.", "Weber", None, None, "first"),),
+    )
+    identity = resolve_identity(document, {}, no_lookup, search_all(book))
+    assert identity.doi == book.doi
+    assert identity.field("authors") is None
+    assert lead_people(identity)[0]["family"] == "Weber"
+    assert lead_people(Identity.unverified("none")) == []
