@@ -67,6 +67,7 @@ you will parse the output. Progress goes to stderr, results to stdout.
 | `tables/<id>.jpg` or `.png` | The table as printed, to compare with the extracted cells. |
 | `supplement_01/supplement.md` | Converted supplementary material, when present. |
 | `original/` | The preserved source files. |
+| `data/NN/<name>` | Data files kept with the paper, such as supporting-information spreadsheets, byte for byte; `attachments` in `extraction.json` gives each one's source address and note. Not extracted and not checked against the paper. |
 
 See [reference.md](reference.md) for the fields and findings that matter.
 

@@ -6,9 +6,11 @@ paper directories; the last one listed is the version it writes. A record
 with a version not listed was written by another release, most likely a
 newer one, and is refused rather than read by guesswork.
 
-Kept evidence (``original/`` and ``diagnostics/``) is checked for integrity
-but not for versions: it is never rewritten, and the worker protocol and
-native readers check their own versions when the evidence is read again.
+Kept evidence (``original/``, ``diagnostics/`` and attached data in
+``data/``) is checked for integrity but not for versions: it is never
+rewritten, and the worker protocol and native readers check their own
+versions when the evidence is read again. An attached ``.json`` file is
+data, not a record, and is never parsed.
 """
 
 from __future__ import annotations
@@ -42,17 +44,17 @@ __all__ = [
 READABLE_VERSIONS: Mapping[str, tuple[str, ...]] = {
     "paperextract.corpus": ("1",),
     "paperextract.catalog-row": ("1", "2"),
-    "paperextract.paper-manifest": ("1", "2", "3"),
+    "paperextract.paper-manifest": ("1", "2", "3", "4"),
     "paperextract.document": ("0.1", "0.2", "0.3"),
-    "paperextract.extraction": ("1", "2", "3"),
+    "paperextract.extraction": ("1", "2", "3", "4"),
     "paperextract.metadata": ("1", "2"),
-    "paperextract.validation": ("1", "2", "3"),
-    "paperextract.table": ("1", "2", "3"),
+    "paperextract.validation": ("1", "2", "3", "4"),
+    "paperextract.table": ("1", "2", "3", "4"),
     "paperextract.html-checks": ("1",),
     "paperextract.figure-descriptions": ("1",),
 }
 _MANIFEST = "manifest.json"
-_EVIDENCE = ("original/", "diagnostics/")
+_EVIDENCE = ("original/", "diagnostics/", "data/")
 _CHUNK = 1 << 20
 
 RecordState = Literal["current", "older", "unsupported"]

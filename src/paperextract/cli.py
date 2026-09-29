@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import hashlib
 import itertools
 import json
 import logging
@@ -32,6 +33,7 @@ from paperextract.acquire import (
     arxiv_request,
     urllib_fetch,
 )
+from paperextract.attachments import Provenance, attach_file, parse_attachments
 from paperextract.bibread import read_entries
 from paperextract.capture import capture_kind, read_page_html
 from paperextract.catalog import (
@@ -62,6 +64,7 @@ from paperextract.formats import (
     check_paper,
     record_state,
     require_readable,
+    require_readable_paper,
 )
 from paperextract.html_article import page_doi
 from paperextract.identity import Identity
@@ -166,6 +169,7 @@ __all__ = [
     "main",
     "main_entry",
     "parse_pages",
+    "parse_utc",
 ]
 
 logger = logging.getLogger(__name__)
@@ -195,13 +199,15 @@ COMMANDS = (
     "compare",
     "reprocess",
     "describe",
+    "attach",
     "index",
     "lookup",
     "search",
 )
 RESULT_SCHEMA = "paperextract.cli-result"
-# Version 2 adds the captures of each item.
-RESULT_VERSION = 2
+# Version 2 adds the captures of each item; version 3 adds the data files
+# attached to it.
+RESULT_VERSION = 3
 RUNS_DIRECTORY = "runs"
 BATCHES_DIRECTORY = "batches"
 SESSIONS_DIRECTORY = "sessions"
@@ -245,6 +251,8 @@ class ItemResult:
         Supplement paths extracted and published with the paper.
     captures : tuple of str
         Saved web pages preserved with the paper and compared with it.
+    attachments : tuple of str
+        Data files attached to the paper byte for byte, without extraction.
     stage : str or None
         Stage that failed: ``intake``, ``extraction`` or ``publication``,
         which includes identity resolution.
@@ -264,6 +272,7 @@ class ItemResult:
     aliases: tuple[str, ...] = ()
     supplements: tuple[str, ...] = ()
     captures: tuple[str, ...] = ()
+    attachments: tuple[str, ...] = ()
     stage: str | None = None
     message: str | None = None
     run: str | None = None
@@ -304,6 +313,7 @@ class ItemResult:
             "aliases": list(self.aliases),
             "supplements": list(self.supplements),
             "captures": list(self.captures),
+            "attachments": list(self.attachments),
             "stage": self.stage,
             "message": self.message,
             "run": self.run,
@@ -675,6 +685,101 @@ def _models_parser(
     return models
 
 
+def _nonblank(text: str) -> str:
+    """Refuse an empty provenance value.
+
+    Parameters
+    ----------
+    text : str
+        Option value.
+
+    Returns
+    -------
+    str
+        The value unchanged.
+
+    Raises
+    ------
+    argparse.ArgumentTypeError
+        The value is empty or only whitespace.
+    """
+    if not text.strip():
+        raise argparse.ArgumentTypeError("must not be empty")
+    return text
+
+
+def parse_utc(text: str) -> str:
+    """Check a UTC date or time given on the command line.
+
+    Parameters
+    ----------
+    text : str
+        ISO 8601 date, such as ``2026-09-29``, or date and time in UTC, such
+        as ``2026-09-29T14:05Z``; a time without an offset is taken as UTC.
+
+    Returns
+    -------
+    str
+        The text unchanged, so the record keeps what was given.
+
+    Raises
+    ------
+    argparse.ArgumentTypeError
+        The text is not such a date or time, or has another offset.
+
+    Examples
+    --------
+    >>> parse_utc("2026-09-29")
+    '2026-09-29'
+    """
+    try:
+        moment = dt.datetime.fromisoformat(text)
+    except ValueError:
+        raise argparse.ArgumentTypeError(
+            f"not an ISO 8601 date or time: {text!r}"
+        ) from None
+    if moment.utcoffset() not in {None, dt.timedelta(0)}:
+        raise argparse.ArgumentTypeError(f"not in UTC: {text!r}")
+    return text
+
+
+def _attach_parser(
+    commands: argparse._SubParsersAction[argparse.ArgumentParser],  # pyright: ignore[reportPrivateUsage] - argparse exposes no public name for it
+) -> argparse.ArgumentParser:
+    """Add the ``attach`` command.
+
+    Parameters
+    ----------
+    commands : argparse._SubParsersAction
+        Subcommand registry.
+
+    Returns
+    -------
+    argparse.ArgumentParser
+        The command's parser.
+    """
+    attach = commands.add_parser(
+        "attach",
+        help="keep data files, such as spreadsheets, byte for byte with a "
+        "published paper, without extraction",
+    )
+    attach.add_argument("paper", type=Path, metavar="PAPER")
+    attach.add_argument("files", nargs="+", type=Path, metavar="FILE")
+    attach.add_argument(
+        "--url", type=_nonblank, help="address the files were downloaded from"
+    )
+    attach.add_argument(
+        "--retrieved",
+        type=parse_utc,
+        metavar="UTC",
+        help="UTC date or time of the download, such as 2026-09-29",
+    )
+    attach.add_argument(
+        "--note", type=_nonblank, help="what the files hold, recorded as given"
+    )
+    return attach
+
+
 def build_parser() -> argparse.ArgumentParser:
     """Build the argument parser.
 
@@ -805,6 +910,7 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="exit 4 when any paper is unverified or partial",
     )
+    attach = _attach_parser(commands)
     index = commands.add_parser(
         "index", help="rebuild the catalog and search index from the paper directories"
     )
@@ -821,6 +927,7 @@ def build_parser() -> argparse.ArgumentParser:
         compare,
         reprocess,
         describe,
+        attach,
         index,
         lookup,
         search_parser,
@@ -1538,6 +1645,7 @@ def _item_line(item: ItemResult) -> str:
     lines.extend(f"alias\t{Path(alias).name}" for alias in item.aliases)
     lines.extend(f"supplement\t{Path(path).name}" for path in item.supplements)
     lines.extend(f"capture\t{Path(path).name}" for path in item.captures)
+    lines.extend(f"data\t{Path(path).name}" for path in item.attachments)
     return "\n".join(lines)
 
 
@@ -3366,6 +3474,145 @@ def _command_describe(args: argparse.Namespace, config: Configuration) -> int:
     return exit_code(items, strict=args.strict)
 
 
+def _kept_digests(paper: Path) -> dict[str, str]:
+    """Map the digests of a paper's sources and attachments to their paths.
+
+    Parameters
+    ----------
+    paper : Path
+        Published paper directory.
+
+    Returns
+    -------
+    dict of str to str
+        SHA-256 to the path inside the paper directory.
+    """
+    extraction = mapping(json.loads((paper / "extraction.json").read_text()))
+    kept = {
+        string(mapping(source)["sha256"]): string(mapping(source)["path"])
+        for source in json_items(extraction["sources"])
+    }
+    for attachment in parse_attachments(extraction.get("attachments", [])):
+        kept[attachment.sha256] = attachment.path
+    return kept
+
+
+def _attach_data(
+    paper: Path, files: Sequence[Path], provenance: Provenance, config: Configuration
+) -> ItemResult:
+    """Republish a published paper with data files attached.
+
+    Parameters
+    ----------
+    paper : Path
+        Published paper directory.
+    files : Sequence of Path
+        Files to preserve below ``data/``, after any the paper already has.
+    provenance : Provenance
+        Where the files came from, recorded with each of them.
+    config : Configuration
+        Resolved configuration.
+
+    Returns
+    -------
+    ItemResult
+        Republished item, or a failed one that leaves the published paper
+        unchanged and keeps the run directory. The paper is not rebuilt:
+        its document, identity and descriptions are published again as
+        they are, as by ``describe``.
+    """
+    now = dt.datetime.now(dt.UTC)
+    stamp = f"{now:%Y%m%dT%H%M%SZ}-data-{secrets.token_hex(3)}"
+    run = config.library / INTERNAL_DIRECTORY / RUNS_DIRECTORY / stamp
+    attached = now.replace(microsecond=0).isoformat()
+    try:
+        run.mkdir(parents=True)
+        stage_from_paper(paper, run)
+        for path in files:
+            attach_file(run, path, provenance, attached_utc=attached)
+        published = publish(run, config.library, replace=_relative(paper, config))
+    except (ValueError, OSError, SourceChangedError) as exc:
+        return ItemResult(
+            path=str(paper),
+            status="failed",
+            stage="attach",
+            message=f"{type(exc).__name__}: {exc}",
+            run=str(run),
+        )
+    shutil.rmtree(run)
+    document = Document.from_json((published.directory / DOCUMENT_FILENAME).read_text())
+    metadata = json.loads((published.directory / "metadata.json").read_text())
+    return ItemResult(
+        path=str(paper),
+        status="republished",
+        sha256=document.source_sha256,
+        directory=published.name,
+        identity=str(metadata["bibliographic_status"]),
+        processing=processing_status(document),
+        findings=len(document.findings),
+        attachments=tuple(str(path) for path in files),
+        message=f"attached {len(files)} data file(s)",
+    )
+
+
+def _command_attach(args: argparse.Namespace, config: Configuration) -> int:
+    """Run ``attach``: keep data files with a published paper.
+
+    Parameters
+    ----------
+    args : argparse.Namespace
+        Parsed arguments.
+    config : Configuration
+        Resolved configuration.
+
+    Returns
+    -------
+    int
+        Exit status.
+
+    Raises
+    ------
+    ConfigurationError
+        The paper is not in the library or is damaged, a file is missing, or
+        two files, or a file and something the paper keeps, have the same
+        bytes.
+    UnsupportedFormatError
+        The paper holds a record this release does not read.
+    """
+    (paper,) = _papers(
+        argparse.Namespace(papers=[args.paper], all=False), config, "attach"
+    )
+    require_readable_paper(paper)
+    # Republishing rewrites the paper's derived files, which would replace a
+    # changed file; kept evidence must match the manifest before more is added.
+    check = check_paper(paper, config.library.resolve())
+    if check.state == "damaged":
+        raise ConfigurationError(
+            f"{paper.name} is damaged ({'; '.join(check.problems)}); see "
+            "`paperextract migrate --dry-run`"
+        )
+    files: list[Path] = args.files
+    digests: dict[str, str] = {}
+    kept = _kept_digests(paper)
+    for path in files:
+        if not path.is_file():
+            raise ConfigurationError(f"Not a file: {path}")
+        with path.open("rb") as handle:
+            digest = hashlib.file_digest(handle, "sha256").hexdigest()
+        if digest in digests:
+            raise ConfigurationError(f"{path} has the same bytes as {digests[digest]}")
+        if digest in kept:
+            raise ConfigurationError(
+                f"{path} has the same bytes as {paper.name}/{kept[digest]}"
+            )
+        digests[digest] = str(path)
+    provenance = Provenance(url=args.url, retrieved_utc=args.retrieved, note=args.note)
+    items = [_attach_data(paper, files, provenance, config)]
+    _refresh(config, items)
+    _emit("attach", config, items, as_json=args.json)
+    return exit_code(items, strict=False)
+
+
 def _refresh(config: Configuration, items: Sequence[ItemResult]) -> None:
     """Rebuild the search index and derived catalogs after a publication.
 
@@ -3579,6 +3826,7 @@ _HANDLERS: Mapping[str, Callable[[argparse.Namespace, Configuration], int]] = {
     "models": _command_models,
     "compare": _command_compare,
     "describe": _command_describe,
+    "attach": _command_attach,
     "index": _command_index,
     "lookup": _command_lookup,
     "search": _command_search,

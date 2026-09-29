@@ -30,6 +30,7 @@ paperextract organize --layout by-year --dry-run
 paperextract migrate --dry-run               # which papers are in older formats
 paperextract reprocess Unverified_1c17a06cda95 --refresh-identity
 paperextract reprocess Unverified_1c17a06cda95 --doi 10.1103/PhysRevA.13.1422
+paperextract attach Travers_2019_HighEnergyPulse table2.xlsx --note "Table 2 data"
 paperextract extract -- ./status             # a file whose name is a command
 ```
 
@@ -44,6 +45,7 @@ paperextract extract -- ./status             # a file whose name is a command
 | `search QUERY [LIBRARY]... [--limit N]` | Full-text search over titles, authors, abstracts and paper text, ranked, with a snippet. |
 | `migrate [--dry-run]` | Check every paper's record versions and files against its manifest, rebuild outdated papers in the current formats from their kept output, and rebuild the catalog and index. |
 | `index rebuild` | Recompute the catalog from the paper directories and rebuild the search index and derived catalogs. |
+| `attach PAPER FILE... [--url URL] [--retrieved UTC] [--note TEXT]` | Keep data files, such as supporting-information spreadsheets, byte for byte in a published paper's `data/` directory, with their provenance; nothing is extracted and the paper is not rebuilt. See *Attaching data files* below. |
 | `reprocess PAPER... \| --all` | Rebuild published papers from the output they keep, with the current normalization, corrections and export, and replace them; `--refresh-identity` resolves identity again and may rename a paper. For one named paper, `--doi DOI` or `--bibtex FILE` asserts its identity; see [bibliographic identity](identity.md). The extraction backend does not run. |
 
 The extraction commands need a source checkout with the worker environment
@@ -257,15 +259,53 @@ missing, changed since publication or not listed in the manifest
 (`damaged`), because a rebuild would replace such files. Files that file
 managers write into the folders they show (`.DS_Store`, `._*`, `Thumbs.db`,
 `desktop.ini`, `.directory`) are ignored. Kept evidence in
-`original/` and `diagnostics/` is checked for integrity only; it is never
-rewritten. Afterwards the catalog and index are rebuilt, unless a paper has
+`original/`, `diagnostics/` and `data/` is checked for integrity only; it
+is never rewritten, and an attached `.json` file is never parsed. Afterwards the catalog and index are rebuilt, unless a paper has
 an unknown version.
 
 The output has one line per paper (`current`, `would migrate`, `migrated`,
 `refused` or `failed`) with the records it changes, such as `paper-manifest
-1→3, document 0.1→0.3`, or the problems found, then the state of the catalog
+1→4, document 0.1→0.3`, or the problems found, then the state of the catalog
 rows. `--json` writes `paperextract.migrate-result` 1. The exit code is 0
 when no paper was refused or failed, 4 when some were and 5 when all were.
+
+## Attaching data files
+
+`attach PAPER FILE...` keeps data files that belong to a published paper,
+such as supporting-information spreadsheets, values from an author's
+website or a database table the paper documents, byte for byte in the
+paper's directory. Nothing is extracted or parsed: each file is copied,
+checked against a second read of the original, and stored as
+`data/NN/<file name>`, numbered after the files the paper already has.
+
+```sh
+paperextract attach Travers_2019_HighEnergyPulse table2.xlsx fit.par \
+    --url https://example.org/si-data.zip --retrieved 2026-09-29 \
+    --note "Source data of Table 2"
+```
+
+`extraction.json` lists each file under `attachments` with its identifier
+(`data_01`), path, original name, SHA-256, size and time of attachment
+(`attached_utc`), and the `url`, `retrieved_utc` and `note` exactly as
+given; an option not given is recorded as null, and the options apply to
+every file of one command. `--retrieved` takes an ISO 8601 date or a time in
+UTC. The front matter of `paper.md` lists each file's identifier, path,
+digest, address and note.
+
+The paper is published again without being rebuilt, as by `describe`: its
+document, identity and figure descriptions stay as they are.
+`reprocess`, `migrate`, `describe` and adding a supplement keep the files.
+Attached files are evidence, like `original/`: `migrate` checks them against
+the manifest and they are never rewritten. They are not sources of the
+paper, so duplicate detection, `lookup` and the catalog ignore them, and
+their contents are not searched.
+
+A file with the same bytes as another file given, a file already attached or
+one of the paper's sources is refused, and so is a paper whose files no
+longer match its manifest; both exit with status 2 and change nothing. A
+failure while publishing leaves the paper unchanged and keeps the run
+directory. The result line is followed by one `data` line per file, and the
+JSON result lists them as the item's `attachments`.
 
 ## Describing figures
 

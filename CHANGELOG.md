@@ -7,6 +7,14 @@ version is derived from Git tags.
 
 ### Added
 
+- `attach PAPER FILE...` keeps data files that belong to a published paper,
+  such as supporting-information spreadsheets or an author's tabulated
+  values, byte for byte in its `data/NN/` directory, with their digest, size
+  and the `--url`, `--retrieved` and `--note` given. Nothing is extracted and
+  the paper is not rebuilt; `reprocess`, `migrate`, `describe` and adding a
+  supplement keep the files, `migrate` checks them against the manifest, and
+  duplicate detection and the catalog do not count them as sources. The
+  same bytes are never attached twice.
 - `publish` skips a directory of staged runs that holds none, such as a
   batch shard that received no papers, when other directories given have
   runs, instead of refusing the whole command.
@@ -38,12 +46,25 @@ version is derived from Git tags.
 
 ### Changed
 
+- Paper directories are written in export schema version 4 (paper manifest,
+  `extraction.json`, `validation.json` and table records), which adds
+  attached data files: `attachments` in `extraction.json` and the front
+  matter. Version 3 papers are read as they are and `migrate` rebuilds them;
+  a release that reads only version 3 refuses a version 4 paper instead of
+  dropping its data files.
+- The `paperextract.cli-result` document is version 3: each item lists its
+  attached data files under `attachments`.
 - Title candidates include level-2 headings after level-1 ones, as some
   *J. Chem. Phys.* layouts and Springer books set the title there, and never
   standard section names such as "Introduction". DOI candidates whose record
   matches the main title are tried first, and a record that matches only a
   secondary heading is refused unless its first author is printed on the first
   pages, so the other letter on a shared page is not taken for this one.
+
+### Fixed
+
+- The known limitations no longer say that a supplement cannot be added to
+  a published paper; `extract PAPER --supplement FILE` adds it.
 
 ## [0.2.0] - 2026-09-25
 

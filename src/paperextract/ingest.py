@@ -36,6 +36,7 @@ __all__ = [
     "pair_captures",
     "pair_supplements",
     "plan_intake",
+    "preserve_file",
     "preserve_pdf",
     "shared_doi_candidates",
 ]
@@ -94,16 +95,20 @@ def _fingerprint(status: os.stat_result) -> tuple[int, int, int, int, int]:
     )
 
 
-def preserve_pdf(source: Path, destination: Path) -> SourceArtifact:
-    """Copy and verify PDF bytes into a new private staging file.
+def preserve_file(
+    source: Path, destination: Path, *, signature: bytes = b""
+) -> SourceArtifact:
+    """Copy and verify a file's bytes into a new private staging file.
 
     Parameters
     ----------
     source : Path
-        Original PDF. Its bytes are never rewritten or linked into the copy.
+        Original file. Its bytes are never rewritten or linked into the copy.
     destination : Path
         New file in an existing caller-owned private staging directory. Existing
         files, directories and symlinks are never overwritten.
+    signature : bytes
+        Leading bytes the source must start with; empty accepts any file.
 
     Returns
     -------
@@ -113,7 +118,7 @@ def preserve_pdf(source: Path, destination: Path) -> SourceArtifact:
     Raises
     ------
     ValueError
-        The source does not start with a PDF signature.
+        The source does not start with ``signature``.
     SourceChangedError
         Source identity, metadata or content changes during preservation.
     OSError
@@ -127,16 +132,15 @@ def preserve_pdf(source: Path, destination: Path) -> SourceArtifact:
     keep staging private and prevent concurrent replacement of that file.
     Abrupt process termination can leave staging to be recovered by its owner.
 
-    Signature checking is not PDF validation; parsing/encryption/page checks belong
-    to the worker. A second source read plus descriptor/path metadata detects
-    ordinary concurrent edits and replacements, without claiming a filesystem lock.
+    A second source read plus descriptor/path metadata detects ordinary
+    concurrent edits and replacements, without claiming a filesystem lock.
     The preserved copy is independent of later modifications to the original.
     """
     created = False
     with source.open("rb") as original:
         before = _fingerprint(os.fstat(original.fileno()))
-        if original.read(5) != b"%PDF-":
-            raise ValueError("Source does not start with a PDF signature")
+        if original.read(len(signature)) != signature:
+            raise ValueError(f"Source does not start with {signature!r}")
         original.seek(0)
         try:
             digest = hashlib.sha256()
@@ -172,6 +176,41 @@ def preserve_pdf(source: Path, destination: Path) -> SourceArtifact:
             if created:
                 destination.unlink()
             raise
+
+
+def preserve_pdf(source: Path, destination: Path) -> SourceArtifact:
+    """Copy and verify PDF bytes into a new private staging file.
+
+    Parameters
+    ----------
+    source : Path
+        Original PDF. Its bytes are never rewritten or linked into the copy.
+    destination : Path
+        New file in an existing caller-owned private staging directory.
+
+    Returns
+    -------
+    SourceArtifact
+        Verified hash, size, original basename and staging destination.
+
+    Raises
+    ------
+    ValueError
+        The source does not start with a PDF signature.
+    SourceChangedError
+        Source identity, metadata or content changes during preservation.
+    OSError
+        An input cannot be read, the destination exists or copying fails.
+
+    Notes
+    -----
+    See :func:`preserve_file`. Signature checking is not PDF validation;
+    parsing, encryption and page checks belong to the worker.
+    """
+    try:
+        return preserve_file(source, destination, signature=_PDF_SIGNATURE)
+    except ValueError:
+        raise ValueError("Source does not start with a PDF signature") from None
 
 
 @dataclass(frozen=True)

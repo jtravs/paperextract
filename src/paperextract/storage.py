@@ -18,6 +18,7 @@ from dataclasses import dataclass, field
 from importlib import metadata
 from pathlib import Path, PurePosixPath
 
+from paperextract.attachments import Attachment, read_attachments
 from paperextract.bibtex import bibtex_entry, validate_bibtex
 from paperextract.capture import read_capture_html, read_capture_record
 from paperextract.catalog import (
@@ -476,6 +477,7 @@ class _Build:
     )
     arxiv: str | None = None
     relations: tuple[Relation, ...] = ()
+    attachments: tuple[Attachment, ...] = ()
 
     def native(self, relative: str | None) -> Path | None:
         """Resolve a worker asset path, returning None when it is unavailable.
@@ -701,6 +703,16 @@ def _front_matter(
             _supplement_markdown(index)
             for index in range(1, len(build.staged.supplements) + 1)
         ],
+        "attachments": [
+            {
+                "id": item.id,
+                "path": item.path,
+                "sha256": item.sha256,
+                "url": item.provenance.url,
+                "note": item.provenance.note,
+            }
+            for item in build.attachments
+        ],
         "extraction": {
             "run_id": run_id,
             "application_version": application_version,
@@ -834,6 +846,7 @@ def _extraction_document(
             ),
             *build.extra_sources,
         ],
+        "attachments": [item.to_dict() for item in build.attachments],
         "request": staged.request.to_dict(),
         "result": staged.result.to_dict(),
         "table_ocr": _ocr_record(staged.ocr_directory),
@@ -1283,6 +1296,27 @@ def _publish_equivalents(build: _Build) -> None:
         )
 
 
+def _publish_attachments(build: _Build) -> None:
+    """Copy the data files attached to the paper into ``data/``.
+
+    Parameters
+    ----------
+    build : _Build
+        Build state; its attachments are filled in.
+
+    Raises
+    ------
+    ValueError
+        An attached file's bytes differ from its record.
+    """
+    attachments = read_attachments(build.staged.staging)
+    for item in attachments:
+        digest = _copy(build.staged.staging / item.path, build.root / item.path)
+        if digest != item.sha256:
+            raise ValueError(f"Attached file {item.path} changed before publication")
+    build.attachments = attachments
+
+
 def _write_reports(
     build: _Build,
     supplements: Sequence[tuple[_Build, str]],
@@ -1392,6 +1426,7 @@ def _assemble(build: _Build, name: str, generation: str) -> tuple[str, ...]:
     links = SupplementIndex.build(entries) if entries else None
     _publish_captures(build)
     _publish_equivalents(build)
+    _publish_attachments(build)
     for index, (sub, original) in enumerate(supplements, 1):
         own = [
             (

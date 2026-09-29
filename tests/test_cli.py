@@ -1,5 +1,6 @@
 """Drive the command line end to end with a stand-in worker."""
 
+import hashlib
 import importlib
 import json
 import runpy
@@ -32,6 +33,7 @@ from paperextract.cli import (
     parse_pages,
 )
 from paperextract.describers import DescribeRequest, DescriberError, ModelReply
+from paperextract.formats import check_paper
 from paperextract.storage import (
     CATALOG_FILENAME,
     CORPUS_FILENAME,
@@ -1263,7 +1265,7 @@ def test_migrate_rebuilds_outdated_papers_from_kept_output(
     )
     code, out, _err = cli("migrate", "--dry-run")
     assert code == EXIT_OK
-    assert f"would migrate\t{old.name}\tpaper-manifest 2→3\n" in out
+    assert f"would migrate\t{old.name}\tpaper-manifest 2→4\n" in out
     assert f"current\t{current.name}\n" in out
     assert out.endswith("catalog\tolder\n1 current, 1 would migrate\n")
     assert json.loads((old / "manifest.json").read_text())["schema_version"] == 2
@@ -1279,7 +1281,7 @@ def test_migrate_rebuilds_outdated_papers_from_kept_output(
         (old.name, "migrated"),
         (current.name, "current"),
     ]
-    assert json.loads((old / "manifest.json").read_text())["schema_version"] == 3
+    assert json.loads((old / "manifest.json").read_text())["schema_version"] == 4
     assert {row["schema_version"] for row in read_catalog(cli.library)} == {2}
     replaced = cli.library / ".paperextract" / "replaced"
     assert [p.name.split(".")[0] for p in replaced.iterdir()] == [old.name]
@@ -1317,7 +1319,7 @@ def test_migrate_refuses_unsupported_and_damaged_papers(
     code, out, _err = cli("reprocess", newer.name)
     assert code == EXIT_FAILURE
     assert "UnsupportedFormatError" in out
-    set_version(newer / "manifest.json", 3)
+    set_version(newer / "manifest.json", 4)
     set_version(damaged / "manifest.json", 2)
     shutil.rmtree(damaged / "diagnostics")
     manifest = json.loads((damaged / "manifest.json").read_text())
@@ -1693,3 +1695,250 @@ def test_reprocess_assertion_usage_errors(
     code, _out, err = cli("reprocess", *values)
     assert code == EXIT_USAGE
     assert message in err
+
+
+def attached_paper(cli: Cli, pdf_builder: Callable[..., bytes]) -> Path:
+    pdf = make_pdf(cli.tmp_path / "in", "paper.pdf", pdf_builder)
+    assert cli("extract", str(pdf), "--no-registry")[0] == EXIT_OK
+    # Break the worker so any attempt to run it would fail the test.
+    (cli.root / "workers" / "mineru" / "paperextract_mineru_worker.py").write_text(
+        "raise SystemExit(9)"
+    )
+    (row,) = read_catalog(cli.library)
+    return cli.library / str(row["directory"])
+
+
+def data_file(cli: Cli, name: str, data: bytes) -> Path:
+    path = cli.tmp_path / "data" / name
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(data)
+    return path
+
+
+def listed(paper: Path) -> dict[str, dict[str, object]]:
+    manifest = json.loads((paper / "manifest.json").read_text())
+    return {entry["path"]: entry for entry in manifest["files"]}
+
+
+def test_attach_keeps_data_files_with_a_paper_byte_for_byte(
+    cli: Cli, pdf_builder: Callable[..., bytes]
+) -> None:
+    paper = attached_paper(cli, pdf_builder)
+    document = (paper / "document.json").read_bytes()
+    spreadsheet = data_file(cli, "values.xlsx", b"PK\x03\x04 cells \x00\xff")
+    code, result = cli.json(
+        "attach",
+        paper.name,
+        str(spreadsheet),
+        "--url",
+        "https://example.org/si/values.xlsx",
+        "--retrieved",
+        "2026-09-29",
+        "--note",
+        "Table 2 values: n, k",
+    )
+    assert code == EXIT_OK
+    assert result["schema_version"] == 3
+    (item,) = items(result)
+    assert item["status"] == "republished"
+    assert item["directory"] == paper.name
+    assert item["attachments"] == [str(spreadsheet)]
+    assert item["message"] == "attached 1 data file(s)"
+    stored = paper / "data" / "01" / "values.xlsx"
+    assert stored.read_bytes() == spreadsheet.read_bytes()
+    digest = hashlib.sha256(spreadsheet.read_bytes()).hexdigest()
+    extraction = json.loads((paper / "extraction.json").read_text())
+    (entry,) = extraction["attachments"]
+    attached = entry.pop("attached_utc")
+    assert attached.endswith("+00:00")
+    assert entry == {
+        "id": "data_01",
+        "path": "data/01/values.xlsx",
+        "original_name": "values.xlsx",
+        "sha256": digest,
+        "size_bytes": 13,
+        "url": "https://example.org/si/values.xlsx",
+        "retrieved_utc": "2026-09-29",
+        "note": "Table 2 values: n, k",
+    }
+    assert len(extraction["sources"]) == 1
+    assert listed(paper)["data/01/values.xlsx"] == {
+        "path": "data/01/values.xlsx",
+        "sha256": digest,
+        "size_bytes": 13,
+    }
+    front = (paper / "paper.md").read_text().split("\n---\n")[0]
+    assert (
+        f'attachments:\n- id: "data_01"\n  path: "data/01/values.xlsx"\n'
+        f'  sha256: "{digest}"\n  url: "https://example.org/si/values.xlsx"\n'
+        '  note: "Table 2 values: n, k"\n'
+    ) in front
+    # The paper is published again, not rebuilt.
+    assert (paper / "document.json").read_bytes() == document
+    # A second attachment appends; a .json file is data, not a record.
+    table = data_file(cli, "table.txt.gz", b"\x1f\x8b\x08 gzip")
+    broken = data_file(cli, "broken.json", b"{ not json")
+    code, out, _err = cli("attach", str(paper), str(table), str(broken))
+    assert code == EXIT_OK
+    assert f"\ndata\ttable.txt.gz\ndata\tbroken.json\nlibrary\t{cli.library}" in out
+    extraction = json.loads((paper / "extraction.json").read_text())
+    assert [(e["id"], e["path"], e["url"]) for e in extraction["attachments"]] == [
+        ("data_01", "data/01/values.xlsx", "https://example.org/si/values.xlsx"),
+        ("data_02", "data/02/table.txt.gz", None),
+        ("data_03", "data/03/broken.json", None),
+    ]
+    assert (paper / "data" / "03" / "broken.json").read_bytes() == b"{ not json"
+    check = check_paper(paper, cli.library.resolve())
+    assert (check.state, check.problems) == ("current", ())
+    # Attachments are not sources of the paper.
+    (row,) = read_catalog(cli.library)
+    assert row["source_sha256"] == [extraction["sources"][0]["sha256"]]
+    sources, _texts = paperextract.cli._library_digests(cli.library)  # pyright: ignore[reportPrivateUsage]
+    assert digest not in sources
+    code, out, _err = cli("migrate", "--dry-run")
+    assert (code, out.splitlines()[0]) == (EXIT_OK, f"current\t{paper.name}")
+
+
+def test_attach_refuses_bytes_the_paper_already_keeps(
+    cli: Cli, pdf_builder: Callable[..., bytes]
+) -> None:
+    paper = attached_paper(cli, pdf_builder)
+    values = data_file(cli, "values.txt", b"1 2 3\n")
+    assert cli("attach", paper.name, str(values))[0] == EXIT_OK
+    manifest = (paper / "manifest.json").read_bytes()
+    again = data_file(cli, "renamed.txt", b"1 2 3\n")
+    code, _out, err = cli("attach", paper.name, str(again))
+    assert code == EXIT_USAGE
+    assert f"has the same bytes as {paper.name}/data/01/values.txt" in err
+    code, _out, err = cli("attach", paper.name, str(cli.tmp_path / "in" / "paper.pdf"))
+    assert code == EXIT_USAGE
+    assert f"same bytes as {paper.name}/original/source_01/paper.pdf" in err
+    other = data_file(cli, "other.txt", b"4 5 6\n")
+    twin = data_file(cli, "twin.txt", b"4 5 6\n")
+    code, _out, err = cli("attach", paper.name, str(other), str(twin))
+    assert code == EXIT_USAGE
+    assert f"{twin} has the same bytes as {other}" in err
+    assert (paper / "manifest.json").read_bytes() == manifest
+
+
+@pytest.mark.parametrize(
+    ("argv", "message"),
+    [
+        (["attach", "Nope", "FILE"], "Not a published paper"),
+        (["attach", "PAPER", "missing.txt"], "Not a file: missing.txt"),
+        (["attach", "PAPER", "."], "Not a file: ."),
+        (["attach", "PAPER"], "the following arguments are required: FILE"),
+        (["attach", "PAPER", "FILE", "--retrieved", "yesterday"], "not an ISO 8601"),
+        (
+            ["attach", "PAPER", "FILE", "--retrieved", "2026-09-29T10:00+01:00"],
+            "not in UTC",
+        ),
+        (["attach", "PAPER", "FILE", "--url", " "], "must not be empty"),
+    ],
+)
+def test_attach_usage_errors(
+    cli: Cli, pdf_builder: Callable[..., bytes], argv: list[str], message: str
+) -> None:
+    paper = attached_paper(cli, pdf_builder)
+    values = data_file(cli, "values.txt", b"1 2 3\n")
+    manifest = (paper / "manifest.json").read_bytes()
+    replaced = {"PAPER": paper.name, "FILE": str(values)}
+    code, _out, err = cli(*(replaced.get(a, a) for a in argv))
+    assert code == EXIT_USAGE
+    assert message in err
+    assert (paper / "manifest.json").read_bytes() == manifest
+
+
+def test_a_failed_attachment_leaves_the_paper_unchanged(
+    cli: Cli, pdf_builder: Callable[..., bytes], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    paper = attached_paper(cli, pdf_builder)
+    before = {path: path.read_bytes() for path in paper.rglob("*") if path.is_file()}
+    values = data_file(cli, "values.txt", b"1 2 3\n")
+
+    def refuse(*_args: object, **_kwargs: object) -> None:
+        raise OSError("disk full")
+
+    monkeypatch.setattr(paperextract.cli, "publish", refuse)
+    code, out, _err = cli("attach", paper.name, str(values))
+    assert code == EXIT_FAILURE
+    assert "\tattach\tOSError: disk full\trun kept: " in out
+    after = {path: path.read_bytes() for path in paper.rglob("*") if path.is_file()}
+    assert after == before
+
+
+def test_attachments_survive_every_republication(
+    cli: Cli,
+    pdf_builder: Callable[..., bytes],
+    native_worker: Callable[[Path, str], Path],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    paper = attached_paper(cli, pdf_builder)
+    values = data_file(cli, "values.par", b"a = 1\n")
+    code, _out, _err = cli("attach", paper.name, str(values), "--note", "fit")
+    assert code == EXIT_OK
+    record = json.loads((paper / "extraction.json").read_text())["attachments"]
+
+    def kept() -> None:
+        extraction = json.loads((paper / "extraction.json").read_text())
+        assert extraction["attachments"] == record
+        assert (paper / "data" / "01" / "values.par").read_bytes() == b"a = 1\n"
+        check = check_paper(paper, cli.library.resolve())
+        assert check.problems == ()
+
+    assert cli("reprocess", paper.name)[0] == EXIT_OK
+    kept()
+    # Migrating an older paper keeps its data files.
+    set_version(paper / "manifest.json", 3)
+    code, out, _err = cli("migrate")
+    assert code == EXIT_OK
+    assert f"migrated\t{paper.name}\tpaper-manifest 3→4\n" in out
+    kept()
+
+    # Describing figures publishes the paper again with its data files.
+    def build(_config: object, _environ: object) -> StandInDescriber:
+        return StandInDescriber()
+
+    monkeypatch.setattr(paperextract.config.Configuration, "describer", build)
+    code, out, _err = cli("describe", paper.name)
+    assert code == EXIT_OK
+    assert "3 described" in out
+    kept()
+    # Adding a supplement extracts it and keeps the data files.
+    native_worker(
+        cli.root / "workers" / "mineru" / "paperextract_mineru_worker.py", "ok"
+    )
+    supplement = make_pdf(cli.tmp_path / "in", "extra.pdf", pdf_builder, marker=" SI")
+    pdf = cli.tmp_path / "in" / "paper.pdf"
+    code, _out, _err = cli("extract", str(pdf), "--supplement", str(supplement))
+    assert code == EXIT_OK
+    assert (paper / "supplement_01" / "supplement.md").is_file()
+    kept()
+
+
+def test_changed_or_missing_attachments_are_reported_and_refused(
+    cli: Cli, pdf_builder: Callable[..., bytes]
+) -> None:
+    paper = attached_paper(cli, pdf_builder)
+    values = data_file(cli, "values.txt", b"1 2 3\n")
+    assert cli("attach", paper.name, str(values))[0] == EXIT_OK
+    stored = paper / "data" / "01" / "values.txt"
+    stored.write_bytes(b"1 2 4\n")
+    check = check_paper(paper, cli.library.resolve())
+    assert (check.state, check.problems) == ("damaged", ("changed data/01/values.txt",))
+    code, out, _err = cli("migrate", "--dry-run")
+    assert f"refused\t{paper.name}\tdamaged: changed data/01/values.txt\n" in out
+    more = data_file(cli, "more.txt", b"more\n")
+    code, _out, err = cli("attach", paper.name, str(more))
+    assert code == EXIT_USAGE
+    assert "is damaged (changed data/01/values.txt)" in err
+    code, out, _err = cli("reprocess", paper.name)
+    assert code == EXIT_FAILURE
+    assert "ValueError: Attached file data/01/values.txt changed before" in out
+    stored.unlink()
+    check = check_paper(paper, cli.library.resolve())
+    assert check.problems == ("missing data/01/values.txt",)
+    code, out, _err = cli("reprocess", paper.name)
+    assert code == EXIT_FAILURE
+    assert "MissingOutputError" in out
+    assert "missing data/01/values.txt" in out

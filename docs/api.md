@@ -18,6 +18,10 @@ inspection, worker, normalization, publication and identity APIs it is built on.
 :members:
 ```
 
+```{automodule} paperextract.attachments
+:members:
+```
+
 ```{automodule} paperextract.catalog
 :members:
 ```

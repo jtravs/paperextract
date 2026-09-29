@@ -35,12 +35,15 @@ so there are no accuracy rates to quote.
   unknown, because PDFs rarely state it. Papers are related to other
   versions by DOI or by title, first author and year, but never merged.
 
-## Saved web pages and supplements
+## Saved web pages, supplements and data
 
 - A saved article page is preserved and compared with the PDF extraction;
   its content is never merged into the paper, and math is not compared.
-- A supplement cannot be added to a paper that is already published;
-  extract the paper again with `--supplement`.
+- Adding a supplement to a published paper (`extract PAPER --supplement
+  FILE`) rebuilds the paper from its kept output with the current
+  normalization, as `reprocess` does, so its `paper.md` can change.
+- Attached data files are kept, not read: their contents are not searched,
+  compared with the paper's tables or linked from its text.
 - A reference range such as "Supplementary Figs. 3 and 4" links its first
   number only.
 

@@ -14,6 +14,7 @@ import shutil
 from dataclasses import dataclass
 from pathlib import Path
 
+from paperextract.attachments import parse_attachments, write_attachments
 from paperextract.capture import CAPTURE_RECORD, CaptureRecord
 from paperextract.describe import DESCRIPTIONS_DIRECTORY
 from paperextract.document import Document, Equation, Figure, Table
@@ -325,6 +326,36 @@ def _stage_equivalents(paper: Path, staging: Path) -> None:
         (directory / SOURCE_RECORD_FILENAME).write_text(dump(record))
 
 
+def _stage_attachments(paper: Path, staging: Path) -> None:
+    """Restore the data files attached to a paper.
+
+    Parameters
+    ----------
+    paper : Path
+        Published paper directory.
+    staging : Path
+        Main staging directory; files go to their recorded ``data/NN/``
+        paths, recorded in ``attachments.json``.
+
+    Raises
+    ------
+    MissingOutputError
+        A recorded file is missing.
+    ValueError
+        The attachment records are malformed.
+    """
+    extraction = mapping(json.loads((paper / "extraction.json").read_text()))
+    attachments = parse_attachments(extraction.get("attachments", []))
+    for attachment in attachments:
+        original = paper / attachment.path
+        if not original.is_file():
+            raise MissingOutputError(f"{paper}: missing {attachment.path}")
+        target = staging / attachment.path
+        target.parent.mkdir(parents=True)
+        shutil.copyfile(original, target)
+    write_attachments(staging, attachments)
+
+
 def stage_from_paper(paper: Path, staging: Path) -> None:
     """Reconstruct the staging directory of a published paper's run.
 
@@ -340,8 +371,9 @@ def stage_from_paper(paper: Path, staging: Path) -> None:
         when a Docling table check was kept, ``identity.json``,
         ``descriptions/`` with kept figure descriptions,
         ``supplements/NN/`` for each supplement, ``html/NN/`` for each
-        preserved web-page capture and ``equivalents/NN/`` for each
-        content-equivalent copy.
+        preserved web-page capture, ``equivalents/NN/`` for each
+        content-equivalent copy, and ``data/NN/`` with ``attachments.json``
+        for the attached data files.
 
     Raises
     ------
@@ -363,6 +395,7 @@ def stage_from_paper(paper: Path, staging: Path) -> None:
     _stage_component(main, staging)
     _stage_captures(paper, staging)
     _stage_equivalents(paper, staging)
+    _stage_attachments(paper, staging)
     extraction = mapping(json.loads((paper / "extraction.json").read_text()))
     write_hints(
         staging,

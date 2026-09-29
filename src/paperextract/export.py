@@ -64,8 +64,10 @@ __all__ = [
 ]
 
 # Version 2 adds supplements, table body sources and page-end footnotes;
-# version 3 adds machine-generated figure descriptions.
-EXPORT_SCHEMA_VERSION = 3
+# version 3 adds machine-generated figure descriptions; version 4 adds data
+# files attached to a paper (``data/``, ``attachments`` in extraction.json and
+# the front matter), so a release that would drop them refuses the paper.
+EXPORT_SCHEMA_VERSION = 4
 # Comments around a machine-generated description, so that readers and the
 # search index can tell it from the paper's own text.
 DESCRIPTION_BEGIN = "<!-- machine-generated description: begin -->"

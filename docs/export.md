@@ -62,6 +62,7 @@ literature/
     supplement_01/document.json    supplement canonical structure
     supplement_01/{figures,tables,equations}/  supplement assets
     diagnostics/raw/<run_id>/supplement_01/    supplement worker output
+    data/01/<name>                 data file attached byte for byte, when one was
 ```
 
 A supplement supplied with the paper is extracted by the same pipeline and
@@ -74,6 +75,13 @@ followed by the original link. `validation.json` lists each supplement's own
 validation and, under `supplement_references`, the number of resolved
 references and every unresolved one. The front matter, `extraction.json` and
 the catalog row list the supplement's source with the role `supplement`.
+
+Data files attached with `paperextract attach`, such as supporting-information
+spreadsheets, are kept byte for byte below `data/NN/` under their original
+names. They are not extracted and are not sources of the paper: the front
+matter and `extraction.json` list them under `attachments`, with their digest,
+size and the provenance given, and the catalog row does not list them. Export
+schema version 4 adds them; see the [command line](cli.md).
 
 Every reference inside the directory is relative, so it can be moved between
 libraries or machines unchanged. When the [identity stage](identity.md) validates

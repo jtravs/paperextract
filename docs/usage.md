@@ -64,6 +64,7 @@ up its DOI in Crossref or DataCite, and publishes a directory such as
 | `citation.bib`, `metadata.json` | Validated identity, and each field's source and status |
 | `validation.json` | Findings: what could not be verified, such as lost glyphs or unmatched captions |
 | `original/` | The PDF you supplied, byte for byte |
+| `data/` | Data files attached with `paperextract attach`, byte for byte, when there are any |
 | `diagnostics/` | The backend's raw output and logs |
 | `manifest.json` | Every file with its size and SHA-256 |
 

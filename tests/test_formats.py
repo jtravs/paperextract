@@ -26,7 +26,9 @@ def record(schema: str, version: object) -> bytes:
 
 
 def paper(
-    tmp_path: Path, files: dict[str, bytes], manifest_version: object = 3
+    tmp_path: Path,
+    files: dict[str, bytes],
+    manifest_version: object = EXPORT_SCHEMA_VERSION,
 ) -> Path:
     directory = tmp_path / "library" / "Paper"
     for path, data in files.items():
@@ -52,14 +54,17 @@ def paper(
 def current_files() -> dict[str, bytes]:
     return {
         "document.json": record(SCHEMA_NAME, SCHEMA_VERSION),
-        "extraction.json": record("paperextract.extraction", 3),
-        "tables/table_01.json": record("paperextract.table", 3),
+        "extraction.json": record("paperextract.extraction", EXPORT_SCHEMA_VERSION),
+        "tables/table_01.json": record("paperextract.table", EXPORT_SCHEMA_VERSION),
         "paper.md": b"# Paper\n",
         "listing.json": b"[1, 2]",
         "plain.json": b'{"a": 1}',
         "result.json": record("paperextract.cli-result", 2),
         "diagnostics/raw/run/result.json": record("paperextract.document", "9"),
         "original/source_01/capture.json": b"not json",
+        # Attached data is kept as supplied, never parsed as a record.
+        "data/01/values.json": b"not json",
+        "data/02/record.json": record("paperextract.extraction", 99),
     }
 
 
@@ -83,7 +88,8 @@ def test_the_last_readable_version_is_the_one_written() -> None:
         ("paperextract.document", "0.3", "current"),
         ("paperextract.document", "0.2", "older"),
         ("paperextract.document", "0.4", "unsupported"),
-        ("paperextract.paper-manifest", 3, "current"),
+        ("paperextract.paper-manifest", 4, "current"),
+        ("paperextract.paper-manifest", 3, "older"),
         ("paperextract.paper-manifest", 1, "older"),
         ("paperextract.paper-manifest", None, "unsupported"),
         ("paperextract.worker-result", 1, None),
@@ -135,7 +141,7 @@ def test_older_and_unsupported_records_are_reported(tmp_path: Path) -> None:
             "path": "manifest.json",
             "schema": "paperextract.paper-manifest",
             "version": "1",
-            "current": "3",
+            "current": str(EXPORT_SCHEMA_VERSION),
             "state": "older",
         },
         {

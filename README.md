@@ -67,6 +67,7 @@ uv run paperextract paper.pdf --library ~/papers          # one paper
 uv run paperextract batch incoming/ --library ~/papers    # a folder, duplicates handled
 uv run paperextract search "soliton self-compression" --library ~/papers
 uv run paperextract describe --all --library ~/papers     # optional figure descriptions
+uv run paperextract attach Travers_2019_HighEnergyPulse si-data.xlsx --library ~/papers
 ```
 
 ## Documentation

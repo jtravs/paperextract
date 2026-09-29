@@ -20,6 +20,7 @@ from paperextract.ingest import (
     looks_like_supplement,
     pair_supplements,
     plan_intake,
+    preserve_file,
     preserve_pdf,
     shared_doi_candidates,
 )
@@ -62,6 +63,22 @@ def test_preservation_rejects_nonpdf_without_creating_staging(
         preserve_pdf(source, target)
     assert not target.exists()
     assert source.read_bytes() == payload
+
+
+@pytest.mark.parametrize("payload", [b"", b"\x1f\x8b\x08 gzip", b"%PDF-1.4"])
+def test_any_file_is_preserved_byte_for_byte(tmp_path: Path, payload: bytes) -> None:
+    source = tmp_path / "values.txt.gz"
+    source.write_bytes(payload)
+    artifact = preserve_file(source, tmp_path / "stored")
+    assert (artifact.sha256, artifact.size_bytes, artifact.original_name) == (
+        hashlib.sha256(payload).hexdigest(),
+        len(payload),
+        "values.txt.gz",
+    )
+    assert (tmp_path / "stored").read_bytes() == payload
+    with pytest.raises(ValueError, match="does not start with b'PK'"):
+        preserve_file(source, tmp_path / "other", signature=b"PK")
+    assert not (tmp_path / "other").exists()
 
 
 @pytest.mark.parametrize("existing", ["file", "directory", "symlink", "source"])
