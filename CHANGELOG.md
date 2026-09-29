@@ -63,6 +63,13 @@ version is derived from Git tags.
 
 ### Fixed
 
+- Rebuilding a paper (`reprocess`, `migrate`, `describe`, `attach` and
+  adding a supplement) keeps its complete-figure crops byte for byte instead
+  of rendering them again. A PDF that does not embed its fonts, such as a
+  supplement set in Arial and Times New Roman, renders with the host's own
+  fonts, so republishing on another machine changed every such crop. A crop
+  is rendered again only when its figure's source, page or region, the
+  resolution or the renderer changed.
 - The known limitations no longer say that a supplement cannot be added to
   a published paper; `extract PAPER --supplement FILE` adds it.
 

@@ -16,6 +16,7 @@ from pathlib import Path
 
 from paperextract.attachments import parse_attachments, write_attachments
 from paperextract.capture import CAPTURE_RECORD, CaptureRecord
+from paperextract.crops import keep_crops
 from paperextract.describe import DESCRIPTIONS_DIRECTORY
 from paperextract.document import Document, Equation, Figure, Table
 from paperextract.fields import dump, items, mapping, string
@@ -203,7 +204,7 @@ def _restore_crops(component: KeptRun, worker: Path) -> None:
             _copy_if_present(exported, worker / native)
 
 
-def _stage_component(component: KeptRun, staging: Path) -> None:
+def _stage_component(component: KeptRun, staging: Path, dpi: int | None) -> None:
     """Reconstruct one component's staging directory.
 
     Parameters
@@ -212,6 +213,9 @@ def _stage_component(component: KeptRun, staging: Path) -> None:
         Kept output.
     staging : Path
         New, empty staging directory.
+    dpi : int or None
+        Resolution of the component's complete-figure crops; None when the
+        paper does not record it, and its crops are rendered again.
     """
     shutil.copyfile(component.original, staging / SOURCE_FILENAME)
     source = component.source
@@ -242,6 +246,15 @@ def _stage_component(component: KeptRun, staging: Path) -> None:
     # The previous document lets the paper be exported again unchanged;
     # rebuild_document replaces it with a fresh normalization.
     shutil.copyfile(component.root / DOCUMENT_FILENAME, staging / DOCUMENT_FILENAME)
+    if dpi is not None:
+        # Crops depend on the host's fonts when the PDF does not embed them;
+        # publication keeps these unless what they were rendered from changed.
+        keep_crops(
+            Document.from_json((component.root / DOCUMENT_FILENAME).read_text()),
+            component.root / "figures",
+            staging,
+            dpi,
+        )
     _copy_if_present(component.raw / _IDENTITY, staging / _IDENTITY)
     # Descriptions cost model time or money; publication keeps those whose
     # figure is still in the rebuilt document.
@@ -369,7 +382,8 @@ def stage_from_paper(paper: Path, staging: Path) -> None:
         native output and crops,
         ``worker-ocr/`` when a table OCR run was kept, ``worker-check/``
         when a Docling table check was kept, ``identity.json``,
-        ``descriptions/`` with kept figure descriptions,
+        ``descriptions/`` with kept figure descriptions, ``contexts/`` with
+        the complete-figure crops and what they were rendered from,
         ``supplements/NN/`` for each supplement, ``html/NN/`` for each
         preserved web-page capture, ``equivalents/NN/`` for each
         content-equivalent copy, and ``data/NN/`` with ``attachments.json``
@@ -392,11 +406,13 @@ def stage_from_paper(paper: Path, staging: Path) -> None:
         raise FileExistsError(f"Staging directory is not empty: {staging}")
     require_readable_paper(paper)
     main, supplements = kept_run(paper)
-    _stage_component(main, staging)
+    extraction = mapping(json.loads((paper / "extraction.json").read_text()))
+    dpi = mapping(extraction.get("assets", {})).get("render_dpi")
+    kept_dpi = dpi if type(dpi) is int else None
+    _stage_component(main, staging, kept_dpi)
     _stage_captures(paper, staging)
     _stage_equivalents(paper, staging)
     _stage_attachments(paper, staging)
-    extraction = mapping(json.loads((paper / "extraction.json").read_text()))
     write_hints(
         staging,
         {
@@ -407,4 +423,4 @@ def stage_from_paper(paper: Path, staging: Path) -> None:
     for index, component in enumerate(supplements, 1):
         directory = supplement_directory(staging, index)
         directory.mkdir(parents=True)
-        _stage_component(component, directory)
+        _stage_component(component, directory, kept_dpi)

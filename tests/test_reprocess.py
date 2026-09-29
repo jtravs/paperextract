@@ -4,12 +4,15 @@ import json
 import shutil
 import sys
 from collections.abc import Callable
+from dataclasses import replace as changed
 from pathlib import Path
 
 import pytest
 
 from paperextract.catalog import paper_directories, read_catalog, rebuild_catalog
+from paperextract.crops import RENDER_VERSION
 from paperextract.document import Document
+from paperextract.pdf import RenderedRegion, render_region_png
 from paperextract.pipeline import (
     ExtractionSettings,
     PaperSources,
@@ -108,6 +111,86 @@ def test_a_paper_is_rebuilt_exactly_from_its_kept_output(
     assert retired.name.startswith(f"{paper.name}.")
     (row,) = read_catalog(library)
     assert row["generation"] == republished.generation
+
+
+def figure_crops(paper: Path) -> dict[str, bytes]:
+    return {
+        p.relative_to(paper).as_posix(): p.read_bytes()
+        for p in sorted(paper.glob("**/figures/*.png"))
+    }
+
+
+def other_fonts(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Render as a host with other fonts would: same region, other pixels."""
+
+    def render(
+        path: Path, page: int, region: tuple[float, float, float, float], *, dpi: int
+    ) -> RenderedRegion:
+        rendered = render_region_png(path, page, region, dpi=dpi)
+        return changed(rendered, png=rendered.png + b"other fonts")
+
+    monkeypatch.setattr("paperextract.storage.render_region_png", render)
+
+
+def stage_again(paper: Path, run: Path) -> None:
+    run.mkdir()
+    stage_from_paper(paper, run)
+    rebuild_document(run)
+    rebuild_document(run / "supplements" / "01")
+
+
+def test_a_republish_on_another_host_keeps_supplement_crops_byte_identical(
+    library: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    paper = only_paper(library)
+    before = figure_crops(paper)
+    assert any(name.startswith("supplement_01/figures/") for name in before)
+    assert any(name.startswith("figures/") for name in before)
+    other_fonts(monkeypatch)
+    stage_again(paper, tmp_path / "rebuild")
+    republished = publish(tmp_path / "rebuild", library, replace=paper.name)
+    assert figure_crops(republished.directory) == before
+
+
+@pytest.mark.parametrize("change", ["dpi", "renderer", "region", "unrecorded dpi"])
+def test_crops_are_rendered_again_when_what_they_came_from_changed(
+    library: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch, change: str
+) -> None:
+    paper = only_paper(library)
+    before = figure_crops(paper)
+    if change == "unrecorded dpi":
+        extraction = json.loads((paper / "extraction.json").read_text())
+        del extraction["assets"]["render_dpi"]
+        (paper / "extraction.json").write_text(json.dumps(extraction))
+    other_fonts(monkeypatch)
+    run = tmp_path / "rebuild"
+    stage_again(paper, run)
+    assert (run / "contexts").is_dir() == (change != "unrecorded dpi")
+    if change == "renderer":
+        monkeypatch.setattr("paperextract.crops.RENDER_VERSION", RENDER_VERSION + 1)
+    elif change == "region":
+        for path in run.glob("**/contexts/contexts.json"):
+            kept = json.loads(path.read_text())
+            for figure in kept["figures"]:
+                figure["context_bbox_pt"][0] += 1.0
+            path.write_text(json.dumps(kept))
+    dpi = 150 if change == "dpi" else 300
+    republished = publish(run, library, dpi=dpi, replace=paper.name)
+    after = figure_crops(republished.directory)
+    assert set(after) == set(before)
+    assert all(after[name] != data for name, data in before.items())
+
+
+def test_a_kept_crop_that_changed_is_refused(library: Path, tmp_path: Path) -> None:
+    paper = only_paper(library)
+    before = figure_crops(paper)
+    run = tmp_path / "rebuild"
+    stage_again(paper, run)
+    crop = next((run / "supplements" / "01" / "contexts").glob("*.png"))
+    crop.write_bytes(b"edited")
+    with pytest.raises(ValueError, match=r"Kept crop of figure \w+ changed"):
+        publish(run, library, replace=paper.name)
+    assert figure_crops(paper) == before
 
 
 def test_a_refreshed_identity_renames_the_paper(

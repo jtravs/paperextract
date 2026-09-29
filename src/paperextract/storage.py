@@ -15,6 +15,7 @@ import secrets
 import shutil
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
+from functools import cached_property
 from importlib import metadata
 from pathlib import Path, PurePosixPath
 
@@ -31,6 +32,7 @@ from paperextract.catalog import (
     shard_for,
     write_catalog,
 )
+from paperextract.crops import KeptCrops, read_kept_crops
 from paperextract.describe import (
     DESCRIPTIONS_DIRECTORY,
     description_path,
@@ -479,6 +481,18 @@ class _Build:
     relations: tuple[Relation, ...] = ()
     attachments: tuple[Attachment, ...] = ()
 
+    @cached_property
+    def kept(self) -> KeptCrops | None:
+        """Read the complete-figure crops a rebuilt component kept.
+
+        Returns
+        -------
+        KeptCrops or None
+            Crops staged by :func:`paperextract.reprocess.stage_from_paper`,
+            or None for a new extraction.
+        """
+        return read_kept_crops(self.staged.staging)
+
     def native(self, relative: str | None) -> Path | None:
         """Resolve a worker asset path, returning None when it is unavailable.
 
@@ -504,13 +518,27 @@ class _Build:
     def export_figure(self, figure: Figure) -> None:
         """Render the complete-figure crop and copy the panel crops.
 
+        A crop the rebuilt paper kept is copied instead of rendered when its
+        source, page, region, resolution and renderer are unchanged, so a
+        host with other fonts does not change it.
+
         Parameters
         ----------
         figure : Figure
             Canonical figure.
         """
         context: str | None = None
-        if figure.context_bbox_pt is not None:
+        kept = (
+            None
+            if self.kept is None
+            else self.kept.crop_for(
+                figure, source_sha256=self.staged.document.source_sha256, dpi=self.dpi
+            )
+        )
+        if kept is not None:
+            context = f"figures/{figure.id}.png"
+            _copy(kept, self.root / context)
+        elif figure.context_bbox_pt is not None:
             try:
                 rendered = render_region_png(
                     self.staged.staging / SOURCE_FILENAME,

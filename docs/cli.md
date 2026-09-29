@@ -227,6 +227,13 @@ A table that newly needs OCR is reported with `TABLE_OCR_NOT_RUN`, because
 rebuilding never starts the backend; extract such a paper again to re-extract
 it.
 
+Complete-figure crops are kept byte for byte. A crop is a raster of the
+preserved PDF, and a font the PDF does not embed, as in many supplements, is
+drawn with whatever font the host has installed, so the same region renders
+differently on another machine. A rebuilt paper therefore copies its crop
+when the figure's source, page and region, the resolution and the renderer
+are unchanged, and renders a new one only when one of them changed.
+
 A replacement is journaled: the old directory moves to
 `.paperextract/replaced/<name>.<generation>/` before the new one is renamed
 into place, and an interrupted replacement is completed or rolled back the
