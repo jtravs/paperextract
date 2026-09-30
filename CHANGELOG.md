@@ -5,6 +5,14 @@ version is derived from Git tags.
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-09-30
+
+### Added
+
+- GitHub repository links on the documentation landing page and in the site
+  header, plus an "Edit on GitHub" link at the top right of each documentation
+  page, pointing to its source on `main`.
+
 ## [0.3.1] - 2026-09-30
 
 ### Fixed
@@ -245,7 +253,8 @@ First release. Everything below is new.
   links, running headers read as headings, split reference entries, lost drop
   capitals and glyphs without a Unicode mapping.
 
-[Unreleased]: https://github.com/jtravs/paperextract/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/jtravs/paperextract/compare/v0.3.2...HEAD
+[0.3.2]: https://github.com/jtravs/paperextract/releases/tag/v0.3.2
 [0.3.1]: https://github.com/jtravs/paperextract/releases/tag/v0.3.1
 [0.3.0]: https://github.com/jtravs/paperextract/releases/tag/v0.3.0
 [0.2.0]: https://github.com/jtravs/paperextract/releases/tag/v0.2.0

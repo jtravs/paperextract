@@ -26,13 +26,22 @@ html_theme = "pydata_sphinx_theme"
 html_title = "paperextract"
 html_theme_options = {
     "logo": {"text": "paperextract"},
+    "github_url": "https://github.com/jtravs/paperextract",
+    "use_edit_page_button": True,
     "navbar_align": "left",
     "header_links_before_dropdown": 5,
     "show_toc_level": 2,
     "navigation_with_keys": False,
-    "secondary_sidebar_items": ["page-toc"],
+    "secondary_sidebar_items": ["edit-this-page", "page-toc"],
     "footer_start": ["copyright"],
     "footer_end": ["theme-version"],
+}
+html_context = {
+    "github_user": "jtravs",
+    "github_repo": "paperextract",
+    # Propose documentation changes on main, including from released manuals.
+    "github_version": "main",
+    "doc_path": "docs",
 }
 # Pages without subpages have no section navigation to show.
 html_sidebars: dict[str, list[str]] = {"index": [], "usage": [], "tutorial": []}

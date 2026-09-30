@@ -8,6 +8,9 @@ paperextract runs document models on your own machine or cluster, keeps
 every result traceable to the page it came from, and reports what it could
 not verify instead of guessing.
 
+Find the source code, report issues and contribute on
+[GitHub](https://github.com/jtravs/paperextract).
+
 ```sh
 uv run paperextract paper.pdf --library ~/papers
 uv run paperextract search "soliton self-compression" --library ~/papers
