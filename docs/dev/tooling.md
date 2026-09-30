@@ -28,6 +28,20 @@ avoids a second dependency resolution or editable rebuild for each subtask. Afte
 the environment is installed, `uv run --offline --no-sync poe check` runs the gate
 without dependency refreshes. Initial setup and dependency changes use `uv sync`.
 
+## API documentation
+
+The API page wraps autodoc directives in MyST `eval-rst` blocks because autodoc
+emits reStructuredText. Direct Markdown directive blocks can silently render
+that output as plain text, even when Sphinx reports no warnings. The offline
+tests build the manual and check API objects, parameter tables, examples and
+links in the HTML to catch this regression.
+
+Standard-library links use the Python 3.12 inventory kept in
+`docs/_intersphinx/python.inv`; Sphinx reads this local file without fetching an
+inventory over the network. Its source and refresh procedure are recorded
+alongside it. The signature hook in `docs/conf.py` displays dataclass default
+factories as `...`, so Sphinx can parse constructor annotations correctly.
+
 ## What is enforced
 
 Ruff checks naming, imports, annotations, NumPy-style docstrings, path handling,

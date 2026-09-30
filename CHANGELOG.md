@@ -5,6 +5,16 @@ version is derived from Git tags.
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-09-30
+
+### Fixed
+
+- The API reference renders classes, functions, parameter tables and examples
+  instead of showing raw Sphinx directives and numpydoc processing markers.
+  Referenced constants and types have link targets, standard-library links
+  resolve offline, and dataclass constructor defaults no longer break generic
+  type annotations into extra parameters.
+
 ## [0.3.0] - 2026-09-29
 
 ### Added
@@ -235,7 +245,8 @@ First release. Everything below is new.
   links, running headers read as headings, split reference entries, lost drop
   capitals and glyphs without a Unicode mapping.
 
-[Unreleased]: https://github.com/jtravs/paperextract/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/jtravs/paperextract/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/jtravs/paperextract/releases/tag/v0.3.1
 [0.3.0]: https://github.com/jtravs/paperextract/releases/tag/v0.3.0
 [0.2.0]: https://github.com/jtravs/paperextract/releases/tag/v0.2.0
 [0.1.0]: https://github.com/jtravs/paperextract/releases/tag/v0.1.0

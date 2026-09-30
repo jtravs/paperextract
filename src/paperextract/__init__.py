@@ -1,7 +1,7 @@
 """Prepare auditable scientific-paper corpora.
 
-The project currently provides its packaging foundation and design documentation.
-Extraction functionality will be implemented after design review.
+Extract scientific documents into a local library with preserved sources,
+canonical document records, bibliographic identity and portable exports.
 """
 
 __all__: list[str] = []
